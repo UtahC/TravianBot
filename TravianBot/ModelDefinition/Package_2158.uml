@@ -56,7 +56,7 @@
         </appliedStereotypesInternal>
         <targetEnds>
           <association
-            Id="bc7b607a-73ba-4719-bace-139493b90aa1"
+            Id="bd7ff4ab-9eb7-4699-9fe0-4406989352b5"
             isDerived="false"
             sourceEndRoleName="StateMachine"
             targetEndRoleName="State"
@@ -69,20 +69,20 @@
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="a68bdf0f-7de8-4a03-a5ba-ff0d6087a210"
+                  Id="48525bee-a6a9-4def-83b0-77d560e40c26"
                   name="StateMachine"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
                   isDerived="false"
                   isDerivedUnion="false"
-                  aggregation="Shared"
+                  aggregation="None"
                   isComposite="false"
                   isNavigableOwned="false" />
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="1b9d2246-8c02-454e-bff5-a046d5bb0085"
+                  Id="1bb6e58f-9e22-49bd-9982-0d0dd7b52b4c"
                   name="State"
                   isLeaf="false"
                   isStatic="false"
@@ -198,6 +198,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="5a1e022d-61c5-4398-82e2-8058df2cd724"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperations>
       </Interface>
@@ -320,6 +334,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="71d2d5db-d83d-4487-ae01-9f72f21e605d"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -442,6 +470,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="3676cf9f-32ca-4ebe-99c4-547f01f853a8"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -564,6 +606,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="f3805947-3e86-4518-8313-7fef8e82adde"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -686,6 +742,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="5bd554a7-994c-4507-b637-5b46a1322427"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -808,6 +878,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="c079daaf-8c50-4a39-ae47-49d146433973"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -930,6 +1014,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="473ccbf8-e877-4133-af9f-3f72f08f1951"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -1052,6 +1150,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="4190f580-9252-4107-8523-45f69136d647"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -1174,6 +1286,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="646e0aa9-0521-446d-8af8-1b90b09897bf"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -1296,6 +1422,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="968d41a0-28af-41ed-81f7-ce11d74c3bbd"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>
@@ -1418,6 +1558,20 @@
                 </propertyInstances>
               </stereotypeInstance>
             </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="723e09de-0032-4582-b3ea-8a8c62f5d996"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="df4164d0-16ab-486c-93bd-2811e4ce8cb3"
+                      LastKnownName="IState"
+                      LastKnownLocation="Package_2158.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
           </operation>
         </ownedOperationsInternal>
       </class>

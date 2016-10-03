@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GeneratedCode\TravianBot.Core\Client.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\Enums\Buildings.cs" />
     <Compile Include="GeneratedCode\TravianBot.Core\Enums\Tribes.cs" />
     <Compile Include="GeneratedCode\TravianBot.Core\HtmlManager.cs" />
     <Compile Include="GeneratedCode\TravianBot.Core\ILogicSettings.cs" />
@@ -49,6 +50,8 @@
     <Compile Include="GeneratedCode\TravianBot.Core\LogicSettings.cs" />
     <Compile Include="GeneratedCode\TravianBot.Core\Log\IEventLogger.cs" />
     <Compile Include="GeneratedCode\TravianBot.Core\Log\ILogger.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\Models\Building.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\Models\Village.cs" />
     <Compile Include="GeneratedCode\TravianBot.Core\Settings.cs" />
     <Compile Include="GeneratedCode\TravianBot.Core\State\AttackingState.cs" />
     <Compile Include="GeneratedCode\TravianBot.Core\State\BuildingState.cs" />
@@ -62,28 +65,6 @@
     <Compile Include="GeneratedCode\TravianBot.Core\State\StateMachine.cs" />
     <Compile Include="GeneratedCode\TravianBot.Core\State\TaskingState.cs" />
     <Compile Include="GeneratedCode\TravianBot.Core\State\TransportingSmithyState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\Client.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\Enums\Tribes.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\HtmlManager.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\ILogicSettings.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\ISettings.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\JavascriptManager.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\LogicSettings.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\Log\IEventLogger.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\Log\ILogger.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\Settings.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\AttackingState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\BuildingState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\CelebratingState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\FarmingState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\GatheringState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\IState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\OrderingTroopsState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\RemovalingState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\SendingResourcesState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\StateMachine.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\TaskingState.cs" />
-    <Compile Include="GeneratedCode\TravianBotLib\State\TransportingSmithyState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

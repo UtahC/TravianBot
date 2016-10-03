@@ -4,15 +4,52 @@
 //     Changes to this file will be lost if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace TravianBotLib
+namespace TravianBot.Core.Models
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
+	using TravianBot.Core;
 
-	public class LogicSettings : ILogicSettings
+	public class Village
 	{
+		public virtual int Id
+		{
+			get;
+			set;
+		}
+
+		public virtual string Name
+		{
+			get;
+			set;
+		}
+
+		public virtual int X
+		{
+			get;
+			set;
+		}
+
+		public virtual int Y
+		{
+			get;
+			set;
+		}
+
+		public virtual bool IsActive
+		{
+			get;
+			set;
+		}
+
+		public virtual IEnumerable<Building> Buildings
+		{
+			get;
+			set;
+		}
+
 	}
 }
 

@@ -97,7 +97,20 @@
                   isDerivedUnion="false"
                   aggregation="None"
                   isComposite="false"
-                  isNavigableOwned="false" />
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="82e61b6e-02b6-480f-8d64-2f95fe1fef63"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="da9d7427-ff0c-453d-947c-0cf5637a71cd"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
@@ -1378,7 +1391,85 @@
             </relationshipOwnedElementsInternal>
           </association>
           <association
-            Id="3a8c1965-a8b9-4b30-bc1f-4a4273aa90ae"
+            Id="7c93d408-fc22-4c0a-89ef-518cb909d735"
+            isDerived="false"
+            sourceEndRoleName="Client"
+            targetEndRoleName="EventLogger"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="1bc042e6-7028-494e-9e14-1b056fca86a3"
+              LastKnownName="IEventLogger"
+              LastKnownLocation="Package_2315.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8749bf0d-4ad6-4281-a774-4430a0f1416e"
+                  name="Client"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="db13f495-c9e4-4652-adb6-e7d896137526"
+                  name="EventLogger"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="13c7babc-f586-408b-99c5-3f04faa419d7"
+            isDerived="false"
+            sourceEndRoleName="Client"
+            targetEndRoleName="Logger"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="4cb89a0b-f36d-4755-a7b9-334665b770a2"
+              LastKnownName="ILogger"
+              LastKnownLocation="Package_2315.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b9daced8-5340-4892-9e94-98d584213875"
+                  name="Client"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8c2fbad7-a783-4106-b77d-ed7676ced960"
+                  name="Logger"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="7fa44110-447e-45f9-a214-3f6d939bfb1b"
             isDerived="false"
             sourceEndRoleName="Client"
             targetEndRoleName="StateMachine"
@@ -1391,20 +1482,20 @@
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="699e969c-2cc4-41be-944a-5625761d3523"
+                  Id="64b4ffbb-282b-4387-a3bc-f3679180ade2"
                   name="Client"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
                   isDerived="false"
                   isDerivedUnion="false"
-                  aggregation="Shared"
+                  aggregation="None"
                   isComposite="false"
                   isNavigableOwned="false" />
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="78ba32bd-140e-4b44-8d39-57ed401a7fcd"
+                  Id="5dc6409d-3608-423d-a2d1-7eaf88a14f67"
                   name="StateMachine"
                   isLeaf="false"
                   isStatic="false"
@@ -1413,6 +1504,58 @@
                   isDerivedUnion="false"
                   aggregation="None"
                   isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="53726581-1772-4e22-b216-059356b6391b"
+            isDerived="false"
+            sourceEndRoleName="Client"
+            targetEndRoleName="Villages"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="c047bdc5-ee4d-4db9-aa76-ad7cad3b2e92"
+              LastKnownName="Village"
+              LastKnownLocation="Package_1848.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="7ec22f94-916f-4677-ae62-90945052748e"
+                  name="Client"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="35474fc2-fc7d-4ecc-b789-011830fdfc03"
+                  name="Villages"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="dfe895d5-6bf1-4597-a8e0-1f1246d3710a"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="3c6eb355-4afd-4f58-ad76-3778f290470b"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
@@ -1528,7 +1671,6 @@
       <class
         Id="14c542eb-6727-474b-99a0-5ecbbf1727f6"
         name="JavascriptManager"
-        visibility="Package"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -1581,7 +1723,6 @@
       <class
         Id="81633fd5-0025-4d2b-9e8b-c85573c5f5a7"
         name="HtmlManager"
-        visibility="Package"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -1737,6 +1878,18 @@
         Id="f6d01da9-777e-484d-8009-fa0c2422002b"
         LastKnownName="Log"
         LastKnownLocation="Package_2315.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="20398138-08ce-4a44-800c-8f27988020f5"
+        LastKnownName="Models"
+        LastKnownLocation="Package_1848.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="d58ef0d3-407f-4290-b247-60b7154900ab"
+        LastKnownName="Information"
+        LastKnownLocation="Package_1923.uml" />
     </packageHasNamedElement>
   </packagedElements>
 </package>

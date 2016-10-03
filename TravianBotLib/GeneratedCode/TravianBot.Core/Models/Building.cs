@@ -4,18 +4,38 @@
 //     Changes to this file will be lost if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace TravianBotLib.State
+namespace TravianBot.Core.Models
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
+	using TravianBot.Core.Enums;
 
-	public class FarmingState : IState
+	public class Building
 	{
-		public virtual void Excute()
+		public virtual int Id
 		{
-			throw new System.NotImplementedException();
+			get;
+			set;
+		}
+
+		public virtual int VillageId
+		{
+			get;
+			set;
+		}
+
+		public virtual object Level
+		{
+			get;
+			set;
+		}
+
+		public virtual Buildings Type
+		{
+			get;
+			set;
 		}
 
 	}

@@ -11,7 +11,7 @@ namespace TravianBot.Core
 	using System.Linq;
 	using System.Text;
 
-	internal class JavascriptManager
+	public class JavascriptManager
 	{
 	}
 }

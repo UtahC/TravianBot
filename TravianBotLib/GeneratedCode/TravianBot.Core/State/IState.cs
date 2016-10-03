@@ -13,7 +13,7 @@ namespace TravianBot.Core.State
 
 	public interface IState 
 	{
-		void Excute();
+		IState Excute();
 
 	}
 }

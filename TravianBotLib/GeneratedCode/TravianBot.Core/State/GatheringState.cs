@@ -13,7 +13,7 @@ namespace TravianBot.Core.State
 
 	public class GatheringState : IState
 	{
-		public virtual void Excute()
+		public virtual IState Excute()
 		{
 			throw new System.NotImplementedException();
 		}

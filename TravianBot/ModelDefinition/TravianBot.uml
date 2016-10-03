@@ -138,7 +138,7 @@
     <packageHasNamedElement>
       <packageMoniker
         Id="24b911c8-1c07-4bb4-8d19-d2461cc1e564"
-        LastKnownName="TravianBotLib"
+        LastKnownName="TravianBot.Core"
         LastKnownLocation="Package_1611.uml" />
     </packageHasNamedElement>
   </packagedElements>

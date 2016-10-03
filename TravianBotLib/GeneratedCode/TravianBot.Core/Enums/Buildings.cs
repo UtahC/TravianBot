@@ -4,20 +4,14 @@
 //     Changes to this file will be lost if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace TravianBotLib.State
+namespace TravianBot.Core.Enums
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
 
-	public class AttackingState : IState
+	public enum Buildings : int
 	{
-		public virtual void Excute()
-		{
-			throw new System.NotImplementedException();
-		}
-
 	}
 }
-

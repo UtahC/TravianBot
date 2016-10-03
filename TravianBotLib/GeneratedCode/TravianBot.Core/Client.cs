@@ -10,6 +10,8 @@ namespace TravianBot.Core
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
+	using TravianBot.Core.Log;
+	using TravianBot.Core.Models;
 	using TravianBot.Core.State;
 
 	public class Client
@@ -32,7 +34,25 @@ namespace TravianBot.Core
 			set;
 		}
 
+		public virtual IEventLogger EventLogger
+		{
+			get;
+			set;
+		}
+
+		public virtual ILogger Logger
+		{
+			get;
+			set;
+		}
+
 		public virtual StateMachine StateMachine
+		{
+			get;
+			set;
+		}
+
+		public virtual IEnumerable<Village> Village
 		{
 			get;
 			set;

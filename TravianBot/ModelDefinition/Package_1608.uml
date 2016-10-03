@@ -82,5 +82,42 @@
         </ownedLiterals>
       </enumeration>
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="eb9362f2-4a18-49f2-863b-2ed4876bb8d7"
+        name="Buildings"
+        isAbstract="false"
+        isLeaf="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="e1950c83-aad9-4ad0-bcc9-a64befc0764e"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="90dd0077-bafb-479b-9f80-ab415b466c2a">
+                <propertyInstance
+                  Id="ddb49426-bc2b-4f9d-a80e-d8b983373120"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="39d174e5-a048-4fee-97b4-a8bec59ad1fd">
+                <propertyInstance
+                  Id="879fcdcc-4089-49d2-9fbf-618cd9c07945"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="545e31ee-66c5-4436-b664-4d6fc9733e1f">
+                <propertyInstance
+                  Id="f3e9e8d7-160f-4a86-83ac-d4d8e98c1a35"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </enumeration>
+    </packageHasNamedElement>
   </packagedElements>
 </package>

@@ -13,7 +13,7 @@ namespace TravianBot.Core.State
 
 	public class TransportingSmithyState : IState
 	{
-		public virtual void Excute()
+		public virtual IState Excute()
 		{
 			throw new System.NotImplementedException();
 		}
