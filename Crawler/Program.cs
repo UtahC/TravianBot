@@ -10,7 +10,8 @@ namespace Crawler
     {
         static void Main(string[] args)
         {
-
+            var crawlerBuildings = new BuildingsCrawler();
+            crawlerBuildings.Excute();
         }
     }
 }
