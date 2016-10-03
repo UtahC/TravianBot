@@ -40,8 +40,12 @@ namespace Crawler
 
             using (var driver = new ChromeDriver())
             {
+                int[] nums = {1, 34, 30, 31, 32, 33, 40 ,26};
                 for (int i = 1; i <= 42; i++)
                 {
+                    if (!nums.Contains(i))
+                        continue;
+
                     string url = $"https://travian.kirilloid.ru/build.php#b={i}&mb=1&s=1.44";
                     driver.Navigate().GoToUrl(url);
                     driver.Navigate().Refresh();
@@ -51,21 +55,50 @@ namespace Crawler
 
                     var info = new BuildingInfo();
                     info.Name = doc.GetElementbyId("data_holder-title").InnerHtml;
-
-                    var reqNodes = doc.GetElementbyId("data_holder-req").Descendants("a");
-                    if (reqNodes.Count() > 0)
+                    info.Id = i;
+                    
+                    if (!doc.GetElementbyId("data_holder-req").InnerHtml.Contains("none"))
                     {
                         info.Prerequiresites = new List<Prerequiresite>();
+                        var reqNodes = doc.GetElementbyId("data_holder-req").ChildNodes;
                         foreach (var reqNode in reqNodes)
                         {
                             var req = new Prerequiresite();
-                            req.Id = reqNode.Attributes["onclick"].Value.GetInt();
-                            req.Name = reqNode.LastChild.InnerText.Trim();
-                            if (reqNode.ParentNode.Name == "strike")
+                            info.NeedCapital = false;
+                            info.NeedNotCapital = false;
+                            info.TribeRequired = Tribes.None;
+
+                            if (reqNode.Name == "strike" && reqNode.FirstChild.Name == "a")
+                            {
+                                req.Id = reqNode.FirstChild.Attributes["onclick"].Value.GetInt();
+                                req.Name = reqNode.FirstChild.LastChild.InnerText.Trim();
                                 req.Level = -1;
-                            else
+                            }
+                            if (reqNode.Name == "a")
+                            {
+                                req.Id = reqNode.Attributes["onclick"].Value.GetInt();
+                                req.Name = reqNode.LastChild.InnerText.Trim();
                                 req.Level = reqNode.NextSibling.InnerHtml.GetInt();
-                            info.Prerequiresites.Add(req);
+                            }
+                            if (reqNode.InnerText.ToLower().Contains("capital"))
+                            {
+                                if (reqNode.AncestorsAndSelf("strike").Count() <= 0)
+                                    info.NeedCapital = true;
+                                else
+                                    info.NeedNotCapital = true;
+                            }
+                            if (reqNode.InnerText.ToLower().Contains("tribes"))
+                            {
+                                if (reqNode.InnerText.ToLower().Contains("romans"))
+                                    info.TribeRequired = Tribes.Romans;
+                                else if (reqNode.InnerText.ToLower().Contains("teutons"))
+                                    info.TribeRequired = Tribes.Teutons;
+                                else if (reqNode.InnerText.ToLower().Contains("gauls"))
+                                    info.TribeRequired = Tribes.Gauls;
+                            }
+                            
+                            if (req.Id > 0)
+                                info.Prerequiresites.Add(req);
                         }
                     }
 
@@ -97,9 +130,13 @@ namespace Crawler
 
     class BuildingInfo
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public List<Prerequiresite> Prerequiresites { get; set; }
         public List<BuildingUpgradeInfo> Details { get; set; }
+        public bool NeedCapital { get; set; }
+        public bool NeedNotCapital { get; set; }
+        public Tribes TribeRequired { get; set; }
     }
 
     class Prerequiresite
@@ -121,5 +158,13 @@ namespace Crawler
         public int CulturePoint { get; set; }
         public string TimeCost { get; set; }
         public KeyValuePair<string, string> AdditionalInfo { get; set; }
+    }
+
+    enum Tribes
+    {
+        None,
+        Romans,
+        Teutons,
+        Gauls,
     }
 }
