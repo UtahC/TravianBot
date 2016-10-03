@@ -4,47 +4,55 @@
 //     Changes to this file will be lost if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace TravianBot.Core.Models
+namespace TravianBot.Core
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
-	using TravianBot.Core;
+	using TravianBot.Core.Log;
+	using TravianBot.Core.Models;
+	using TravianBot.Core.State;
 
-	public class Village
+	public class Client
 	{
-		public virtual int Id
+		public virtual ISettings Settings
 		{
 			get;
 			set;
 		}
 
-		public virtual string Name
+		public virtual HtmlManager HtmlManager
 		{
 			get;
 			set;
 		}
 
-		public virtual int X
+		public virtual JavascriptManager JavascriptManager
 		{
 			get;
 			set;
 		}
 
-		public virtual int Y
+		public virtual IEventLogger EventLogger
 		{
 			get;
 			set;
 		}
 
-		public virtual bool IsActive
+		public virtual ILogger Logger
 		{
 			get;
 			set;
 		}
 
-		public virtual IEnumerable<Building> Buildings
+		public virtual StateMachine StateMachine
+		{
+			get;
+			set;
+		}
+
+		public virtual IEnumerable<Village> Villages
 		{
 			get;
 			set;

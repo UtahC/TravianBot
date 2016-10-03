@@ -11,6 +11,7 @@ namespace TravianBot.Core.Models
 	using System.Linq;
 	using System.Text;
 	using TravianBot.Core.Enums;
+	using TravianBot.Core.Information;
 
 	public class Building
 	{
@@ -33,6 +34,12 @@ namespace TravianBot.Core.Models
 		}
 
 		public virtual Buildings Type
+		{
+			get;
+			set;
+		}
+
+		public virtual BuildingInfo Info
 		{
 			get;
 			set;

@@ -4,19 +4,15 @@
 //     Changes to this file will be lost if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace TravianBot.Core.Log
+namespace TravianBot.Core.Information
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
 
-	public interface ILogger 
+	public class BuildingInfo
 	{
-		void Write(object string text);
-
-		void Write(object string text, object System.Windows.Media.Brush color);
-
 	}
 }
 

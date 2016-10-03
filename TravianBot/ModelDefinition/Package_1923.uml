@@ -10,7 +10,51 @@
         name="BuildingInfo"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false" />
+        isActiveClass="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="218daae2-f4ff-4747-8bd1-35849b1df6c8"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0e6d949c-47a9-4634-bd7b-2d849ea6378f">
+                <propertyInstance
+                  Id="3aa1dbc8-5ac2-4867-92e7-93766916db6b"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="090706a4-9ef3-468b-a0d5-017a432c59eb">
+                <propertyInstance
+                  Id="ca9ebdad-abe5-491c-beb0-97eb0d785d8d"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="d35a9232-a7ab-45eb-b7b7-70a761b9ee21">
+                <propertyInstance
+                  Id="a39fa2e9-e387-4397-8e8a-dc317f3ede13"
+                  name="IsStatic"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="1d65bb7d-f1f9-4bce-9297-b2f3ef752d1f">
+                <propertyInstance
+                  Id="7fc6a22d-a312-4601-b5fb-6572f7e34079"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="40be8570-640e-417a-9999-bbac0f7d2734">
+                <propertyInstance
+                  Id="9ddef2c2-0d3e-4e29-adde-6ed02dc46ba4"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </class>
     </packageHasNamedElement>
   </packagedElements>
 </package>

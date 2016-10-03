@@ -4,28 +4,56 @@
 //     Changes to this file will be lost if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace TravianBot.Core
+namespace TravianBot.Core.Models
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
+	using TravianBot.Core;
 
-	public class Settings : ISettings
+	public class Village
 	{
-		public virtual void Save()
+		public virtual int Id
 		{
-			throw new System.NotImplementedException();
+			get;
+			set;
 		}
 
-		public virtual void Read()
+		public virtual string Name
 		{
-			throw new System.NotImplementedException();
+			get;
+			set;
 		}
 
-		private void Generate()
+		public virtual int X
 		{
-			throw new System.NotImplementedException();
+			get;
+			set;
+		}
+
+		public virtual int Y
+		{
+			get;
+			set;
+		}
+
+		public virtual bool IsActive
+		{
+			get;
+			set;
+		}
+
+		public virtual bool IsCapital
+		{
+			get;
+			set;
+		}
+
+		public virtual IEnumerable<Building> Buildings
+		{
+			get;
+			set;
 		}
 
 	}

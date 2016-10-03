@@ -6,19 +6,15 @@
 //------------------------------------------------------------------------------
 namespace TravianBot.Core
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Text;
 
-	public class HtmlManager
+    public class HtmlManager : INotifyPropertyChanged
 	{
-		public virtual event  JavascriptExcuted
-		{
-			get;
-			set;
-		}
-
-	}
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
 }
 
