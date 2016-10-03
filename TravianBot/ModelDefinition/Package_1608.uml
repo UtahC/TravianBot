@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner"
+  dslVersion="1.0.0.0"
+  Id="c57a49dc-6693-4351-8caf-44fbbeb30689"
+  name="Enums" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <appliedStereotypesInternal>
+    <stereotypeInstance
+      Id="a9976ff6-bf10-4a91-82e9-6d6e17c1d849"
+      name="namespace"
+      profile="CSharpProfile">
+      <propertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="37780bbf-a107-4af3-b63a-a619ea5ccd02">
+          <propertyInstance
+            Id="8672aa0b-8811-4d87-84ea-a44814a2410f"
+            name="BaseName" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="40315638-1aa1-417a-ad2f-6841a84d46a1">
+          <propertyInstance
+            Id="c0fb0cf0-b81c-465e-86b0-7a7da35a355e"
+            name="ClrAttributes" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="b4817a8a-d234-4a0a-b087-91d52a0ee42d">
+          <propertyInstance
+            Id="e825c435-9b06-493b-98aa-1e041cd6a0c0"
+            name="Usings" />
+        </stereotypeInstanceHasPropertyInstances>
+      </propertyInstances>
+    </stereotypeInstance>
+  </appliedStereotypesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <enumeration
+        Id="381f6e54-e79b-4357-8e2c-d24ae6028d4a"
+        name="Tribes"
+        isAbstract="false"
+        isLeaf="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="ec45774c-73f4-4148-810b-ed0a022b4b92"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="4add256a-91e4-416c-85c2-0de1af7914a3">
+                <propertyInstance
+                  Id="f60687f6-d699-4285-aa99-ea22343e89f6"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="70e78a32-bdc9-4cdb-9061-09167467b809">
+                <propertyInstance
+                  Id="d7995ffc-476f-4976-bc9e-6304885e688d"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="7823fd6c-5736-498c-81ea-5d3a94b4b7e0">
+                <propertyInstance
+                  Id="633aa4bf-bb25-4373-a4fd-4452a55ebf00"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="39a3bf32-f501-4e15-84dd-1811162ed397"
+            name="None" />
+          <enumerationLiteral
+            Id="33b5cd5f-2016-4263-9e44-7926dc29fec6"
+            name="Romans" />
+          <enumerationLiteral
+            Id="573aa1f9-5e2a-4ee7-a41b-37bc431aa1bb"
+            name="Teutons" />
+          <enumerationLiteral
+            Id="cc43e9a2-f0bb-4c89-ba3a-3c6d0de5a8a9"
+            name="Guals" />
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

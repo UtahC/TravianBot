@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{38B40859-2166-477B-B1A4-4236159CFD70}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TravianBotLib</RootNamespace>
+    <AssemblyName>TravianBotLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GeneratedCode\TravianBot.Core\Client.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\Enums\Tribes.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\HtmlManager.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\ILogicSettings.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\ISettings.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\JavascriptManager.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\LogicSettings.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\Log\IEventLogger.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\Log\ILogger.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\Settings.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\AttackingState.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\BuildingState.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\CelebratingState.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\FarmingState.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\GatheringState.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\IState.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\OrderingTroopsState.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\RemovalingState.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\SendingResourcesState.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\StateMachine.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\TaskingState.cs" />
+    <Compile Include="GeneratedCode\TravianBot.Core\State\TransportingSmithyState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\Client.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\Enums\Tribes.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\HtmlManager.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\ILogicSettings.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\ISettings.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\JavascriptManager.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\LogicSettings.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\Log\IEventLogger.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\Log\ILogger.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\Settings.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\AttackingState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\BuildingState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\CelebratingState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\FarmingState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\GatheringState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\IState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\OrderingTroopsState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\RemovalingState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\SendingResourcesState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\StateMachine.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\TaskingState.cs" />
+    <Compile Include="GeneratedCode\TravianBotLib\State\TransportingSmithyState.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

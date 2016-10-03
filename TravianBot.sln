@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "TravianBot", "TravianBot\TravianBot.modelproj", "{AE885182-C79A-45AA-AE73-6330F904A3AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravianBotLib", "TravianBotLib\TravianBotLib.csproj", "{38B40859-2166-477B-B1A4-4236159CFD70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crawler", "Crawler\Crawler.csproj", "{B9B4156D-3A0A-467F-B6C9-1DC0BB78E02D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{AE885182-C79A-45AA-AE73-6330F904A3AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE885182-C79A-45AA-AE73-6330F904A3AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE885182-C79A-45AA-AE73-6330F904A3AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38B40859-2166-477B-B1A4-4236159CFD70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38B40859-2166-477B-B1A4-4236159CFD70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38B40859-2166-477B-B1A4-4236159CFD70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38B40859-2166-477B-B1A4-4236159CFD70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9B4156D-3A0A-467F-B6C9-1DC0BB78E02D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9B4156D-3A0A-467F-B6C9-1DC0BB78E02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9B4156D-3A0A-467F-B6C9-1DC0BB78E02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9B4156D-3A0A-467F-B6C9-1DC0BB78E02D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
