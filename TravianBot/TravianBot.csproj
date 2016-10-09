@@ -75,12 +75,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\EnumToIntConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\IDataService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\AccountTab.xaml.cs">
+      <DependentUpon>AccountTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\BrowserView.xaml.cs">
       <DependentUpon>BrowserView.xaml</DependentUpon>
     </Compile>
@@ -99,6 +103,10 @@
     <Page Include="Skins\MainSkin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AccountTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BrowserView.xaml">
       <SubType>Designer</SubType>
@@ -132,6 +140,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TravianBot.Core\TravianBot.Core.csproj">
+      <Project>{9B485F6E-714F-4692-9490-347C72097376}</Project>
+      <Name>TravianBot.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

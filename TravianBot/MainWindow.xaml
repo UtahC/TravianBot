@@ -1,24 +1,18 @@
-﻿<Window 
-    x:Class="TravianBot.MainWindow"
+﻿<Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:data="http://schemas.awesomium.com/winfx/data"
     xmlns:local="clr-namespace:TravianBot"
     xmlns:v="clr-namespace:TravianBot.View"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:ViewModel="clr-namespace:TravianBot.ViewModel" 
+    x:Class="TravianBot.MainWindow"
     x:Name="mainWindow"
     WindowStartupLocation="CenterScreen"
-    Title="{Binding Title, ElementName=webControl}"
     Height="800" 
-    Width="{DynamicResource {x:Static SystemParameters.FullPrimaryScreenWidthKey}}">
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-    </Window.Resources>
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding MainWindowLoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+    Width="{DynamicResource {x:Static SystemParameters.FullPrimaryScreenWidthKey}}"
+    DataContext="{Binding Main, Source={StaticResource Locator}}">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -29,23 +23,23 @@
         </Grid.RowDefinitions>
         <ToolBar Grid.Row="0">
             <Menu>
-                <MenuItem Header="File"></MenuItem>
-                <MenuItem Header="Farm"></MenuItem>
-                <MenuItem Header="Waves"></MenuItem>
-                <MenuItem Header="Resources"></MenuItem>
-                <MenuItem Header="Tools"></MenuItem>
-                <MenuItem Header="Recognition of attacks"></MenuItem>
-                <MenuItem Header="Ordering troops"></MenuItem>
-                <MenuItem Header="Def in the village"></MenuItem>
-                <MenuItem Header="Messages"></MenuItem>
-                <MenuItem Header="Hero"></MenuItem>
-                <MenuItem Header="Rewards"></MenuItem>
-                <MenuItem Header="Settings"></MenuItem>
-                <MenuItem Header="Language"></MenuItem>
-                <MenuItem Header="Help"></MenuItem>
+                <MenuItem Header="File"/>
+                <MenuItem Header="Farm"/>
+                <MenuItem Header="Waves"/>
+                <MenuItem Header="Resources"/>
+                <MenuItem Header="Tools"/>
+                <MenuItem Header="Recognition of attacks"/>
+                <MenuItem Header="Ordering troops"/>
+                <MenuItem Header="Def in the village"/>
+                <MenuItem Header="Messages"/>
+                <MenuItem Header="Hero"/>
+                <MenuItem Header="Rewards"/>
+                <MenuItem Header="Settings"/>
+                <MenuItem Header="Language"/>
+                <MenuItem Header="Help"/>
             </Menu>
         </ToolBar>
-        <DockPanel Grid.Row="1" Background="Azure">
+        <DockPanel Grid.Row="1">
             <TabControl HorizontalAlignment="Stretch" Width="auto" Template="{DynamicResource TabControlControlTemplate1}" IsSynchronizedWithCurrentItem="True" Height="Auto">
                 <TabControl.Resources>
                     <Style x:Key="TabScrollerRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
@@ -91,7 +85,7 @@
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="Auto"/>
                                                         </Grid.RowDefinitions>
-                                                        <ScrollContentPresenter Grid.Column="0" Content="{TemplateBinding ScrollViewer.Content}" />
+                                                        <ScrollContentPresenter Grid.Column="0" Content="{TemplateBinding ContentControl.Content}" />
                                                         <RepeatButton Grid.Column="1" Content="&lt;" Command="ScrollBar.LineLeftCommand" FontWeight="Bold"/>
                                                         <RepeatButton Grid.Column="2" Content="&gt;" Command="ScrollBar.LineRightCommand" FontWeight="Bold"/>
                                                     </Grid>
@@ -106,168 +100,35 @@
                     </ControlTemplate>
                 </TabControl.Resources>
                 <TabItem x:Name="tabItemAccount" Header="Account">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="550"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="100"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition Height="30"/>
-                                </Grid.RowDefinitions>
-                                <StackPanel Grid.Row="0">
-                                    <Grid Height="30">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="Server" TextWrapping="Wrap" VerticalAlignment="Center" />
-                                        <TextBox Grid.Column="1" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="3" Text="Troops speed" TextWrapping="Wrap" VerticalAlignment="Center" />
-                                        <ComboBox Grid.Column="4" Height="20"/>
-                                    </Grid>
-                                </StackPanel>
-                                <StackPanel Grid.Row="1">
-                                    <Grid Height="30">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="Account Name" TextWrapping="Wrap" VerticalAlignment="Center" />
-                                        <TextBox Grid.Column="1" VerticalAlignment="Center"/>
-                                        <CheckBox Grid.Column="3" Content="Low resolution" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </StackPanel>
-                                <StackPanel Grid.Row="2">
-                                    <Grid Height="30">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="Password" TextWrapping="Wrap" VerticalAlignment="Center" />
-                                        <TextBox Grid.Column="1" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="3" Text="Tribe" TextWrapping="Wrap" VerticalAlignment="Center" />
-                                        <ComboBox Grid.Column="4" Height="20"/>
-                                    </Grid>
-                                </StackPanel>
-                                <StackPanel Grid.Row="3">
-                                    <Grid Height="30">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="100"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="User-Agent" TextWrapping="Wrap" VerticalAlignment="Center" />
-                                        <ComboBox Grid.Column="1" Height="20"/>
-                                        <ComboBox Grid.Column="3" Height="20"/>
-                                    </Grid>
-                                </StackPanel>
-                                <StackPanel Grid.Row="4">
-                                    <Grid Height="30">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="70"/>
-                                        </Grid.ColumnDefinitions>
-                                        <CheckBox Grid.Column="0" Content="Proxy" VerticalAlignment="Center" />
-                                        <TextBox Grid.Column="1" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Column="3" Text="Port" VerticalAlignment="Center"/>
-                                        <TextBox Grid.Column="4" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </StackPanel>
-                                <StackPanel Grid.Row="5">
-                                    <Grid Height="30">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="Login" TextWrapping="Wrap" VerticalAlignment="Center" />
-                                        <TextBox Grid.Column="1" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Column="3" Text="Password" TextWrapping="Wrap" VerticalAlignment="Center" />
-                                        <TextBox Grid.Column="4" VerticalAlignment="Center" />
-                                    </Grid>
-                                </StackPanel>
-                            </Grid>
-                        </StackPanel>
-                        <GroupBox Header="Villages" Grid.Column="1">
-                            <Grid>
-                                <DataGrid ItemsSource="{Binding User.Villages}" AutoGenerateColumns="False">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Id" Binding="{Binding Id, Mode=OneWay}"/>
-                                        <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}"/>
-                                        <DataGridTextColumn Header="X" Binding="{Binding X, Mode=OneWay}"/>
-                                        <DataGridTextColumn Header="Y" Binding="{Binding Y, Mode=OneWay}"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                            </Grid>
-                        </GroupBox>
-                        <Button Grid.Column="2" Content="Save" Grid.Row="0" Height="40" VerticalAlignment="Top"/>
-                        <Button Grid.Column="2" Content="Login" Height="40" VerticalAlignment="Bottom"/>
-                    </Grid>
+                    <v:AccountTab/>
                 </TabItem>
                 <TabItem x:Name="tabItemFarms" Header="Farms">
-                    <DataGrid>
-                        <DataGrid.Columns>
-                            <DataGridCheckBoxColumn Header="#" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
-                            <DataGridCheckBoxColumn Header="Name" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
-                            <DataGridCheckBoxColumn Header="Test" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    
                 </TabItem>
-                <TabItem x:Name="tabItemGatheringTheTroops" Header="Gathering the troops"></TabItem>
-                <TabItem x:Name="tabItemAutoRemovalOfTroops" Header="Auto removal of troops"></TabItem>
-                <TabItem x:Name="tabItemTasks" Header="Tasks"></TabItem>
-                <TabItem x:Name="tabItemSendingResources" Header="Sending resources"></TabItem>
-                <TabItem x:Name="tabItemOrderingTroops" Header="Ordering troops"></TabItem>
-                <TabItem x:Name="tabItemPlanOfAttack" Header="Plan of attack"></TabItem>
-                <TabItem x:Name="tabItemAlarms" Header="Alarms"></TabItem>
-                <TabItem x:Name="tabItemBuilding" Header="Building"></TabItem>
-                <TabItem x:Name="tabItemCelebrations" Header="Celebrations"></TabItem>
-                <TabItem x:Name="tabItemSmithy" Header="Smithy"></TabItem>
-                <TabItem x:Name="tabItemNpcTrading" Header="NPC trading"></TabItem>
-                <TabItem x:Name="tabItemEvents" Header="Events"></TabItem>
-                <TabItem x:Name="tabItemOnline" Header="Online"></TabItem>
-                <TabItem x:Name="tabItemLog" Header="Log"></TabItem>
+                <TabItem x:Name="tabItemGatheringTheTroops" Header="Gathering the troops"/>
+                <TabItem x:Name="tabItemAutoRemovalOfTroops" Header="Auto removal of troops"/>
+                <TabItem x:Name="tabItemTasks" Header="Tasks"/>
+                <TabItem x:Name="tabItemSendingResources" Header="Sending resources"/>
+                <TabItem x:Name="tabItemOrderingTroops" Header="Ordering troops"/>
+                <TabItem x:Name="tabItemPlanOfAttack" Header="Plan of attack"/>
+                <TabItem x:Name="tabItemAlarms" Header="Alarms"/>
+                <TabItem x:Name="tabItemBuilding" Header="Building"/>
+                <TabItem x:Name="tabItemCelebrations" Header="Celebrations"/>
+                <TabItem x:Name="tabItemSmithy" Header="Smithy"/>
+                <TabItem x:Name="tabItemNpcTrading" Header="NPC trading"/>
+                <TabItem x:Name="tabItemEvents" Header="Events"/>
+                <TabItem x:Name="tabItemOnline" Header="Online"/>
+                <TabItem x:Name="tabItemLog" Header="Log"/>
             </TabControl>
         </DockPanel>
-        <GridSplitter Grid.Row="2" ResizeDirection="Rows" Height="2" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Center"></GridSplitter>
+        <GridSplitter Grid.Row="2" ResizeDirection="Rows" Height="2" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
         <v:BrowserView Grid.Row="3"/>
-        <StatusBar Grid.Row="4" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="0,1,0,0" Visibility="{Binding IsRegularWindow, Converter={StaticResource booleanToVisibilityConverter}, ElementName=webWindow}">
+        <StatusBar Grid.Row="4" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="0,1,0,0" >
             <StatusBarItem>
-                <TextBlock VerticalAlignment="Center" Padding="3" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Margin="7,0" Text="Zoom:"/>
-                    <Slider DataContext="{Binding ElementName=webControl}" Margin="3,0" Minimum="10" Maximum="400" Width="120" VerticalAlignment="Center" Value="{Binding Zoom}" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsMoveToPointEnabled="True" SmallChange="1" LargeChange="10" TickFrequency="10" Focusable="False" ToolTip="{Binding Zoom}">
-                        <Slider.ContextMenu>
-                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                                <!---->
-                            </ContextMenu>
-                        </Slider.ContextMenu>
-                    </Slider>
-                </StackPanel>
+                
             </StatusBarItem>
         </StatusBar>
     </Grid>

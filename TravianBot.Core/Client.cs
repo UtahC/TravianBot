@@ -16,47 +16,60 @@ namespace TravianBot.Core
 
 	public class Client
 	{
-		public virtual ISettings Settings
-		{
-			get;
-			set;
-		}
+        private static Client client;
 
-		public virtual HtmlManager HtmlManager
-		{
-			get;
-			set;
-		}
+        public static Client Default
+        {
+            get
+            {
+                if (client == null)
+                    client = new Client();
+                return client;
+            }
+        }
 
-		public virtual JavascriptManager JavascriptManager
-		{
-			get;
-			set;
-		}
+        private Client()
+        {
+            
+        }
 
-		public virtual IEventLogger EventLogger
-		{
-			get;
-			set;
-		}
+        public ISetting Setting { get { return Models.Setting.Default; } }
 
-		public virtual ILogger Logger
-		{
-			get;
-			set;
-		}
+		//public HtmlManager HtmlManager
+		//{
+		//	get;
+		//	set;
+		//}
 
-		public virtual StateMachine StateMachine
-		{
-			get;
-			set;
-		}
+		//public JavascriptManager JavascriptManager
+		//{
+		//	get;
+		//	set;
+		//}
 
-		public virtual IEnumerable<Village> Villages
-		{
-			get;
-			set;
-		}
+		//public IEventLogger EventLogger
+		//{
+		//	get;
+		//	set;
+		//}
+
+		//public ILogger Logger
+		//{
+		//	get;
+		//	set;
+		//}
+
+		//public StateMachine StateMachine
+		//{
+		//	get;
+		//	set;
+		//}
+
+		//public IEnumerable<Village> Villages
+		//{
+		//	get;
+		//	set;
+		//}
 
 	}
 }

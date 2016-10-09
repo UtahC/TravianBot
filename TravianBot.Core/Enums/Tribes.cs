@@ -11,7 +11,7 @@ namespace TravianBot.Core.Enums
 	using System.Linq;
 	using System.Text;
 
-	public enum Tribes : int
+	public enum Tribes
 	{
 		None,
 		Romans,
