@@ -12,49 +12,99 @@ namespace TravianBot.Core.Models
 	using System.Text;
 	using TravianBot.Core;
 
-	public class Village
-	{
-		public virtual int Id
+	public class Village : GalaSoft.MvvmLight.ObservableObject
+    {
+        private int id;
+        private string name;
+        private int x;
+        private int y;
+        private bool isActive;
+        private bool isCapital;
+        private IEnumerable<Building> buildings;
+
+        public int Id
 		{
-			get;
-			set;
+            get
+            {
+                return id;
+            }
+            set
+            {
+                Set(() => Id, ref id, value);
+            }
 		}
 
-		public virtual string Name
+		public string Name
 		{
-			get;
-			set;
-		}
+            get
+            {
+                return name;
+            }
+            set
+            {
+                Set(() => Name, ref name, value);
+            }
+        }
 
-		public virtual int X
+		public int X
 		{
-			get;
-			set;
-		}
+            get
+            {
+                return x;
+            }
+            set
+            {
+                Set(() => X, ref x, value);
+            }
+        }
 
-		public virtual int Y
+		public int Y
 		{
-			get;
-			set;
-		}
+            get
+            {
+                return y;
+            }
+            set
+            {
+                Set(() => Y, ref y, value);
+            }
+        }
 
-		public virtual bool IsActive
+		public bool IsActive
 		{
-			get;
-			set;
-		}
+            get
+            {
+                return isActive;
+            }
+            set
+            {
+                Set(() => IsActive, ref isActive, value);
+            }
+        }
 
-		public virtual bool IsCapital
+		public bool IsCapital
 		{
-			get;
-			set;
-		}
+            get
+            {
+                return isCapital;
+            }
+            set
+            {
+                Set(() => IsCapital, ref isCapital, value);
+            }
+        }
 
-		public virtual IEnumerable<Building> Buildings
+		public IEnumerable<Building> Buildings
 		{
-			get;
-			set;
-		}
+            get
+            {
+                return buildings;
+            }
+            set
+            {
+                Set(() => Buildings, ref buildings, value);
+            }
+        }
 
 	}
 }

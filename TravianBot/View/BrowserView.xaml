@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="TravianBot.View.BrowserView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TravianBot.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="NavigationCommands.BrowseBack" CanExecute="BrowseBack_CanExecute" Executed="BrowseBack_Executed" />
+        <CommandBinding Command="NavigationCommands.BrowseForward" CanExecute="BrowseForward_CanExecute" Executed="BrowseForward_Executed" />
+        <CommandBinding Command="NavigationCommands.Refresh" CanExecute="Refresh_CanExecute" Executed="Refresh_Executed" />
+    </UserControl.CommandBindings>
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" LastChildFill="True" VerticalAlignment="Top">
+            <Button Content="Back" Width="60" Command="NavigationCommands.BrowseBack"/>
+            <Button Content="Forward" Width="60" Command="NavigationCommands.BrowseForward"/>
+            <Button Content="Refresh" Width="60" Command="NavigationCommands.Refresh"/>
+            <Button Content="LoadData" Width="60"/>
+            <Button Content="Test" Width="60"/>
+            <TextBox x:Name="textBoxUrl" FontSize="16" Padding="3,0" VerticalContentAlignment="Center" TextWrapping="NoWrap" KeyUp="textBoxUrl_KeyUp"/>
+        </DockPanel>
+        <WebBrowser x:Name="webBrowser" VerticalAlignment="Center" Navigating="webBrowser_Navigating" Loaded="webBrowser_Loaded"/>
+    </DockPanel>
+</UserControl>

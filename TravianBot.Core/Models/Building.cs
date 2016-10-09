@@ -13,37 +13,73 @@ namespace TravianBot.Core.Models
 	using TravianBot.Core.Enums;
 	using TravianBot.Core.Information;
 
-	public class Building
-	{
-		public virtual int Id
-		{
-			get;
-			set;
-		}
+	public class Building : GalaSoft.MvvmLight.ObservableObject
+    {
+        private int id;
+        private int villageId;
+        private double level;
+        private Buildings type;
+        private BuildingInfo info;
 
-		public virtual int VillageId
+		public int Id
 		{
-			get;
-			set;
-		}
+            get
+            {
+                return id;
+            }
+            set
+            {
+                Set(() => Id, ref id, value);
+            }
+        }
 
-		public virtual object Level
+		public int VillageId
 		{
-			get;
-			set;
-		}
+            get
+            {
+                return villageId;
+            }
+            set
+            {
+                Set(() => VillageId, ref villageId, value);
+            }
+        }
 
-		public virtual Buildings Type
+		public double Level
 		{
-			get;
-			set;
-		}
+            get
+            {
+                return level;
+            }
+            set
+            {
+                Set(() => Level, ref level, value);
+            }
+        }
 
-		public virtual BuildingInfo Info
+		public Buildings Type
 		{
-			get;
-			set;
-		}
+            get
+            {
+                return type;
+            }
+            set
+            {
+                Set(() => Type, ref type, value);
+            }
+        }
+
+		public BuildingInfo Info
+		{
+            get
+            {
+                return info;
+            }
+            set
+            {
+                Set(() => Info, ref info, value);
+            }
+        }
 
 	}
 }

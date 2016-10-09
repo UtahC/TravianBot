@@ -1,4 +1,6 @@
-﻿namespace TravianBot.Model
+﻿using GalaSoft.MvvmLight;
+
+namespace TravianBot.Model
 {
     public class DataItem
     {
