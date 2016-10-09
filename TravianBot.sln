@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "TravianBot", "TravianBot\TravianBot.modelproj", "{AE885182-C79A-45AA-AE73-6330F904A3AD}"
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "TravianBotDiagram", "TravianBotDiagram\TravianBotDiagram.modelproj", "{AE885182-C79A-45AA-AE73-6330F904A3AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crawler", "Crawler\Crawler.csproj", "{B9B4156D-3A0A-467F-B6C9-1DC0BB78E02D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravianBotLib", "TravianBotLib\TravianBotLib.csproj", "{9B485F6E-714F-4692-9490-347C72097376}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravianBot.Core", "TravianBot.Core\TravianBot.Core.csproj", "{9B485F6E-714F-4692-9490-347C72097376}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravianBotWpf", "TravianBotWpf\TravianBotWpf.csproj", "{ADD66922-B24D-485B-98D9-8F7D55E7359A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravianBot", "TravianBot\TravianBot.csproj", "{5CE99F71-4CF5-4C57-B1A5-EDD6A91DC062}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{9B485F6E-714F-4692-9490-347C72097376}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B485F6E-714F-4692-9490-347C72097376}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B485F6E-714F-4692-9490-347C72097376}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ADD66922-B24D-485B-98D9-8F7D55E7359A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ADD66922-B24D-485B-98D9-8F7D55E7359A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ADD66922-B24D-485B-98D9-8F7D55E7359A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ADD66922-B24D-485B-98D9-8F7D55E7359A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CE99F71-4CF5-4C57-B1A5-EDD6A91DC062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE99F71-4CF5-4C57-B1A5-EDD6A91DC062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE99F71-4CF5-4C57-B1A5-EDD6A91DC062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE99F71-4CF5-4C57-B1A5-EDD6A91DC062}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

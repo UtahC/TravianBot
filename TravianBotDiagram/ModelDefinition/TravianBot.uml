@@ -113,14 +113,6 @@
   </profileInstances>
   <packagedElements>
     <packageHasNamedElement>
-      <component
-        Id="1f5509fe-5385-4660-b54d-4983f255a7f1"
-        name="Component1"
-        isAbstract="false"
-        isLeaf="false"
-        isActiveClass="false" />
-    </packageHasNamedElement>
-    <packageHasNamedElement>
       <undefinedType
         Id="49c80f04-fdc9-4729-b20c-c243fa2af17f"
         name="string" />
