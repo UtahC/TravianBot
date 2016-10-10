@@ -74,7 +74,6 @@
     <Compile Include="HtmlManager.cs" />
     <Compile Include="ILogicSettings.cs" />
     <Compile Include="Information\BuildingInfo.cs" />
-    <Compile Include="JavascriptManager.cs" />
     <Compile Include="Models\LogicSettings.cs" />
     <Compile Include="Log\IEventLogger.cs" />
     <Compile Include="Log\ILogger.cs" />

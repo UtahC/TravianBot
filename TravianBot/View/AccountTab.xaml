@@ -9,7 +9,7 @@
     xmlns:converter="clr-namespace:TravianBot.Converter"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     mc:Ignorable="d" 
-    d:DesignHeight="300" d:DesignWidth="300"
+    d:DesignHeight="300" d:DesignWidth="900"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
     <UserControl.Resources>
         <converter:EnumToIntConverter x:Key="EnumToIntConverter"/>
@@ -18,7 +18,9 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="550"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
@@ -193,19 +195,19 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <GroupBox Header="Villages" Grid.Column="1">
+        <GroupBox Header="Villages" Grid.Column="2">
             <Grid>
                 <DataGrid ItemsSource="{Binding User.Villages}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Id" Binding="{Binding Id, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="X" Binding="{Binding X, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Y" Binding="{Binding Y, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Id, Mode=OneWay}" Width="50"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}" Width="100"/>
+                        <DataGridTextColumn Header="X" Binding="{Binding X, Mode=OneWay}" Width="30"/>
+                        <DataGridTextColumn Header="Y" Binding="{Binding Y, Mode=OneWay}" Width="30"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </GroupBox>
-        <Button Grid.Column="2" Content="Save" Grid.Row="0" Height="40" VerticalAlignment="Top" Command="{Binding AccountSettingSave}"/>
-        <Button Grid.Column="2" Content="Login" Height="40" VerticalAlignment="Bottom"/>
+        <Button Grid.Column="4" Content="Save" Grid.Row="0" Height="40" VerticalAlignment="Top" Command="{Binding AccountSettingSave}"/>
+        <Button Grid.Column="4" Content="Login" Height="40" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

@@ -35,42 +35,41 @@ namespace TravianBot.Core
 
         public ISetting Setting { get { return Models.Setting.Default; } }
 
-		//public HtmlManager HtmlManager
-		//{
-		//	get;
-		//	set;
-		//}
+        public HtmlManager HtmlManager
+        {
+            get;
+            set;
+        }
 
-		//public JavascriptManager JavascriptManager
-		//{
-		//	get;
-		//	set;
-		//}
+        public IEventLogger EventLogger
+        {
+            get;
+            set;
+        }
 
-		//public IEventLogger EventLogger
-		//{
-		//	get;
-		//	set;
-		//}
+        public ILogger Logger
+        {
+            get;
+            set;
+        }
 
-		//public ILogger Logger
-		//{
-		//	get;
-		//	set;
-		//}
+        public StateMachine StateMachine
+        {
+            get;
+            set;
+        }
 
-		//public StateMachine StateMachine
-		//{
-		//	get;
-		//	set;
-		//}
+        public IEnumerable<Village> Villages
+        {
+            get;
+            set;
+        }
 
-		//public IEnumerable<Village> Villages
-		//{
-		//	get;
-		//	set;
-		//}
+        public void GoUrl(string url)
+        {
 
-	}
+        }
+
+    }
 }
 

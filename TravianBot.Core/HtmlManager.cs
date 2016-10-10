@@ -15,6 +15,18 @@ namespace TravianBot.Core
     public class HtmlManager : INotifyPropertyChanged
 	{
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Html
+        {
+            get
+            {
+                return Html;
+            }
+            set
+            {
+                Html = value;
+            }
+        }
     }
 }
 

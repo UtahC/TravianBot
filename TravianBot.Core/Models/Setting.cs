@@ -108,6 +108,7 @@ namespace TravianBot.Core.Models
         public void Save()
 		{
             File.WriteAllText(settingFilePath, JsonConvert.SerializeObject(this));
+            Client.Default.Logger.Write("Account settings saved.");
         }
 
         private static Setting Load()

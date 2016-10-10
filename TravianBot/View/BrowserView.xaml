@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="TravianBot.View.BrowserView"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TravianBot.View"
+             xmlns:ViewModel="clr-namespace:TravianBot.ViewModel" x:Class="TravianBot.View.BrowserView"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.CommandBindings>
@@ -11,6 +12,9 @@
         <CommandBinding Command="NavigationCommands.BrowseForward" CanExecute="BrowseForward_CanExecute" Executed="BrowseForward_Executed" />
         <CommandBinding Command="NavigationCommands.Refresh" CanExecute="Refresh_CanExecute" Executed="Refresh_Executed" />
     </UserControl.CommandBindings>
+    <UserControl.DataContext>
+        <ViewModel:ViewModelLocator/>
+    </UserControl.DataContext>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" LastChildFill="True" VerticalAlignment="Top">
             <Button Content="Back" Width="60" Command="NavigationCommands.BrowseBack"/>

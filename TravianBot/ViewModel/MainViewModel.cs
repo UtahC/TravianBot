@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 using TravianBot.Core;
 using TravianBot.Core.Models;
+using TravianBot.Log;
 using TravianBot.Model;
 
 namespace TravianBot.ViewModel
@@ -24,18 +25,7 @@ namespace TravianBot.ViewModel
         /// </summary>
         public MainViewModel(IDataService dataService)
         {
-            _dataService = dataService;
-            _dataService.GetData(
-                (item, error) =>
-                {
-                    if (error != null)
-                    {
-                        // Report error here
-                        return;
-                    }
-
-                    //WelcomeTitle = item.Title;
-                });
+            Client.Default.Logger = Logger.Default;
         }
 
         public ICommand AccountSettingSave { get { return new RelayCommand(() => Client.Setting.Save()); } }

@@ -118,7 +118,9 @@
                 <TabItem x:Name="tabItemNpcTrading" Header="NPC trading"/>
                 <TabItem x:Name="tabItemEvents" Header="Events"/>
                 <TabItem x:Name="tabItemOnline" Header="Online"/>
-                <TabItem x:Name="tabItemLog" Header="Log"/>
+                <TabItem x:Name="tabItemLog" Header="Log">
+                    <v:LogTab/>
+                </TabItem>
             </TabControl>
         </DockPanel>
         <GridSplitter Grid.Row="2" ResizeDirection="Rows" Height="2" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TravianBot.ViewModel;
 
 namespace TravianBot.View
 {
@@ -22,9 +23,14 @@ namespace TravianBot.View
     /// </summary>
     public partial class BrowserView : UserControl
     {
+        private MainViewModel mainViewModel;
+
         public BrowserView()
         {
             InitializeComponent();
+            mainViewModel = (DataContext as ViewModelLocator).Main;
+            webBrowser.Navigated += (s, e) => {  };
+            
         }
 
         private void SetSilent(WebBrowser webBrowser)
