@@ -6,17 +6,26 @@
 //------------------------------------------------------------------------------
 namespace TravianBot.Core
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using TravianBot.Core.Log;
-	using TravianBot.Core.Models;
-	using TravianBot.Core.State;
+    using Extensions;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using TravianBot.Core.Log;
+    using TravianBot.Core.Models;
+    using TravianBot.Core.State;
 
-	public class Client
+    public class Client : INotifyPropertyChanged
 	{
+        private StateMachine stateMachine;
         private static Client client;
+        private string url , html, javascript;
+
+        public ManualResetEvent HtmlRequestHandler = new ManualResetEvent(false);
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public static Client Default
         {
@@ -27,49 +36,69 @@ namespace TravianBot.Core
                 return client;
             }
         }
+        public string Html
+        {
+            get
+            {
+                HtmlRequestHandler.WaitOne();
+                return html;
+            }
+            set
+            {
+                html = value;
+                if (!string.IsNullOrEmpty(html))
+                    HtmlRequestHandler.Set();
+            }
+        }
+        public ISetting Setting { get { return Models.Setting.Default; } }
+        public string Url { get { return url; } set { url = value; } }
+        public string Javascript { get { return javascript; } }
+        public IEventLogger EventLogger { get; set; }
+        public ILogger Logger { get; set; }
+        public StateMachine StateMachine { get; }
+        public IEnumerable<Village> Villages { get; set; }
 
         private Client()
         {
-            
+            url = Setting.Server;
+            stateMachine = new StateMachine();
         }
 
-        public ISetting Setting { get { return Models.Setting.Default; } }
-
-        public HtmlManager HtmlManager
+        private void OnPropertyChanged(string propertyName)
         {
-            get;
-            set;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public IEventLogger EventLogger
+        public void GoUrl(Uri uri)
         {
-            get;
-            set;
-        }
-
-        public ILogger Logger
-        {
-            get;
-            set;
-        }
-
-        public StateMachine StateMachine
-        {
-            get;
-            set;
-        }
-
-        public IEnumerable<Village> Villages
-        {
-            get;
-            set;
+            GoUrl(uri.AbsoluteUri);
         }
 
         public void GoUrl(string url)
         {
-
+            Logger.Write($"Url {url}");
+            HtmlRequestHandler.Reset();
+            this.url = url;
+            OnPropertyChanged("Url");
+            HtmlRequestHandler.WaitOne();
         }
 
+        public void ExecuteJavascript(string script)
+        {
+            this.javascript = script;
+            OnPropertyChanged("Javascript");
+        }
+
+        public void Login()
+        {
+            stateMachine.State = new LoginState(true);
+            stateMachine.Start(new CancellationToken());
+        }
+
+        public void StartBot()
+        {
+
+        }
     }
 }
 

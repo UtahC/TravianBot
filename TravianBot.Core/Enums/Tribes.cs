@@ -16,6 +16,6 @@ namespace TravianBot.Core.Enums
 		None,
 		Romans,
 		Teutons,
-		Guals,
+		Gauls,
 	}
 }

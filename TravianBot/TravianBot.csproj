@@ -36,6 +36,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Awesomium.Core, Version=1.7.5.1, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Awesomium Technologies LLC\Awesomium SDK\1.7.5.1\wrappers\Awesomium.NET\Assemblies\Awesomium.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Awesomium.Windows.Controls, Version=1.7.5.1, Culture=neutral, PublicKeyToken=7a34e179b8b61c39, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Awesomium Technologies LLC\Awesomium SDK\1.7.5.1\wrappers\Awesomium.NET\Assemblies\Awesomium.Windows.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>
@@ -47,6 +55,9 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -88,8 +99,8 @@
     <Compile Include="View\AccountTab.xaml.cs">
       <DependentUpon>AccountTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BrowserView.xaml.cs">
-      <DependentUpon>BrowserView.xaml</DependentUpon>
+    <Compile Include="View\BrowserViewAwesomium.xaml.cs">
+      <DependentUpon>BrowserViewAwesomium.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LogTab.xaml.cs">
       <DependentUpon>LogTab.xaml</DependentUpon>
@@ -114,7 +125,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\BrowserView.xaml">
+    <Page Include="View\BrowserViewAwesomium.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

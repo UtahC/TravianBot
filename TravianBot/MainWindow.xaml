@@ -124,7 +124,7 @@
             </TabControl>
         </DockPanel>
         <GridSplitter Grid.Row="2" ResizeDirection="Rows" Height="2" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-        <v:BrowserView Grid.Row="3"/>
+        <v:BrowserViewAwesomium Grid.Row="3"/>
         <StatusBar Grid.Row="4" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="0,1,0,0" >
             <StatusBarItem>
                 

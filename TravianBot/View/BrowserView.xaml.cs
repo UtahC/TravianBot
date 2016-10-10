@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TravianBot.ViewModel;
+using mshtml;
 
 namespace TravianBot.View
 {
@@ -29,8 +30,20 @@ namespace TravianBot.View
         {
             InitializeComponent();
             mainViewModel = (DataContext as ViewModelLocator).Main;
-            webBrowser.Navigated += (s, e) => {  };
-            
+            webBrowser.LoadCompleted += (s, e) => 
+            {
+                dynamic doc = webBrowser.Document;
+                mainViewModel.Client.Html = doc.documentElement.InnerHtml;
+            };
+            mainViewModel.Client.PropertyChanged += (s, e) => 
+            {
+                if (e.PropertyName == "Url")
+                    webBrowser.Navigate(mainViewModel.Client.Url);
+            };
+            webBrowser.SourceUpdated += (s, e) => 
+            {
+                mainViewModel.Client.Url = webBrowser.Source.AbsoluteUri;
+            };
         }
 
         private void SetSilent(WebBrowser webBrowser)
@@ -90,6 +103,33 @@ namespace TravianBot.View
         {
             SetSilent(webBrowser);
             webBrowser.Navigate("http://www.whoishostingthis.com/tools/user-agent/");
+        }
+    }
+
+    public static class BrowserBehavior
+    {
+        public static readonly DependencyProperty HtmlProperty = DependencyProperty.RegisterAttached(
+            "Html",
+            typeof(string),
+            typeof(BrowserBehavior),
+            new FrameworkPropertyMetadata(OnHtmlChanged));
+
+        [AttachedPropertyBrowsableForType(typeof(WebBrowser))]
+        public static string GetHtml(WebBrowser d)
+        {
+            return (string)d.GetValue(HtmlProperty);
+        }
+
+        public static void SetHtml(WebBrowser d, string value)
+        {
+            d.SetValue(HtmlProperty, value);
+        }
+
+        static void OnHtmlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WebBrowser wb = d as WebBrowser;
+            if (wb != null)
+                wb.NavigateToString(e.NewValue as string);
         }
     }
 }

@@ -11,7 +11,50 @@ namespace TravianBot.Core.Enums
 	using System.Linq;
 	using System.Text;
 
-	public enum Buildings : int
+	public enum Buildings
 	{
-	}
+        None,
+        Woodcutter,
+        ClayPit,
+        IronMine,
+        Cropland,
+        Sawmill,
+        Brickyard,
+        IronFoundry,
+        GrainMill,
+        Bakery,
+        Warehouse,
+        Granary,
+        Blacksmith,
+        Armoury,
+        TournamentSquare,
+        MainBuilding,
+        RallyPoint,
+        Marketplace,
+        Embassy,
+        Barracks,
+        Stable,
+        Workshop,
+        Academy,
+        Cranny,
+        TownHall,
+        Residence,
+        Palace,
+        Treasure,
+        TradeOffice,
+        GreatBarracks,
+        GreatStable,
+        CityWall,
+        EarthWall,
+        Palisade,
+        Stonemason,
+        Brewery,
+        Trapper,
+        HerosMansion,
+        GreatWarehouse,
+        GreatGranary,
+        WonderOfTheWorld,
+        HorseDrinkingTrough,
+        Random
+    }
 }

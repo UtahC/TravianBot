@@ -48,13 +48,23 @@ namespace TravianBot.Log
         }
     }
 
-    public class LogEntry : PropertyChangedBase
+    public class LogEntry : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public DateTime DateTime { get; set; }
 
         public int Index { get; set; }
 
         public string Message { get; set; }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            Application.Current.Dispatcher.BeginInvoke((Action)(() =>
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }));
+        }
     }
 
     public class CollapsibleLogEntry : LogEntry

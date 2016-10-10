@@ -6,18 +6,32 @@
 //------------------------------------------------------------------------------
 namespace TravianBot.Core.State
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
 
-	public class StateMachine
+    public class StateMachine
 	{
-		public virtual IState State
+		public StateBase State
 		{
 			get;
 			set;
 		}
+
+        public void Start(CancellationToken cancellationToken)
+        {
+            Task.Run(() =>
+            {
+                while (State != null)
+                {
+                    State = State.Start(cancellationToken);
+                    Task.Delay(1000);
+                }
+            });
+        }
 
 	}
 }

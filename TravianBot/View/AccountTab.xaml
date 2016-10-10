@@ -208,6 +208,6 @@
             </Grid>
         </GroupBox>
         <Button Grid.Column="4" Content="Save" Grid.Row="0" Height="40" VerticalAlignment="Top" Command="{Binding AccountSettingSave}"/>
-        <Button Grid.Column="4" Content="Login" Height="40" VerticalAlignment="Bottom"/>
+        <Button Grid.Column="4" Content="Login" Height="40" VerticalAlignment="Bottom" Command="{Binding LoginCommand}"/>
     </Grid>
 </UserControl>
