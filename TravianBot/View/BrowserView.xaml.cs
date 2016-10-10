@@ -42,19 +42,6 @@ namespace TravianBot.View
             activeX.Silent = true;
         }
 
-        private void SetScriptErrorHidden(WebBrowser webBrowser, bool isHidden)
-        {
-            FieldInfo fiComWebBrowser = typeof(WebBrowser)
-                .GetField("_axIWebBrowser2",
-                          BindingFlags.Instance | BindingFlags.NonPublic);
-            if (fiComWebBrowser == null) return;
-            object objComWebBrowser = fiComWebBrowser.GetValue(webBrowser);
-            if (objComWebBrowser == null) return;
-            objComWebBrowser.GetType().InvokeMember(
-                "Silent", BindingFlags.SetProperty, null, objComWebBrowser,
-                new object[] { isHidden });
-        }
-
         private void BrowseBack_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = webBrowser != null && webBrowser.CanGoBack;
