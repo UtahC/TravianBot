@@ -70,44 +70,84 @@
         </Style>
     </UserControl.Resources>
     <DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <DockPanel DockPanel.Dock="Top" LastChildFill="True" VerticalAlignment="Top" Height="30">
-                <eo:BareButton x:Name="btnGoBack" Style="{StaticResource ToolButtonStyle}" Margin="0,2,2,2" Click="btnGoBack_Click" IsEnabled="{Binding CanGoBack, ElementName=webControl}">
-                    <!--System.Windows.Shapes.Path-->
-                    <Path 
+        <DockPanel DockPanel.Dock="Top" LastChildFill="True" VerticalAlignment="Top" Height="30">
+            <eo:BareButton x:Name="btnGoBack" Style="{StaticResource ToolButtonStyle}" Margin="0,2,2,2" Click="btnGoBack_Click" IsEnabled="False">
+                <!--System.Windows.Shapes.Path-->
+                <Path 
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Data="M 5,1 L 1.5,4.5 L 5,8"
                                         SnapsToDevicePixels="false"
                                         Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type eo:BareButton}}}"
                                         StrokeThickness="2" />
-                </eo:BareButton>
-                <eo:BareButton x:Name="btnGoForward" Style="{StaticResource ToolButtonStyle}" Margin="2" Click="btnGoForward_Click">
-                    <Path
+            </eo:BareButton>
+            <eo:BareButton x:Name="btnGoForward" Style="{StaticResource ToolButtonStyle}" Margin="2" Click="btnGoForward_Click" IsEnabled="False">
+                <Path
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Data="M 1.5,1 L 5,4.5 L 1.5,8"
                                         SnapsToDevicePixels="false"
                                         Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type eo:BareButton}}}"
                                         StrokeThickness="2" />
-                </eo:BareButton>
-                <eo:BareButton x:Name="btnReload" Style="{StaticResource ToolButtonStyle}" Margin="2" Click="btnReload_Click">
-                    <Path
+            </eo:BareButton>
+            <eo:BareButton x:Name="btnReload" Style="{StaticResource ToolButtonStyle}" Margin="2" Click="btnReload_Click">
+                <Path
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Data="M 8,7 A 4,4 0 1 1 8,3 L 8,1 L 6,3 L 8,3"
                                         SnapsToDevicePixels="False"
                                         Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type eo:BareButton}}}"
                                         StrokeThickness="1.5" />
-                </eo:BareButton>
-                <Button Content="LoadData" Width="60"/>
-                <Button Content="Test" Width="60"/>
+            </eo:BareButton>
+            <Button Content="LoadData" Width="60"/>
+            <Button Content="Test" Width="60" Click="Button_Click"/>
+            <Grid>
                 <TextBox x:Name="txtUrl" Margin="1" VerticalAlignment="Center" PreviewKeyDown="txtUrl_PreviewKeyDown" GotFocus="txtUrl_GotFocus" PreviewMouseDown="txtUrl_PreviewMouseDown" Text="{Binding WebView.Url, ElementName=webControl}" FontSize="18"/>
-            </DockPanel>
-            <Rectangle Height="30" VerticalAlignment="Top" Fill="#FFF7A0F7" Visibility="{Binding Client.IsBotWorking, Converter={StaticResource BooleanToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-
-            </Rectangle>
-        </Grid>
+                <eo:BareButton x:Name="btnBottingMessage" Height="30" VerticalAlignment="Top" Margin="1" Visibility="{Binding Client.IsBotWorking, Converter={StaticResource BooleanToVisibilityConverter}, Mode=Default}" Content="{Binding Client.BotMessage}" Click="btnBottingMessage_Click" FontSize="18" FontWeight="Bold">
+                    <eo:BareButton.Style>
+                        <Style TargetType="{x:Type eo:BareButton}">
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FFFFD7FD" Offset="0"/>
+                                        <GradientStop Color="#FFFFA9FB" Offset="0.2"/>
+                                        <GradientStop Color="#FFEB6CFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <!-- Change background and border color when mouse is over the button -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFFFD7FD" Offset="0"/>
+                                                <GradientStop Color="#FFFFA9FB" Offset="0.2"/>
+                                                <GradientStop Color="#FFF092FF" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsPressed"  Value="True">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <LinearGradientBrush.GradientStops>
+                                                    <GradientStop Offset="0" Color="#FFDCF0FA" />
+                                                    <GradientStop Offset="0.2" Color="#FFC5E6F7" />
+                                                    <GradientStop Offset="1" Color="#FF5690D0" />
+                                                </LinearGradientBrush.GradientStops>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </eo:BareButton.Style>
+                </eo:BareButton>
+            </Grid>
+        </DockPanel>
         <eo:WebControl x:Name="webControl" VerticalAlignment="Center">
             <eo:WebControl.WebView>
                 <eo:WebView Url="http://www.whoishostingthis.com/tools/user-agent/"/>

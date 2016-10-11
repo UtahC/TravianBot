@@ -37,16 +37,6 @@ namespace TravianBot.Core
                 return client;
             }
         }
-        public bool IsBotWorking
-        {
-            get { return isBotWorking; }
-            set
-            {
-                if (value)
-                    WorkAvailableSignal.WaitOne();
-                Set(() => IsBotWorking, ref isBotWorking, value);
-            }
-        }
         public string Html
         {
             get
@@ -58,9 +48,20 @@ namespace TravianBot.Core
                 html = value;
             }
         }
+        public bool IsBotWorking
+        {
+            get { return isBotWorking; }
+            private set
+            {
+                if (value)
+                    WorkAvailableSignal.WaitOne();
+                Set(() => IsBotWorking, ref isBotWorking, value);
+            }
+        }
         public ISetting Setting { get { return Core.Setting.Default; } }
         public string Url { get { return url; } set { Set(() => Url, ref url, value); } }
-        public string Javascript { get; private set; }
+        public string BotMessage { get; private set; }
+        public string Javascript { get { return javascript; } private set { javascript = value; } }
         public IEventLogger EventLogger { get; set; }
         public ILogger Logger { get; set; }
         public StateMachine StateMachine { get; }
@@ -70,6 +71,12 @@ namespace TravianBot.Core
         {
             url = Setting.Server;
             stateMachine = new StateMachine();
+        }
+
+        public void SetBotWorking(bool isBotWorking, string message = "")
+        {
+            IsBotWorking = isBotWorking;
+            BotMessage = message;
         }
 
         public void ExecuteJavascript(string script)
@@ -97,13 +104,14 @@ namespace TravianBot.Core
 
         public void Login()
         {
+            BotAvailableTime = new DateTime(1970, 1, 1);
             stateMachine.State = new LoginState() { IsLoginOnly = true };
             stateMachine.Start(new CancellationToken());
         }
 
         public void StartBot()
         {
-
+            //BotAvailableTime = new DateTime(1970, 1, 1);
         }
     }
 

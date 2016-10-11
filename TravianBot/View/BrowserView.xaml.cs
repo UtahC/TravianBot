@@ -62,12 +62,17 @@ namespace TravianBot.View
             if (Setting.Default.UserAgent != Core.Enums.UserAgents.Default)
                 webControl.WebView.CustomUserAgent = Setting.Default.UserAgentString;
             
-            webControl.WebView.AfterReceiveHeaders += (s, e) => 
+            webControl.WebView.LoadCompleted += (s, e) => 
                 mainViewModel.Client.Html = webControl.WebView.GetHtml();
             webControl.WebView.UrlChanged += (s, e) => 
                 mainViewModel.Client.Url = webControl.WebView.Url;
-            webControl.WebView.MouseUp += (s, e) => mainViewModel.Client.SetBotUnavailableSpan(5000);
-            
+            webControl.WebView.MouseUp += (s, e) => 
+                mainViewModel.Client.SetBotUnavailableSpan(5000);
+            webControl.WebView.CanGoBackChanged += (s, e) => 
+                btnGoBack.IsEnabled = webControl.WebView.CanGoBack;
+            webControl.WebView.CanGoForwardChanged += (s, e) =>
+                btnGoForward.IsEnabled = webControl.WebView.CanGoForward;
+
             mainViewModel.Client.PropertyChanged += (s, e) =>
             {
                 switch (e.PropertyName)
@@ -122,6 +127,16 @@ namespace TravianBot.View
                 webControl.WebView.Reload(true);
             }
         }
-        
+
+        private void btnBottingMessage_Click(object sender, RoutedEventArgs e)
+        {
+            Client.Default.SetBotUnavailableSpan(60000);
+            btnBottingMessage.Visibility = Visibility.Hidden;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Client.Default.SetBotWorking(true, "test test test test test ");
+        }
     }
 }

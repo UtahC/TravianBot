@@ -21,8 +21,7 @@ namespace TravianBot.Core.State
         public async override Task<StateBase> Start(CancellationToken cancellationToken)
         {
             await base.Start(cancellationToken);
-
-            IsWorking = true;
+            
             client.Url = client.Setting.Server.ToUri().GetSuburbsUri().AbsoluteUri;
             if (client.Url == client.Setting.Server || !UtilityTask.IsLogon())
             {
@@ -36,7 +35,6 @@ namespace TravianBot.Core.State
                 return this;
 
             //Login success
-            IsWorking = false;
             if (IsLoginOnly)
                 return null;
             return new InitializeBotState();
