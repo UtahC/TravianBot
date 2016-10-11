@@ -18,14 +18,15 @@ namespace TravianBot.Core
     using TravianBot.Core.Models;
     using TravianBot.Core.State;
 
-    public class Client : INotifyPropertyChanged
-	{
+    public class Client : GalaSoft.MvvmLight.ObservableObject
+    {
         private StateMachine stateMachine;
         private static Client client;
         private string url , html, javascript;
+        private bool isBotWorking = false;
+        private DateTime BotAvailableTime = new DateTime(1970, 1, 1);
 
-        public ManualResetEvent HtmlRequestHandler = new ManualResetEvent(false);
-        public event PropertyChangedEventHandler PropertyChanged;
+        public ManualResetEvent WorkAvailableSignal = new ManualResetEvent(true);
 
         public static Client Default
         {
@@ -36,23 +37,30 @@ namespace TravianBot.Core
                 return client;
             }
         }
+        public bool IsBotWorking
+        {
+            get { return isBotWorking; }
+            set
+            {
+                if (value)
+                    WorkAvailableSignal.WaitOne();
+                Set(() => IsBotWorking, ref isBotWorking, value);
+            }
+        }
         public string Html
         {
             get
             {
-                HtmlRequestHandler.WaitOne();
                 return html;
             }
             set
             {
                 html = value;
-                if (!string.IsNullOrEmpty(html))
-                    HtmlRequestHandler.Set();
             }
         }
-        public ISetting Setting { get { return Models.Setting.Default; } }
-        public string Url { get { return url; } set { url = value; } }
-        public string Javascript { get { return javascript; } }
+        public ISetting Setting { get { return Core.Setting.Default; } }
+        public string Url { get { return url; } set { Set(() => Url, ref url, value); } }
+        public string Javascript { get; private set; }
         public IEventLogger EventLogger { get; set; }
         public ILogger Logger { get; set; }
         public StateMachine StateMachine { get; }
@@ -64,29 +72,27 @@ namespace TravianBot.Core
             stateMachine = new StateMachine();
         }
 
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public void GoUrl(Uri uri)
-        {
-            GoUrl(uri.AbsoluteUri);
-        }
-
-        public void GoUrl(string url)
-        {
-            Logger.Write($"Url {url}");
-            HtmlRequestHandler.Reset();
-            this.url = url;
-            OnPropertyChanged("Url");
-            HtmlRequestHandler.WaitOne();
-        }
-
         public void ExecuteJavascript(string script)
         {
-            this.javascript = script;
-            OnPropertyChanged("Javascript");
+            Set(() => Javascript, ref javascript, script);
+        }
+
+        public void SetBotUnavailableSpan(int milliseconds)
+        {
+            SetBotUnavailableTimeUtil(DateTime.Now.AddMilliseconds(milliseconds));
+        }
+
+        public void SetBotUnavailableTimeUtil(DateTime dateTime)
+        {
+            if (dateTime > BotAvailableTime)
+                BotAvailableTime = dateTime;
+            WorkAvailableSignal.Reset();
+            Task.Run(async () =>
+            {
+                while (BotAvailableTime > DateTime.Now)
+                    await Task.Delay(1000);
+                WorkAvailableSignal.Set();
+            });
         }
 
         public void Login()
@@ -98,6 +104,21 @@ namespace TravianBot.Core
         public void StartBot()
         {
 
+        }
+    }
+
+    public class BotWorkingEventArgs : EventArgs
+    {
+        public string Message { get; private set; }
+
+        public BotWorkingEventArgs()
+        {
+
+        }
+
+        public BotWorkingEventArgs(string message)
+        {
+            Message = message;
         }
     }
 }

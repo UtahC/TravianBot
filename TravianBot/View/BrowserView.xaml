@@ -3,27 +3,115 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:eo="http://schemas.essentialobjects.com/wpf/"
              xmlns:local="clr-namespace:TravianBot.View"
              xmlns:ViewModel="clr-namespace:TravianBot.ViewModel" x:Class="TravianBot.View.BrowserView"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.CommandBindings>
-        <CommandBinding Command="NavigationCommands.BrowseBack" CanExecute="BrowseBack_CanExecute" Executed="BrowseBack_Executed" />
-        <CommandBinding Command="NavigationCommands.BrowseForward" CanExecute="BrowseForward_CanExecute" Executed="BrowseForward_Executed" />
-        <CommandBinding Command="NavigationCommands.Refresh" CanExecute="Refresh_CanExecute" Executed="Refresh_Executed" />
-    </UserControl.CommandBindings>
-    <UserControl.DataContext>
-        <ViewModel:ViewModelLocator/>
-    </UserControl.DataContext>
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style x:Key="ToolButtonStyle" TargetType="eo:BareButton">
+            <Setter Property="Width" Value="22"></Setter>
+            <Setter Property="Height" Value="22"></Setter>
+            <Setter Property="Foreground" Value="#666"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="eo:BareButton">
+                        <Grid>
+                            <Ellipse x:Name="circle"
+                                    Width="22"
+                                    Height="22"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Fill="{Binding Path=Background, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Stroke="DarkGray" />
+                            <ContentPresenter></ContentPresenter>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="circle" Property="Stroke" Value="LightGray"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStop Offset="0" Color="#FFF0F8FE" />
+                                    <GradientStop Offset="0.3" Color="#FFE0F3FE" />
+                                    <GradientStop Offset="1" Color="#FF6FA7C5" />
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsPressed"  Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStop Offset="0" Color="#FFDCF0FA" />
+                                    <GradientStop Offset="0.2" Color="#FFC5E6F7" />
+                                    <GradientStop Offset="1" Color="#FF5690D0" />
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsEnabled"  Value="False">
+                    <Setter Property="Foreground" Value="LightGray"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <DockPanel>
-        <DockPanel DockPanel.Dock="Top" LastChildFill="True" VerticalAlignment="Top">
-            <Button Content="Back" Width="60" Command="NavigationCommands.BrowseBack"/>
-            <Button Content="Forward" Width="60" Command="NavigationCommands.BrowseForward"/>
-            <Button Content="Refresh" Width="60" Command="NavigationCommands.Refresh"/>
-            <Button Content="LoadData" Width="60"/>
-            <Button Content="Test" Width="60"/>
-            <TextBox x:Name="textBoxUrl" FontSize="16" Padding="3,0" VerticalContentAlignment="Center" TextWrapping="NoWrap" KeyUp="textBoxUrl_KeyUp"/>
-        </DockPanel>
-        <WebBrowser x:Name="webBrowser" VerticalAlignment="Center" Navigating="webBrowser_Navigating" Loaded="webBrowser_Loaded"/>
+        <Grid DockPanel.Dock="Top">
+            <DockPanel DockPanel.Dock="Top" LastChildFill="True" VerticalAlignment="Top" Height="30">
+                <eo:BareButton x:Name="btnGoBack" Style="{StaticResource ToolButtonStyle}" Margin="0,2,2,2" Click="btnGoBack_Click" IsEnabled="{Binding CanGoBack, ElementName=webControl}">
+                    <!--System.Windows.Shapes.Path-->
+                    <Path 
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Data="M 5,1 L 1.5,4.5 L 5,8"
+                                        SnapsToDevicePixels="false"
+                                        Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type eo:BareButton}}}"
+                                        StrokeThickness="2" />
+                </eo:BareButton>
+                <eo:BareButton x:Name="btnGoForward" Style="{StaticResource ToolButtonStyle}" Margin="2" Click="btnGoForward_Click">
+                    <Path
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Data="M 1.5,1 L 5,4.5 L 1.5,8"
+                                        SnapsToDevicePixels="false"
+                                        Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type eo:BareButton}}}"
+                                        StrokeThickness="2" />
+                </eo:BareButton>
+                <eo:BareButton x:Name="btnReload" Style="{StaticResource ToolButtonStyle}" Margin="2" Click="btnReload_Click">
+                    <Path
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Data="M 8,7 A 4,4 0 1 1 8,3 L 8,1 L 6,3 L 8,3"
+                                        SnapsToDevicePixels="False"
+                                        Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type eo:BareButton}}}"
+                                        StrokeThickness="1.5" />
+                </eo:BareButton>
+                <Button Content="LoadData" Width="60"/>
+                <Button Content="Test" Width="60"/>
+                <TextBox x:Name="txtUrl" Margin="1" VerticalAlignment="Center" PreviewKeyDown="txtUrl_PreviewKeyDown" GotFocus="txtUrl_GotFocus" PreviewMouseDown="txtUrl_PreviewMouseDown" Text="{Binding WebView.Url, ElementName=webControl}" FontSize="18"/>
+            </DockPanel>
+            <Rectangle Height="30" VerticalAlignment="Top" Fill="#FFF7A0F7" Visibility="{Binding Client.IsBotWorking, Converter={StaticResource BooleanToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+            </Rectangle>
+        </Grid>
+        <eo:WebControl x:Name="webControl" VerticalAlignment="Center">
+            <eo:WebControl.WebView>
+                <eo:WebView Url="http://www.whoishostingthis.com/tools/user-agent/"/>
+            </eo:WebControl.WebView>
+        </eo:WebControl>
     </DockPanel>
 </UserControl>

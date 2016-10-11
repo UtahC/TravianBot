@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TravianBot.Core.Extensions
 {
-    static class StringExtension
+    public static class StringExtension
     {
         public static string Substring(this string str, string left, string right)
         {
@@ -45,6 +45,17 @@ namespace TravianBot.Core.Extensions
                 result += string.Format($"{keyValue.Key}={keyValue.Value}&");
             }
             return result;
+        }
+
+        public static bool IsNullOrEmptyOrWhiteSpace(this string s)
+        {
+            return string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s);
+        }
+
+        public static Uri ToUri(this string s)
+        {
+            var url = s.Contains("http://") ? s : string.Format($"http://{s}");
+            return new Uri(url);
         }
     }
 }

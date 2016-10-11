@@ -1,11 +1,7 @@
-﻿using Awesomium.Core;
-using HtmlAgilityPack;
-using System;
+﻿using HtmlAgilityPack;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TravianBot.Core.Enums;
 using TravianBot.Core.Extensions;
 using TravianBot.Core.Models;
@@ -23,35 +19,53 @@ namespace TravianBot.Core.Tasks
             return true;
         }
 
-        public void LoadVillages()
+        public static IEnumerable<Village> GetVillages()
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(client.Html);
-            client.Villages = new List<Village>(GetVillages());
+            var villages = new List<Village>();
+            var villageNodes = doc?.GetElementbyId("sidebarBoxVillagelist")?.Descendants()?
+                .Where(n => n.HasAttributeAndContainsValue("class", "innerBox content"))
+                .FirstOrDefault()?.Descendants("li");
+
+            foreach (var node in villageNodes)
+            {
+                var id = int.Parse(node.Descendants("a")?.FirstOrDefault()?.Attributes["href"]?.Value?.Substring("newdid=", "&"));
+                var name = node.Descendants("div")?
+                    .Where(n => n.HasAttributeAndContainsValue("class", "name"))
+                    .FirstOrDefault()?.InnerHtml;
+                var xStr = node.Descendants("span")?
+                    .Where(n => n.HasAttributeAndContainsValue("class", "coordinateX"))
+                    .FirstOrDefault()?.InnerHtml;
+                var x = int.Parse(string.Concat(xStr.Where(c => c >= 48 && c <= 57)));
+                var yStr = node.Descendants("span")?
+                    .Where(n => n.HasAttributeAndContainsValue("class", "coordinateY"))
+                    .FirstOrDefault()?.InnerHtml;
+                var y = int.Parse(string.Concat(yStr.Where(c => c >= 48 && c <= 57)));
+
+                var village = new Village() { Name = name, Id = id, X = x, Y = y };
+
+                if (node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains("active"))
+                    village.IsActive = true;
+                else
+                    village.IsActive = false;
+
+                villages.Add(village);
+            }
+
+            return villages;
         }
 
-        public void LoadBuildings(int villageId)
+        public IEnumerable<Building> GetAllBuildings(int villageId)
         {
             var suburbs = GetSuburbsBuildings(villageId);
             var city = GetCityBuildings(villageId);
 
-            client.Villages.FirstOrDefault(v => v.Id == villageId).Buildings = suburbs.Concat(city).ToList();
-
-            #region test
-            foreach (var building in suburbs)
-            {
-                Debug.WriteLine($"{building.Id} {building.Type} {building.Level} {building.VillageId}");
-            }
-            foreach (var building in city)
-            {
-                Debug.WriteLine($"{building.Id} {building.Type} {building.Level} {building.VillageId}");
-            }
-            #endregion
+            return suburbs.Concat(city);
         }
-
-        public List<Building> GetSuburbsBuildings(int villageId)
+        public IEnumerable<Building> GetSuburbsBuildings(int villageId)
         {
-            client.GoUrl(client.Setting.Server.ToUri().GetSuburbsUri(villageId));
+            client.Url = client.Setting.Server.ToUri().GetSuburbsUri(villageId).AbsoluteUri;
 
             var doc = new HtmlDocument();
             doc.LoadHtml(client.Html);
@@ -81,10 +95,9 @@ namespace TravianBot.Core.Tasks
 
             return buildings;
         }
-
-        public List<Building> GetCityBuildings(int villageId)
+        public IEnumerable<Building> GetCityBuildings(int villageId)
         {
-            client.GoUrl(client.Setting.Server.ToUri().GetCityUri(villageId));
+            client.Url = client.Setting.Server.ToUri().GetCityUri(villageId).AbsoluteUri;
 
             var doc = new HtmlDocument();
             doc.LoadHtml(client.Html);
@@ -96,7 +109,7 @@ namespace TravianBot.Core.Tasks
                 (e.HasAttributeAndContainsValue("class", "wall") && e.HasAttributeAndNotContainsValue("class", "onTop")));
 
             var levelPairs = GetCityBuildingLevels(buildingLevels);
-            var tribe = GetTribe();
+            var tribe = client.Setting.Tribe;
 
             var buildings = new List<Building>();
             foreach (var buildingNode in buildingNodes)
@@ -137,53 +150,6 @@ namespace TravianBot.Core.Tasks
 
             return buildings;
         }
-
-        public static Tribes GetTribe()
-        {
-            var doc = new HtmlDocument();
-            doc.LoadHtml(client.Html);
-            var node = doc?.GetElementbyId("sidebarBoxHero")?.Descendants("img")?
-                .Where(e => e.HasAttributeAndContainsValue("class", "nation")).FirstOrDefault();
-            return (Tribes)node?.Attributes["class"]?.Value?.GetNumber();
-        }
-         
-        public static List<Village> GetVillages()
-        {
-            var doc = new HtmlDocument();
-            doc.LoadHtml(client.Html);
-            var villages = new List<Village>();
-            var villageNodes = doc?.GetElementbyId("sidebarBoxVillagelist")?.Descendants()?
-                .Where(n => n.HasAttributeAndContainsValue("class", "innerBox content"))
-                .FirstOrDefault()?.Descendants("li");
-
-            foreach (var node in villageNodes)
-            {
-                var id = int.Parse(node.Descendants("a")?.FirstOrDefault()?.Attributes["href"]?.Value?.Substring("newdid=", "&"));
-                var name = node.Descendants("div")?
-                    .Where(n => n.HasAttributeAndContainsValue("class", "name"))
-                    .FirstOrDefault()?.InnerHtml;
-                var xStr = node.Descendants("span")?
-                    .Where(n => n.HasAttributeAndContainsValue("class", "coordinateX"))
-                    .FirstOrDefault()?.InnerHtml;
-                var x = int.Parse(string.Concat(xStr.Where(c => c >= 48 && c <= 57)));
-                var yStr = node.Descendants("span")?
-                    .Where(n => n.HasAttributeAndContainsValue("class", "coordinateY"))
-                    .FirstOrDefault()?.InnerHtml;
-                var y = int.Parse(string.Concat(yStr.Where(c => c >= 48 && c <= 57)));
-
-                var village = new Village() { Name = name, Id = id, X = x, Y = y };
-
-                if (node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains("active"))
-                    village.IsActive = true;
-                else
-                    village.IsActive = false;
-
-                villages.Add(village);
-            }
-
-            return villages;
-        }
-
         private static Dictionary<int, int> GetCityBuildingLevels(IEnumerable<HtmlNode> buildingLevels)
         {
             var levelPairs = new Dictionary<int, int>();
@@ -210,7 +176,7 @@ namespace TravianBot.Core.Tasks
 
             return levelPairs;
         }
-
+        
         public static string GetBuildCode()
         {
             var doc = new HtmlDocument();

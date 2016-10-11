@@ -1,5 +1,4 @@
-﻿using Awesomium.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,22 +18,28 @@ namespace TravianBot.Core.State
 
         }
 
-        public override StateBase Start(CancellationToken cancellationToken)
+        public async override Task<StateBase> Start(CancellationToken cancellationToken)
         {
-            base.Start(cancellationToken);
+            await base.Start(cancellationToken);
 
-            client.GoUrl(client.Setting.Server.ToUri().GetSuburbsUri());
+            IsWorking = true;
+            client.Url = client.Setting.Server.ToUri().GetSuburbsUri().AbsoluteUri;
             if (client.Url == client.Setting.Server || !UtilityTask.IsLogon())
             {
                 client.Logger.Write("Now trying to login.");
                 LoginTask.Execute(cancellationToken);
+                await Task.Delay(5000);
             }
-                
 
+            //Login failed
+            if (!UtilityTask.IsLogon())
+                return this;
+
+            //Login success
+            IsWorking = false;
             if (IsLoginOnly)
                 return null;
-
-            return new LoginState();
+            return new InitializeBotState();
         }
     }
 }

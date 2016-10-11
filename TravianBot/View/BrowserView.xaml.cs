@@ -13,123 +13,115 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.IO;
 using TravianBot.ViewModel;
-using mshtml;
+using EO.WebBrowser;
+using EO.Base;
+using TravianBot.Core.Models;
+using TravianBot.Core;
+using TravianBot.Core.Extensions;
+using System.Globalization;
 
 namespace TravianBot.View
 {
     /// <summary>
-    /// Interaction logic for WebBrowser.xaml
+    /// Interaction logic for webControl.xaml
     /// </summary>
     public partial class BrowserView : UserControl
     {
-        private MainViewModel mainViewModel;
+        MainViewModel mainViewModel;
 
         public BrowserView()
         {
+            EO.WebBrowser.Runtime.AddLicense("yuGhWabCnrWfWbP3+hLtmuv5AxC9seLXCNzDf9vKyN/QgbrNwdvBfLDZ+Oi8dab3+hLtmuv5AxC9RoGkseeupeDn9hnynrWRm3Xj7fQQ7azcwp61n1mz8PoO5Kfq6doPvWmstMjitWqstcXnrqXg5/YZ8p7A6M+4iVmXwP0U4p7l9/YQn6fY8fbooX7GsugQ4Xvp8wge5KuZws3a66La6f8e5J61kZvLn3XY8P0a9neEjrHLu5rb6LEf+KncwbPwzme67AMa7J6ZpLEh5Kvq7QAZvFuour/boVmmwp61n1mzs/IX66juwp61n1mz8wMP5KvA8vcan53Y+PbooWmps8HdrmuntcfNn6/c9gQU7qe0psI=");
+            EO.Wpf.Runtime.AddLicense("oBnlqJfo8h/kdpm0w9qva6a2wdy1W5f69h3youbyzs2wb5mkwOmMQ5ekzR7ooOXlBSDxnrXl6xjlr/D6xR/NbMn8/fXisrj79yXmdrTAwB7ooOXlBSDxnrWRm8ufdabw+g7kp+rpz7iJdePt9BDtrNzCnrWfWbPw+g7kp+rp2g+9bqm2yeGwb6y8x+eupeDn9hnynsDoz7iJWZfA/RTinuX39hCfp9jx9uihfsay6BvlW7XAwBfonNzyBBDkd4SOscu7muPwACK9RoGksefgndukBSTvnrSm1vqtkOfqs8ufr9z2BBTup7SmwuGtaZmkwOmMQ5ekzdrgpePzCOmMQ5ekzRrxndz22g==");
+
+            InitializeBrowserRuntime();
             InitializeComponent();
-            mainViewModel = (DataContext as ViewModelLocator).Main;
-            webBrowser.LoadCompleted += (s, e) => 
+            mainViewModel = DataContext as MainViewModel;
+            InitializeWebControl();
+        }
+
+        private void InitializeBrowserRuntime()
+        {
+            EO.WebBrowser.Runtime.CachePath = Path.Combine(App.BasePath, "Profile", "Default", "Cache");
+
+            var setting = Setting.Default;
+            if (setting.IsUseProxy)
             {
-                dynamic doc = webBrowser.Document;
-                mainViewModel.Client.Html = doc.documentElement.InnerHtml;
-            };
-            mainViewModel.Client.PropertyChanged += (s, e) => 
+                if (setting.ProxyLogin.IsNullOrEmptyOrWhiteSpace() || setting.ProxyPassword.IsNullOrEmptyOrWhiteSpace())
+                    EO.WebBrowser.Runtime.Proxy = new ProxyInfo(ProxyType.HTTP, setting.ProxyHost, setting.ProxyPort);
+                else
+                    EO.WebBrowser.Runtime.Proxy = new ProxyInfo(ProxyType.HTTP, setting.ProxyHost, setting.ProxyPort, setting.ProxyLogin, setting.ProxyPassword);   
+            }
+            //EO.WebBrowser.Runtime.UILanguage = CultureInfo.CurrentCulture.IetfLanguageTag;
+        }
+
+        private void InitializeWebControl()
+        {
+            if (Setting.Default.UserAgent != Core.Enums.UserAgents.Default)
+                webControl.WebView.CustomUserAgent = Setting.Default.UserAgentString;
+            
+            webControl.WebView.AfterReceiveHeaders += (s, e) => 
+                mainViewModel.Client.Html = webControl.WebView.GetHtml();
+            webControl.WebView.UrlChanged += (s, e) => 
+                mainViewModel.Client.Url = webControl.WebView.Url;
+            webControl.WebView.MouseUp += (s, e) => mainViewModel.Client.SetBotUnavailableSpan(5000);
+            
+            mainViewModel.Client.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == "Url")
-                    webBrowser.Navigate(mainViewModel.Client.Url);
+                switch (e.PropertyName)
+                {
+                    case "Url":
+                        webControl.WebView.LoadUrlAndWait(mainViewModel.Client.Url); break;
+                    case "Javascript":
+                        webControl.WebView.EvalScript(mainViewModel.Client.Javascript); break;
+                }
             };
-            webBrowser.SourceUpdated += (s, e) => 
-            {
-                mainViewModel.Client.Url = webBrowser.Source.AbsoluteUri;
-            };
         }
 
-        private void SetSilent(WebBrowser webBrowser)
-        {
-            dynamic activeX = webBrowser.GetType().InvokeMember("ActiveXInstance",
-                    BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
-                    null, webBrowser, new object[] { });
-
-            activeX.Silent = true;
-        }
-
-        private void BrowseBack_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = webBrowser != null && webBrowser.CanGoBack;
-        }
-
-        private void BrowseBack_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            webBrowser.GoBack();
-        }
-
-        private void BrowseForward_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = webBrowser != null && webBrowser.CanGoForward;
-        }
-
-        private void BrowseForward_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            webBrowser.GoForward();
-        }
-
-        private void Refresh_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = webBrowser != null;
-        }
-
-        private void Refresh_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            webBrowser.Refresh();
-        }
-
-        private void webBrowser_Navigating(object sender, NavigatingCancelEventArgs e)
-        {
-            textBoxUrl.Text = e.Uri.AbsoluteUri;
-        }
-
-        private void textBoxUrl_KeyUp(object sender, KeyEventArgs e)
+        private void txtUrl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                string url = textBoxUrl.Text.Contains("http://") ? textBoxUrl.Text : ("http://" + textBoxUrl.Text);
-                webBrowser.Navigate(url);
+                webControl.WebView.Url = txtUrl.Text.Trim();
+                txtUrl.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
             }
         }
 
-        private void webBrowser_Loaded(object sender, RoutedEventArgs e)
+        private void txtUrl_GotFocus(object sender, RoutedEventArgs e)
         {
-            SetSilent(webBrowser);
-            webBrowser.Navigate("http://www.whoishostingthis.com/tools/user-agent/");
-        }
-    }
-
-    public static class BrowserBehavior
-    {
-        public static readonly DependencyProperty HtmlProperty = DependencyProperty.RegisterAttached(
-            "Html",
-            typeof(string),
-            typeof(BrowserBehavior),
-            new FrameworkPropertyMetadata(OnHtmlChanged));
-
-        [AttachedPropertyBrowsableForType(typeof(WebBrowser))]
-        public static string GetHtml(WebBrowser d)
-        {
-            return (string)d.GetValue(HtmlProperty);
+            txtUrl.SelectAll();
         }
 
-        public static void SetHtml(WebBrowser d, string value)
+        private void txtUrl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            d.SetValue(HtmlProperty, value);
+            if (!txtUrl.IsKeyboardFocusWithin)
+            {
+                txtUrl.Focus();
+                txtUrl.SelectAll();
+                e.Handled = true;
+            }
         }
 
-        static void OnHtmlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void btnGoBack_Click(object sender, RoutedEventArgs e)
         {
-            WebBrowser wb = d as WebBrowser;
-            if (wb != null)
-                wb.NavigateToString(e.NewValue as string);
+            webControl.WebView.GoBack();
         }
+
+        private void btnGoForward_Click(object sender, RoutedEventArgs e)
+        {
+            webControl.WebView.GoForward();
+        }
+
+        private void btnReload_Click(object sender, RoutedEventArgs e)
+        {
+            if ((webControl != null) &&
+                !string.IsNullOrEmpty(webControl.WebView.Url))
+            {
+                webControl.WebView.Reload(true);
+            }
+        }
+        
     }
 }

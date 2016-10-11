@@ -12,8 +12,15 @@ namespace TravianBot.Core.State
         protected Client client = Client.Default;
         protected int retryCounter = 0;
 
-        public virtual StateBase Start(CancellationToken cancellationToken)
+        protected bool IsWorking
         {
+            get { return client.IsBotWorking; }
+            set { client.IsBotWorking = value; }
+        }
+
+        public virtual async Task<StateBase> Start(CancellationToken cancellationToken)
+        {
+            await Task.Delay(1);
             cancellationToken.ThrowIfCancellationRequested();
             retryCounter++;
 

@@ -18,8 +18,8 @@ namespace TravianBot.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+
         public Client Client { get { return Client.Default; } }
-        
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
@@ -29,7 +29,7 @@ namespace TravianBot.ViewModel
         }
 
         public ICommand AccountSettingSave { get { return new AsyncRelayCommand(() => Client.Setting.Save()); } }
-        public ICommand TestCommand { get { return new AsyncRelayCommand(() => Client.GoUrl(Client.Setting.Server)); } }
+        public ICommand TestCommand { get { return new AsyncRelayCommand(() => Client.Url = Client.Setting.Server); } }
         public ICommand LoginCommand { get { return new AsyncRelayCommand(() => Client.Login()); } }
     }
 

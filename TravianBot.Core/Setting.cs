@@ -4,7 +4,7 @@
 //     Changes to this file will be lost if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace TravianBot.Core.Models
+namespace TravianBot.Core
 {
     using System;
     using System.Collections.Generic;
@@ -13,6 +13,9 @@ namespace TravianBot.Core.Models
     using Enums;
     using System.IO;
     using Newtonsoft.Json;
+    using Models;
+    using Newtonsoft.Json.Converters;
+    using Extensions;
 
     public interface ISetting
     {
@@ -28,15 +31,11 @@ namespace TravianBot.Core.Models
 
         UserAgents UserAgent { get; set; }
 
-        string UserAgentString { get;}
-
         bool IsUseProxy { get; set; }
-
-        string ProxyString { get; }
 
         string ProxyHost { get; set; }
 
-        string ProxyPort { get; set; }
+        int ProxyPort { get; set; }
 
         string ProxyLogin { get; set; }
 
@@ -72,41 +71,44 @@ namespace TravianBot.Core.Models
         {
             get
             {
-                return server == null ? "" : server.AbsoluteUri;
+                return server?.AbsoluteUri ?? "";
             }
             set
             {
                 Uri result;
-                if (Uri.TryCreate(value, UriKind.Absolute, out result))
+                string url = value.ToUri().AbsoluteUri;
+                if (Uri.TryCreate(url, UriKind.Absolute, out result))
                     server = result;
             }
         }
 
         public string Password { get; set; } = "";
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public Speeds Speed { get; set; } = Speeds.x1;
 
         public bool IsLowResolution { get; set; } = false;
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public UserAgents UserAgent { get; set; } = UserAgents.Default;
 
+        [JsonIgnore]
         public string UserAgentString { get { return GetUserAgentString(UserAgent); } }
 
         public bool IsUseProxy { get; set; } = false;
 
-        [JsonIgnore]
-        public string ProxyString { get { return $"{ProxyHost}:{ProxyPort}"; } }
-
         public string ProxyHost { get; set; } = "";
 
-        public string ProxyPort { get; set; } = "";
+        public int ProxyPort { get; set; } = 0;
 
         public string ProxyLogin { get; set; } = "";
 
         public string ProxyPassword { get; set; } = "";
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public Tribes Tribe { get; set; } = Tribes.None;
 
+        [JsonIgnore]
         public LogicSetting LogicSetting { get; set; }
 
         private Setting()

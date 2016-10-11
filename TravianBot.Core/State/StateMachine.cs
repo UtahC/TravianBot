@@ -23,12 +23,12 @@ namespace TravianBot.Core.State
 
         public void Start(CancellationToken cancellationToken)
         {
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 while (State != null)
                 {
-                    State = State.Start(cancellationToken);
-                    Task.Delay(1000);
+                    State = await State.Start(cancellationToken);
+                    await Task.Delay(1000);
                 }
             });
         }

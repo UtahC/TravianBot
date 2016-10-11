@@ -12,6 +12,7 @@
     d:DesignHeight="300" d:DesignWidth="900"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
     <UserControl.Resources>
+        <converter:IntToStringConverter x:Key="IntToStringConverter"/>
         <converter:EnumToIntConverter x:Key="EnumToIntConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
@@ -95,7 +96,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="User-Agent" TextWrapping="Wrap" VerticalAlignment="Center"/>
                         <ComboBox Grid.Column="1" Height="20" SelectedIndex="{Binding Client.Setting.UserAgent, ConverterParameter={x:Type e:UserAgents}, Converter={StaticResource EnumToIntConverter}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
-                            <ComboBoxItem Content="Default MSIE"/>
+                            <ComboBoxItem Content="Default Chrome 49"/>
                             <ComboBoxItem Content="MSIE 7(Windows XP)"/>
                             <ComboBoxItem Content="MSIE 7(Windows Vista)"/>
                             <ComboBoxItem Content="MSIE 8(Windows XP)"/>
@@ -175,7 +176,7 @@
                         <CheckBox Grid.Column="0" Content="Proxy" VerticalAlignment="Center" IsChecked="{Binding Client.Setting.IsUseProxy, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                         <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding Client.Setting.ProxyHost, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                         <TextBlock Grid.Column="3" Text="Port" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="4" VerticalAlignment="Center" Text="{Binding Client.Setting.ProxyPort, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <TextBox Grid.Column="4" VerticalAlignment="Center" Text="{Binding Client.Setting.ProxyPort, Converter={StaticResource IntToStringConverter}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Row="5">

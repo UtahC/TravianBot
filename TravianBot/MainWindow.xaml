@@ -8,10 +8,10 @@
     xmlns:ViewModel="clr-namespace:TravianBot.ViewModel" 
     x:Class="TravianBot.MainWindow"
     x:Name="mainWindow"
-    WindowStartupLocation="CenterScreen"
+    WindowStartupLocation="Manual"
     Height="800" 
     Width="{DynamicResource {x:Static SystemParameters.FullPrimaryScreenWidthKey}}"
-    DataContext="{Binding Main, Source={StaticResource Locator}}">
+    DataContext="{Binding Main, Source={StaticResource Locator}}" Top="-9999">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -124,7 +124,7 @@
             </TabControl>
         </DockPanel>
         <GridSplitter Grid.Row="2" ResizeDirection="Rows" Height="2" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-        <v:BrowserViewAwesomium Grid.Row="3"/>
+        <v:BrowserView x:Name="browserView" Grid.Row="3"/>
         <StatusBar Grid.Row="4" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="0,1,0,0" >
             <StatusBarItem>
                 
