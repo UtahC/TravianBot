@@ -15,7 +15,7 @@
         <awe:WebSessionProvider x:Key="webSession" DataPath=".\Cache">
             <core:WebPreferences 
                 ShrinkStandaloneImagesToFit="False"
-                SmoothScrolling="True" />
+                SmoothScrolling="True"/>
         </awe:WebSessionProvider>
         <awe:UrlConverter x:Key="UrlConverter" />
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />

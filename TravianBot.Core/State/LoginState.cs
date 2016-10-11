@@ -12,16 +12,11 @@ namespace TravianBot.Core.State
 {
     class LoginState : StateBase
     {
-        bool isLoginOnly = false;
+        public bool IsLoginOnly { get; set; } = false;
 
         public LoginState()
         {
 
-        }
-
-        public LoginState(bool isLoginOnly)
-        {
-            this.isLoginOnly = isLoginOnly;
         }
 
         public override StateBase Start(CancellationToken cancellationToken)
@@ -29,14 +24,14 @@ namespace TravianBot.Core.State
             base.Start(cancellationToken);
 
             client.GoUrl(client.Setting.Server.ToUri().GetSuburbsUri());
-            if (client.Url == client.Setting.Server || !CheckTask.IsLogon())
+            if (client.Url == client.Setting.Server || !UtilityTask.IsLogon())
             {
                 client.Logger.Write("Now trying to login.");
                 LoginTask.Execute(cancellationToken);
             }
                 
 
-            if (isLoginOnly)
+            if (IsLoginOnly)
                 return null;
 
             return new LoginState();

@@ -32,6 +32,8 @@ namespace TravianBot.Core.Models
 
         bool IsUseProxy { get; set; }
 
+        string ProxyString { get; }
+
         string ProxyHost { get; set; }
 
         string ProxyPort { get; set; }
@@ -41,6 +43,8 @@ namespace TravianBot.Core.Models
         string ProxyPassword { get; set; }
 
         Tribes Tribe { get; set; }
+
+        LogicSetting LogicSetting { get; set; }
 
         void Save();
 
@@ -90,6 +94,9 @@ namespace TravianBot.Core.Models
 
         public bool IsUseProxy { get; set; } = false;
 
+        [JsonIgnore]
+        public string ProxyString { get { return $"{ProxyHost}:{ProxyPort}"; } }
+
         public string ProxyHost { get; set; } = "";
 
         public string ProxyPort { get; set; } = "";
@@ -99,6 +106,8 @@ namespace TravianBot.Core.Models
         public string ProxyPassword { get; set; } = "";
 
         public Tribes Tribe { get; set; } = Tribes.None;
+
+        public LogicSetting LogicSetting { get; set; }
 
         private Setting()
         {
@@ -191,6 +200,11 @@ namespace TravianBot.Core.Models
             #endregion
             return (int)userAgent == 0 ? "" : userAgentString[(int)userAgent - 1];
         }
+    }
+    
+    public class LogicSetting
+    {
+        public IEnumerable<BuildingTaskModel> BuildingTasks { get; set; }
     }
 }
 

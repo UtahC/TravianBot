@@ -76,14 +76,12 @@
     <Compile Include="Enums\Speeds.cs" />
     <Compile Include="Enums\Tribes.cs" />
     <Compile Include="Enums\UserAgents.cs" />
+    <Compile Include="Extensions\HtmlDocumentExtension.cs" />
     <Compile Include="Extensions\HtmlNodeExtension.cs" />
     <Compile Include="Extensions\ManualResetEventExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\UriExtension.cs" />
-    <Compile Include="HtmlParser.cs" />
-    <Compile Include="ILogicSettings.cs" />
     <Compile Include="Information\BuildingInfo.cs" />
-    <Compile Include="Models\LogicSettings.cs" />
     <Compile Include="Log\IEventLogger.cs" />
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Models\Building.cs" />
@@ -94,9 +92,10 @@
     <Compile Include="State\StateBase.cs" />
     <Compile Include="State\LoginState.cs" />
     <Compile Include="State\StateMachine.cs" />
-    <Compile Include="Tasks\CheckTask.cs" />
+    <Compile Include="Tasks\UtilityTask.cs" />
     <Compile Include="Tasks\LoginTask.cs" />
     <Compile Include="Tasks\TaskBase.cs" />
+    <Compile Include="Models\BuildingTaskModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

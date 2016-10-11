@@ -19,13 +19,11 @@ namespace TravianBot.ViewModel
     public class MainViewModel : ViewModelBase
     {
         public Client Client { get { return Client.Default; } }
-
-        private readonly IDataService _dataService;
         
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(IDataService dataService)
+        public MainViewModel()
         {
             Client.Default.Logger = Logger.Default;
         }

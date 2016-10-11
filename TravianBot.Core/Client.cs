@@ -91,7 +91,7 @@ namespace TravianBot.Core
 
         public void Login()
         {
-            stateMachine.State = new LoginState(true);
+            stateMachine.State = new LoginState() { IsLoginOnly = true };
             stateMachine.Start(new CancellationToken());
         }
 
