@@ -54,7 +54,10 @@ namespace TravianBot.Core.Extensions
 
         public static Uri ToUri(this string s)
         {
-            var url = s.Contains("http://") ? s : string.Format($"http://{s}");
+            if (s.IsNullOrEmptyOrWhiteSpace())
+                return null;
+            
+            var url = s.StartsWith("http://") ? s : string.Format($"http://{s}");
             return new Uri(url);
         }
     }

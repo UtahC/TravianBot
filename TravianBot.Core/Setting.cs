@@ -76,7 +76,7 @@ namespace TravianBot.Core
             set
             {
                 Uri result;
-                string url = value.ToUri().AbsoluteUri;
+                string url = value?.ToUri()?.AbsoluteUri;
                 if (Uri.TryCreate(url, UriKind.Absolute, out result))
                     server = result;
             }
