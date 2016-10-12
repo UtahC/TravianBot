@@ -10,7 +10,9 @@ namespace TravianBot.Core
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -66,9 +68,15 @@ namespace TravianBot.Core
         public ILogger Logger { get; set; }
         public StateMachine StateMachine { get; }
         public IEnumerable<Village> Villages { get; set; }
+        public string BasePath { get; private set; }
 
         private Client()
         {
+            //Get the main exe folder
+            string exePath = Assembly.GetExecutingAssembly().GetName().CodeBase;
+            exePath = new Uri(exePath).LocalPath;
+            BasePath = Path.GetDirectoryName(exePath);
+
             url = Setting.Server;
             stateMachine = new StateMachine();
         }

@@ -44,7 +44,7 @@ namespace TravianBot.View
 
         private void InitializeBrowserRuntime()
         {
-            EO.WebBrowser.Runtime.CachePath = Path.Combine(App.BasePath, "Profile", "Default", "Cache");
+            EO.WebBrowser.Runtime.CachePath = Path.Combine(Client.Default.BasePath, "Cache");
 
             var setting = Setting.Default;
             if (setting.IsUseProxy)
