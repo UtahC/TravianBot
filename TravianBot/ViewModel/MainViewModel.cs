@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -29,7 +30,7 @@ namespace TravianBot.ViewModel
         }
 
         public ICommand AccountSettingSave { get { return new AsyncRelayCommand(() => Client.Setting.Save()); } }
-        public ICommand TestCommand { get { return new AsyncRelayCommand(() => Client.Url = Client.Setting.Server); } }
+        public ICommand TestCommand { get { return new AsyncRelayCommand(() => Client.StartBot()); } }
         public ICommand LoginCommand { get { return new AsyncRelayCommand(() => Client.Login()); } }
     }
 

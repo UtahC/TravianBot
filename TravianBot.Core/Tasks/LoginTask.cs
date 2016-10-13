@@ -10,12 +10,19 @@ namespace TravianBot.Core.Tasks
 {
     class LoginTask : TaskBase
     {
-        public static void Execute(CancellationToken cancellationToken)
+        public static async Task<bool> Execute(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             client.ExecuteJavascript(ScriptGenerator.GetLoginScript
                 (client.Setting.Account, client.Setting.Password, client.Setting.IsLowResolution));
+
+            await Task.Delay(10000);
+
+            if (!UtilityTask.IsLogon())
+                return false;
+
+            return true;
         }
     }
 }

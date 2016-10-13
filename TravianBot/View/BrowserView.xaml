@@ -100,7 +100,7 @@
                                         StrokeThickness="1.5" />
             </eo:BareButton>
             <Button Content="LoadData" Width="60"/>
-            <Button Content="Test" Width="60" Click="Button_Click"/>
+            <Button Content="Test" Width="60" Command="{Binding TestCommand, Mode=OneWay}" />
             <Grid>
                 <TextBox x:Name="txtUrl" Margin="1" VerticalAlignment="Center" PreviewKeyDown="txtUrl_PreviewKeyDown" GotFocus="txtUrl_GotFocus" PreviewMouseDown="txtUrl_PreviewMouseDown" Text="{Binding WebView.Url, ElementName=webControl}" FontSize="18"/>
                 <eo:BareButton x:Name="btnBottingMessage" Height="30" VerticalAlignment="Top" Margin="1" Visibility="{Binding Client.IsBotWorking, Converter={StaticResource BooleanToVisibilityConverter}, Mode=Default}" Content="{Binding Client.BotMessage}" Click="btnBottingMessage_Click" FontSize="18" FontWeight="Bold">

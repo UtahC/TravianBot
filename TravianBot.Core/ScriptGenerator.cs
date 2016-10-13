@@ -14,9 +14,9 @@ namespace TravianBot.Core
             sb.Append($"document.getElementsByName('name')[0].value = '{account}';");
             sb.Append($"document.getElementsByName('password')[0].value = '{password}';");
             if (isLowQuality)
-                sb.Append("document.getElementById('lowRes').setAttribute('checked', 'checked');");
+                sb.Append("document.getElementById('lowRes').checked=true;");
             else
-                sb.Append("document.getElementById('lowRes').setAttribute('checked', '');");
+                sb.Append("document.getElementById('lowRes').checked=false;");
             sb.Append("document.getElementById('s1').click();");
 
             return sb.ToString();

@@ -13,30 +13,35 @@ namespace TravianBot.Core.State
     {
         public bool IsLoginOnly { get; set; } = false;
 
-        public LoginState()
-        {
-
-        }
-
         public async override Task<StateBase> Start(CancellationToken cancellationToken)
         {
             await base.Start(cancellationToken);
-            
+
+            if (retryCount >= retryCountLimit)
+                throw new Exception("Cannot login");
+
             client.Url = client.Setting.Server.ToUri().GetSuburbsUri().AbsoluteUri;
             if (client.Url == client.Setting.Server || !UtilityTask.IsLogon())
             {
-                client.Logger.Write("Now trying to login.");
-                LoginTask.Execute(cancellationToken);
-                await Task.Delay(5000);
+                client.Logger.Write("Now logging in to server.");
+                await LoginTask.Execute(cancellationToken);
+
+                if (!UtilityTask.IsLogon())
+                {
+                    retryLogMessage = "Login failed";
+                    return this;
+                }
+
+                client.Logger.Write("Logged in successfully.");
             }
-
-            //Login failed
-            if (!UtilityTask.IsLogon())
-                return this;
-
-            //Login success
+            else
+            {
+                client.Logger.Write("Already logged in.");
+            }
+            
             if (IsLoginOnly)
                 return null;
+
             return new InitializeBotState();
         }
     }

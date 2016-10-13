@@ -10,5 +10,6 @@ namespace TravianBot.Core.Tasks
     abstract class TaskBase
     {
         protected static Client client = Client.Default;
+        
     }
 }

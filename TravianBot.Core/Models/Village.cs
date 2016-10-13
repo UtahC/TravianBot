@@ -6,47 +6,48 @@
 //------------------------------------------------------------------------------
 namespace TravianBot.Core.Models
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using TravianBot.Core;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Text;
+    using TravianBot.Core;
 
-	public class Village : GalaSoft.MvvmLight.ObservableObject
+    public class Village : DB_Village
     {
-        private int id;
-        private string name;
+        private int villageId;
+        private string villageName;
         private int x;
         private int y;
         private bool isActive;
         private bool isCapital;
-        private IEnumerable<Building> buildings;
+        private ObservableCollection<Building> buildings;
 
-        public int Id
+        public new int VillageId
 		{
             get
             {
-                return id;
+                return villageId;
             }
             set
             {
-                Set(() => Id, ref id, value);
+                Set(() => VillageId, ref villageId, value);
             }
 		}
 
-		public string Name
+		public new string VillageName
 		{
             get
             {
-                return name;
+                return villageName;
             }
             set
             {
-                Set(() => Name, ref name, value);
+                Set(() => VillageName, ref villageName, value);
             }
         }
 
-		public int X
+		public new int X
 		{
             get
             {
@@ -58,7 +59,7 @@ namespace TravianBot.Core.Models
             }
         }
 
-		public int Y
+		public new int Y
 		{
             get
             {
@@ -82,7 +83,7 @@ namespace TravianBot.Core.Models
             }
         }
 
-		public bool IsCapital
+		public new bool IsCapital
 		{
             get
             {
@@ -94,7 +95,7 @@ namespace TravianBot.Core.Models
             }
         }
 
-		public IEnumerable<Building> Buildings
+		public ObservableCollection<Building> Buildings
 		{
             get
             {
@@ -106,6 +107,23 @@ namespace TravianBot.Core.Models
             }
         }
 
-	}
+        public bool Equals(Village other)
+        {
+            bool result = true;
+            result = result && VillageId == other.VillageId;
+            result = result && VillageName == other.VillageName;
+            result = result && X == other.X;
+            result = result && Y == other.Y;
+            result = result && IsCapital == IsCapital;
+
+            return true;
+        }
+
+    }
+
+    public partial class DB_Village : GalaSoft.MvvmLight.ObservableObject
+    {
+
+    }
 }
 

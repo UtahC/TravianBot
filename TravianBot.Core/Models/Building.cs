@@ -13,27 +13,27 @@ namespace TravianBot.Core.Models
 	using TravianBot.Core.Enums;
 	using TravianBot.Core.Information;
 
-	public class Building : GalaSoft.MvvmLight.ObservableObject
+	public class Building : DB_Building
     {
-        private int id;
+        private int buildingId;
         private int villageId;
-        private double level;
-        private Buildings type;
+        private int level;
+        private Buildings buildingType;
         private BuildingInfo info;
 
-		public int Id
+		public new int BuildingId
 		{
             get
             {
-                return id;
+                return buildingId;
             }
             set
             {
-                Set(() => Id, ref id, value);
+                Set(() => BuildingId, ref buildingId, value);
             }
         }
 
-		public int VillageId
+		public new int VillageId
 		{
             get
             {
@@ -45,7 +45,7 @@ namespace TravianBot.Core.Models
             }
         }
 
-		public double Level
+		public new int Level
 		{
             get
             {
@@ -57,15 +57,15 @@ namespace TravianBot.Core.Models
             }
         }
 
-		public Buildings Type
+		public new Buildings BuildingType
 		{
             get
             {
-                return type;
+                return buildingType;
             }
             set
             {
-                Set(() => Type, ref type, value);
+                Set(() => BuildingType, ref buildingType, value);
             }
         }
 
@@ -82,5 +82,10 @@ namespace TravianBot.Core.Models
         }
 
 	}
+
+    public partial class DB_Building : GalaSoft.MvvmLight.ObservableObject
+    {
+
+    }
 }
 

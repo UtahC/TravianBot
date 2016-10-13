@@ -80,7 +80,7 @@ namespace TravianBot.View
                     case "Url":
                         webControl.WebView.LoadUrlAndWait(mainViewModel.Client.Url); break;
                     case "Javascript":
-                        webControl.WebView.EvalScript(mainViewModel.Client.Javascript); break;
+                        webControl.WebView.EvalScript(mainViewModel.Client.Javascript, true); break;
                 }
             };
         }
@@ -132,11 +132,6 @@ namespace TravianBot.View
         {
             Client.Default.SetBotUnavailableSpan(60000);
             btnBottingMessage.Visibility = Visibility.Hidden;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Client.Default.SetBotWorking(true, "test test test test test ");
         }
     }
 }

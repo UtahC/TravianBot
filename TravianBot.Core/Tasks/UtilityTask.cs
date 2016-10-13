@@ -1,7 +1,10 @@
 ﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using TravianBot.Core.Enums;
 using TravianBot.Core.Extensions;
 using TravianBot.Core.Models;
@@ -12,17 +15,19 @@ namespace TravianBot.Core.Tasks
     {
         public static bool IsLogon()
         {
-            var doc = new HtmlDocument();
-            doc.LoadHtml(client.Html);
+            var doc = client.Document;
             if (doc.GetElementbyId("sidebarBoxVillagelist") == null)
                 return false;
             return true;
         }
-
+        public static void LoadVillages()
+        {
+            var villages = GetVillages().OrderBy(v => v.VillageName);
+            client.Villages = new ObservableCollection<Village>(villages);
+        }
         public static IEnumerable<Village> GetVillages()
         {
-            var doc = new HtmlDocument();
-            doc.LoadHtml(client.Html);
+            var doc = client.Document;
             var villages = new List<Village>();
             var villageNodes = doc?.GetElementbyId("sidebarBoxVillagelist")?.Descendants()?
                 .Where(n => n.HasAttributeAndContainsValue("class", "innerBox content"))
@@ -43,7 +48,7 @@ namespace TravianBot.Core.Tasks
                     .FirstOrDefault()?.InnerHtml;
                 var y = int.Parse(string.Concat(yStr.Where(c => c >= 48 && c <= 57)));
 
-                var village = new Village() { Name = name, Id = id, X = x, Y = y };
+                var village = new Village() { VillageName = name, VillageId = id, X = x, Y = y };
 
                 if (node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains("active"))
                     village.IsActive = true;
@@ -55,20 +60,32 @@ namespace TravianBot.Core.Tasks
 
             return villages;
         }
-
-        public IEnumerable<Building> GetAllBuildings(int villageId)
+        public static void LoadAllBuildings(int villageID)
+        {
+            var buildings = GetAllBuildings(villageID);
+            client.Villages.Where(v => v.VillageId == villageID)
+                .FirstOrDefault().Buildings = new ObservableCollection<Building>(buildings);
+        }
+        public static IEnumerable<Building> GetAllBuildings(int villageId)
         {
             var suburbs = GetSuburbsBuildings(villageId);
             var city = GetCityBuildings(villageId);
 
             return suburbs.Concat(city);
         }
-        public IEnumerable<Building> GetSuburbsBuildings(int villageId)
+        public static void LoadSuburbsBuildings(int villageID)
+        {
+            var newSuburbsBuildings = GetSuburbsBuildings(villageID);
+            var village = client.Villages.Where(v => v.VillageId == villageID).FirstOrDefault();
+            var oldCityBuildings = village.Buildings.Where(v => v.BuildingId > 18);
+            var buildings = newSuburbsBuildings.Concat(oldCityBuildings);
+            village.Buildings = new ObservableCollection<Building>(buildings);
+        }
+        public static IEnumerable<Building> GetSuburbsBuildings(int villageId)
         {
             client.Url = client.Setting.Server.ToUri().GetSuburbsUri(villageId).AbsoluteUri;
 
-            var doc = new HtmlDocument();
-            doc.LoadHtml(client.Html);
+            var doc = client.Document;
             var buildings = new List<Building>();
             var buildingNodes = doc?.GetElementbyId("village_map")?.Descendants("div")?
                 .Where(e => e.HasAttributeAndContainsValue("class", "gid") &&
@@ -90,17 +107,24 @@ namespace TravianBot.Core.Tasks
                     if (s.Contains("level") && s.Length > 5)
                         level = int.Parse(s.Substring("level"));
                 }
-                buildings.Add(new Building() { Id = id, Level = level, VillageId = villageId, Type = type });
+                buildings.Add(new Building() { BuildingId = id, Level = level, VillageId = villageId, BuildingType = type });
             }
 
             return buildings;
         }
-        public IEnumerable<Building> GetCityBuildings(int villageId)
+        public static void LoadCityBuildings(int villageID)
+        {
+            var newCityBuildings = GetSuburbsBuildings(villageID);
+            var village = client.Villages.Where(v => v.VillageId == villageID).FirstOrDefault();
+            var oldSuburbsBuildings = village.Buildings.Where(v => v.BuildingId <= 18);
+            var buildings = oldSuburbsBuildings.Concat(newCityBuildings);
+            village.Buildings = new ObservableCollection<Building>(buildings);
+        }
+        public static IEnumerable<Building> GetCityBuildings(int villageId)
         {
             client.Url = client.Setting.Server.ToUri().GetCityUri(villageId).AbsoluteUri;
 
-            var doc = new HtmlDocument();
-            doc.LoadHtml(client.Html);
+            var doc = client.Document;
 
             var buildingLevels = doc?.GetElementbyId("levels")?.Descendants("div")?
                 .Where(e => e.HasAttributeAndContainsValue("class", "colorLayer"));
@@ -134,7 +158,7 @@ namespace TravianBot.Core.Tasks
                     type = (Buildings)buildingNode?.Attributes["class"]?.Value?.GetNumber();
                 }
 
-                buildings.Add(new Building() { Id = id, Type = type, VillageId = villageId, Level = level });
+                buildings.Add(new Building() { BuildingId = id, BuildingType = type, VillageId = villageId, Level = level });
             }
             if (buildings.Count == 21)
             {
@@ -145,7 +169,7 @@ namespace TravianBot.Core.Tasks
                     case Tribes.Teutons: type = Buildings.EarthWall; break;
                     case Tribes.Gauls: type = Buildings.Palisade; break;
                 }
-                buildings.Add(new Building() { Id = 40, Type = type, VillageId = villageId, Level = 0 });
+                buildings.Add(new Building() { BuildingId = 40, BuildingType = type, VillageId = villageId, Level = 0 });
             }
 
             return buildings;
@@ -175,6 +199,19 @@ namespace TravianBot.Core.Tasks
             }
 
             return levelPairs;
+        }
+        public static Tribes GetTribe()
+        {
+            Tribes tribe;
+            var doc = client.Document;
+            var tribeString = doc.GetElementbyId("sidebarBoxHero").Descendants("div")
+                .Where(n => n.HasClass("playerName")).FirstOrDefault().
+                Descendants("img").FirstOrDefault().Attributes["alt"].Value;
+            bool success = Enum.TryParse(tribeString, true, out tribe);
+            if (!success)
+                tribe = Tribes.None;
+
+            return tribe;
         }
         
         public static string GetBuildCode()

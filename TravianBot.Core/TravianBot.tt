@@ -1,0 +1,13 @@
+<#@ template language="C#" debug="True" hostSpecific="True"                        #>
+<#@ output extension=".generated.cs"                                               #>
+<#@ include file="$(ProjectDir)LinqToDB.Templates\LinqToDB.Access.Tools.ttinclude" #>
+<#@ include file="$(ProjectDir)LinqToDB.Templates\PluralizationService.ttinclude"  #>
+<#@ import namespace="System.IO" #>
+<#
+	NamespaceName = "TravianBot.Core.Models";
+	string path = string.Concat(Path.GetDirectoryName(Host.TemplateFile));
+	LoadAccessMetadata(path, "TravianBot.mdb");
+//	LoadAccessMetadata(string connectionString);
+
+	GenerateModel();
+#>

@@ -16,6 +16,7 @@ namespace TravianBot.Core
     using Models;
     using Newtonsoft.Json.Converters;
     using Extensions;
+    using GalaSoft.MvvmLight;
 
     public interface ISetting
     {
@@ -49,11 +50,12 @@ namespace TravianBot.Core
 
     }
 
-    public class Setting : ISetting
+    public class Setting : ObservableObject, ISetting
 	{
         private static readonly string settingFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "setting.json");
         private static Setting setting;
         private Uri server;
+        private Tribes tribe = Tribes.None;
 
         public static Setting Default
         {
@@ -106,7 +108,11 @@ namespace TravianBot.Core
         public string ProxyPassword { get; set; } = "";
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public Tribes Tribe { get; set; } = Tribes.None;
+        public Tribes Tribe
+        {
+            get { return tribe; }
+            set { Set(() => Tribe, ref tribe, value); }
+        }
 
         [JsonIgnore]
         public LogicSetting LogicSetting { get; set; }

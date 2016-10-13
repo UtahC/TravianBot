@@ -7,8 +7,10 @@
 namespace TravianBot.Core
 {
     using Extensions;
+    using HtmlAgilityPack;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
@@ -50,6 +52,15 @@ namespace TravianBot.Core
                 html = value;
             }
         }
+        public HtmlDocument Document
+        {
+            get
+            {
+                var doc = new HtmlDocument();
+                doc.LoadHtml(Html);
+                return doc;
+            }
+        }
         public bool IsBotWorking
         {
             get { return isBotWorking; }
@@ -67,7 +78,7 @@ namespace TravianBot.Core
         public IEventLogger EventLogger { get; set; }
         public ILogger Logger { get; set; }
         public StateMachine StateMachine { get; }
-        public IEnumerable<Village> Villages { get; set; }
+        public ObservableCollection<Village> Villages { get; set; }
         public string BasePath { get; private set; }
 
         private Client()
@@ -119,7 +130,9 @@ namespace TravianBot.Core
 
         public void StartBot()
         {
-            //BotAvailableTime = new DateTime(1970, 1, 1);
+            BotAvailableTime = new DateTime(1970, 1, 1);
+            stateMachine.State = new LoginState();
+            stateMachine.Start(new CancellationToken());
         }
     }
 
