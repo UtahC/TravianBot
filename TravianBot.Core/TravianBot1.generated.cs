@@ -65,16 +65,16 @@ namespace TravianBot.Core.Models
 		[Column,     Nullable] public string Tribe           { get; set; } // text(255)
 	}
 
-	[Table("DB_Villages")]
-	public partial class DB_Village
-	{
-		[PrimaryKey, Identity] public int    DB_Id       { get; set; } // Long
-		[Column,     Nullable] public int?   VillageId   { get; set; } // Long
-		[Column,     Nullable] public string VillageName { get; set; } // text(255)
-		[Column,     Nullable] public int?   X           { get; set; } // Long
-		[Column,     Nullable] public int?   Y           { get; set; } // Long
-		[            Identity] public bool   IsCapital   { get; set; } // Bit
-	}
+	//[Table("DB_Villages")]
+	//public partial class DB_Village
+	//{
+	//	[PrimaryKey, Identity] public int    DB_Id       { get; set; } // Long
+	//	[Column,     Nullable] public int?   VillageId   { get; set; } // Long
+	//	[Column,     Nullable] public string VillageName { get; set; } // text(255)
+	//	[Column,     Nullable] public int?   X           { get; set; } // Long
+	//	[Column,     Nullable] public int?   Y           { get; set; } // Long
+	//	[            Identity] public bool   IsCapital   { get; set; } // Bit
+	//}
 
 	public static partial class TableExtensions
 	{

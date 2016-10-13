@@ -14,30 +14,11 @@ namespace TravianBot.Core.Models.Tests
         [TestMethod()]
         public void UpdatePropertyTest()
         {
-            var oldvillage = new Village()
-            {
-                VillageId = 1,
-                IsActive = true,
-                Buildings = null,
-                IsCapital = false,
-                X = 10,
-                Y = 11,
-                VillageName = "name",
-            };
-            var newVillage = new Village()
-            {
-                VillageId = 1,
-                IsActive = false,
-                IsCapital = true,
-                Buildings = null,
-                X = 20,
-                Y = 21,
-                VillageName = "new name",
-            };
+            var oldvillage = new Village(1, "name", 10, 11, true, false);
+            var newVillage = new Village(1, "new name", 20, 21, false, true);
 
             oldvillage.UpdatePropertyIfNotEquals(v => v.VillageId, newVillage.VillageId);
             oldvillage.UpdatePropertyIfNotEquals(v => v.IsActive, newVillage.IsActive);
-            oldvillage.UpdatePropertyIfNotEquals(v => v.Buildings, newVillage.Buildings);
             oldvillage.UpdatePropertyIfNotEquals(v => v.IsCapital, newVillage.IsCapital);
             oldvillage.UpdatePropertyIfNotEquals(v => v.X, newVillage.X);
             oldvillage.UpdatePropertyIfNotEquals(v => v.Y, newVillage.Y);

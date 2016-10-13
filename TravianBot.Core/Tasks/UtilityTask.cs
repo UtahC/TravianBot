@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TravianBot.Core.Enums;
 using TravianBot.Core.Extensions;
 using TravianBot.Core.Models;
+using System.Windows;
 
 namespace TravianBot.Core.Tasks
 {
@@ -51,9 +52,9 @@ namespace TravianBot.Core.Tasks
 
             //Add villages which are not exist in bot
             var villageIds = villages.Select(v => v.VillageId);
-            var villagesToBeAdded = newVillages.Where(v => !villageIds.Contains(v.VillageId));
+            var villagesToBeAdded = newVillages.Where(v => !villageIds.Contains(v.VillageId)).ToList();
             foreach (var village in villagesToBeAdded)
-                villages.Add(village);
+                 villages.Add(village);
 
             //Update villages which are not equal completely
             var villagesWhereIdExists = newVillages.Where(v => villageIds.Contains(v.VillageId));
@@ -86,7 +87,7 @@ namespace TravianBot.Core.Tasks
                     .FirstOrDefault()?.InnerHtml;
                 var y = int.Parse(string.Concat(yStr.Where(c => c >= 48 && c <= 57)));
 
-                var village = new Village() { VillageName = name, VillageId = id, X = x, Y = y };
+                var village = new Village(id, name, x, y);
 
                 if (node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains("active"))
                     village.IsActive = true;
@@ -101,8 +102,9 @@ namespace TravianBot.Core.Tasks
         public static void LoadAllBuildings(int villageID)
         {
             var buildings = GetAllBuildings(villageID);
-            client.Villages.Where(v => v.VillageId == villageID)
-                .FirstOrDefault().Buildings = new ObservableCollection<Building>(buildings);
+            throw new NotImplementedException();
+            //client.Villages.Where(v => v.VillageId == villageID)
+            //    .FirstOrDefault().Buildings = new ObservableCollection<Building>(buildings);
         }
         public static IEnumerable<Building> GetAllBuildings(int villageId)
         {
@@ -116,8 +118,9 @@ namespace TravianBot.Core.Tasks
             var newSuburbsBuildings = GetSuburbsBuildings(villageID);
             var village = client.Villages.Where(v => v.VillageId == villageID).FirstOrDefault();
             var oldCityBuildings = village.Buildings.Where(v => v.BuildingId > 18);
-            var buildings = newSuburbsBuildings.Concat(oldCityBuildings);
-            village.Buildings = new ObservableCollection<Building>(buildings);
+            throw new NotImplementedException();
+            //var buildings = newSuburbsBuildings.Concat(oldCityBuildings);
+            //village.Buildings = new ObservableCollection<Building>(buildings);
         }
         public static IEnumerable<Building> GetSuburbsBuildings(int villageId)
         {
@@ -156,7 +159,8 @@ namespace TravianBot.Core.Tasks
             var village = client.Villages.Where(v => v.VillageId == villageID).FirstOrDefault();
             var oldSuburbsBuildings = village.Buildings.Where(v => v.BuildingId <= 18);
             var buildings = oldSuburbsBuildings.Concat(newCityBuildings);
-            village.Buildings = new ObservableCollection<Building>(buildings);
+            throw new NotImplementedException();
+            //village.Buildings = new ObservableCollection<Building>(buildings);
         }
         public static IEnumerable<Building> GetCityBuildings(int villageId)
         {

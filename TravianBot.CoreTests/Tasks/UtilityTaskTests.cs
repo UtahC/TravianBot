@@ -21,49 +21,13 @@ namespace TravianBot.Core.Tasks.Tests
         {
             villages = new ObservableCollection<Village>(new List<Village>()
             {
-                new Village()
-                {
-                    VillageId = 1,
-                    IsActive = true,
-                    Buildings = null,
-                    IsCapital = false,
-                    X = 10,
-                    Y = 11,
-                    VillageName = "name1"
-                },
-                new Village()
-                {
-                    VillageId = 2,
-                    IsActive = false,
-                    Buildings = null,
-                    IsCapital = true,
-                    X = 20,
-                    Y = 21,
-                    VillageName = "name2"
-                }
+                new Village(1, "name1", 10, 11, true, false),
+                new Village(2, "name2", 20, 21, false, true)
             });
             newVillages = newVillages = new List<Village>()
             {
-                new Village()
-                {
-                    VillageId = 1,
-                    IsActive = true,
-                    Buildings = null,
-                    IsCapital = false,
-                    X = 10,
-                    Y = 11,
-                    VillageName = "name1"
-                },
-                new Village()
-                {
-                    VillageId = 2,
-                    IsActive = false,
-                    Buildings = null,
-                    IsCapital = true,
-                    X = 20,
-                    Y = 21,
-                    VillageName = "name2"
-                }
+                new Village(1, "name1", 10, 11, true, false),
+                new Village(2, "name2", 20, 21, false, true)
             };
         }
 
@@ -87,16 +51,7 @@ namespace TravianBot.Core.Tasks.Tests
         [TestMethod()]
         public void LoadVillagesAddTest()
         {
-            newVillages.Add(new Village()
-            {
-                VillageId = 33,
-                IsActive = true,
-                Buildings = null,
-                IsCapital = true,
-                X = 30,
-                Y = 31,
-                VillageName = "name3",
-            });
+            newVillages.Add(new Village(33, "name3", 30, 31, true, true));
             UtilityTask.LoadVillages(villages, newVillages);
 
             Assert.AreEqual(AreTwoVillagesEqual(), true);
@@ -105,16 +60,7 @@ namespace TravianBot.Core.Tasks.Tests
         [TestMethod()]
         public void LoadVillagesUpdateTest()
         {
-            newVillages[1] = new Village()
-            {
-                VillageId = 2,
-                IsActive = true,
-                Buildings = null,
-                IsCapital = true,
-                X = 20,
-                Y = 21,
-                VillageName = "name22"
-            };
+            newVillages[1] = new Village(2, "name22", 20, 21, true, true);
             UtilityTask.LoadVillages(villages, newVillages);
 
             Assert.AreEqual(AreTwoVillagesEqual(), true);
@@ -124,26 +70,8 @@ namespace TravianBot.Core.Tasks.Tests
         public void LoadVillagesAllTest()
         {
             newVillages.RemoveAt(1);
-            newVillages.Add(new Village()
-            {
-                VillageId = 33,
-                IsActive = true,
-                Buildings = null,
-                IsCapital = true,
-                X = 30,
-                Y = 31,
-                VillageName = "name3",
-            });
-            newVillages[0] = new Village()
-            {
-                VillageId = 11,
-                IsActive = true,
-                Buildings = null,
-                IsCapital = false,
-                X = 11,
-                Y = 12,
-                VillageName = "name11"
-            };
+            newVillages.Add(new Village(33, "name3", 30, 31, true, true));
+            newVillages[0] = new Village(11, "name11", 11, 12, true, false);
             UtilityTask.LoadVillages(villages, newVillages);
 
             Assert.AreEqual(AreTwoVillagesEqual(), true);

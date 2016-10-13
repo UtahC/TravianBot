@@ -7,12 +7,18 @@
 namespace TravianBot.Core.Models
 {
     using Common;
+    using GalaSoft.MvvmLight;
+    using LinqToDB;
+    using LinqToDB.Mapping;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text;
+    using System.Threading.Tasks;
     using TravianBot.Core;
 
     public class Village : DB_Village
@@ -23,10 +29,10 @@ namespace TravianBot.Core.Models
         private int y;
         private bool isActive;
         private bool isCapital;
-        private ObservableCollection<Building> buildings;
+        private ObservableCollection<Building> buildings = new ObservableCollection<Building>();
 
-        private new int DB_Id { get; set; }
-        public new int VillageId
+        public override int DB_Id { get; set; }
+        public override int VillageId
 		{
             get
             {
@@ -37,7 +43,7 @@ namespace TravianBot.Core.Models
                 Set(() => VillageId, ref villageId, value);
             }
 		}
-		public new string VillageName
+		public override string VillageName
 		{
             get
             {
@@ -48,7 +54,7 @@ namespace TravianBot.Core.Models
                 Set(() => VillageName, ref villageName, value);
             }
         }
-		public new int X
+		public override int X
 		{
             get
             {
@@ -59,7 +65,7 @@ namespace TravianBot.Core.Models
                 Set(() => X, ref x, value);
             }
         }
-		public new int Y
+		public override int Y
 		{
             get
             {
@@ -81,7 +87,7 @@ namespace TravianBot.Core.Models
                 Set(() => IsActive, ref isActive, value);
             }
         }
-		public new bool IsCapital
+		public override bool IsCapital
 		{
             get
             {
@@ -92,16 +98,41 @@ namespace TravianBot.Core.Models
                 Set(() => IsCapital, ref isCapital, value);
             }
         }
-		public ObservableCollection<Building> Buildings
-		{
-            get
+        public ObservableCollection<Building> Buildings { get { return buildings; } }
+
+  //      public ObservableCollection<Building> Buildings
+		//{
+  //          get
+  //          {
+  //              return buildings;
+  //          }
+  //          set
+  //          {
+  //              Set(() => Buildings, ref buildings, value);
+  //          }
+  //      }
+
+        public Village(int villageId, string villageName, int x, int y, bool isActive = false, bool isCapital = false)
+        {
+            this.villageId = villageId;
+            this.villageName = villageName;
+            this.x = x;
+            this.y = y;
+            this.isActive = isActive;
+            this.isCapital = isCapital;
+
+            PropertyChanged += (s, e) =>
             {
-                return buildings;
-            }
-            set
-            {
-                Set(() => Buildings, ref buildings, value);
-            }
+                Task.Run(() => 
+                {
+                    using (var db = new TravianBotDB())
+                    {
+                        db.DB_Villages.Where(dV => dV.VillageId == VillageId)
+                        .Set(dV => dV.VillageName, VillageName)
+                        .Set(dV => dV.IsCapital, IsCapital).Update();
+                    }
+                });
+            };
         }
 
         public override bool Equals(object otherObject)
@@ -118,6 +149,11 @@ namespace TravianBot.Core.Models
             result = result && IsCapital == IsCapital;
 
             return result;
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
         }
 
         public bool UpdatePropertyIfNotEquals<TProperty>(
@@ -142,9 +178,23 @@ namespace TravianBot.Core.Models
 
     }
 
-    public partial class DB_Village : GalaSoft.MvvmLight.ObservableObject
+    [Table("DB_Villages")]
+    public partial class DB_Village : ObservableObject
     {
+        [PrimaryKey, Identity]
+        public virtual int DB_Id { get; set; } // Long
+        [Column, PrimaryKey]
+        public virtual int VillageId { get; set; } // Long
+        [Column, Nullable]
+        public virtual string VillageName { get; set; } // text(255)
+        [Column]
+        public virtual int X { get; set; } // Long
+        [Column]
+        public virtual int Y { get; set; } // Long
+        [Column]
+        public virtual bool IsCapital { get; set; } // Bit
 
+        
     }
 }
 

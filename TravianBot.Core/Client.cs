@@ -8,9 +8,11 @@ namespace TravianBot.Core
 {
     using Extensions;
     using HtmlAgilityPack;
+    using LinqToDB;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
@@ -87,7 +89,11 @@ namespace TravianBot.Core
         public IEventLogger EventLogger { get; set; }
         public ILogger Logger { get; set; }
         public StateMachine StateMachine { get; }
-        public ObservableCollection<Village> Villages { get { return villages; } }
+        public ObservableCollection<Village> Villages
+        {
+            get { return villages; }
+            set { Set(() => Villages, ref villages, value); }
+        }
         public string BasePath { get; private set; }
 
         private Client()
@@ -99,6 +105,35 @@ namespace TravianBot.Core
 
             url = Setting.Server;
             stateMachine = new StateMachine();
+
+            villages.CollectionChanged += Villages_CollectionChanged;
+        }
+
+        private void Villages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Task.Run(() => 
+            {
+                using (var db = new TravianBotDB())
+                {
+                    switch (e.Action)
+                    {
+                        case NotifyCollectionChangedAction.Add:
+                            foreach (var item in e.NewItems)
+                            {
+                                var village = item as DB_Village;
+                                db.Insert(village);
+                            }
+                            break;
+                        case NotifyCollectionChangedAction.Remove:
+                            foreach (var item in e.OldItems)
+                            {
+                                var village = item as DB_Village;
+                                db.DB_Villages.Where(dV => dV.VillageId == village.VillageId).Delete();
+                            }
+                            break;
+                    }
+                }
+            });
         }
 
         public void SetBotWorking(bool isBotWorking, string message = "")
@@ -116,20 +151,6 @@ namespace TravianBot.Core
         {
             SetBotUnavailableTimeUtil(DateTime.Now.AddMilliseconds(milliseconds));
         }
-
-        //public bool IsExistsVillageId(int villageId)
-        //{
-        //    return Villages.Where(v => v.VillageId == villageId).Count() > 0;
-        //}
-
-        //public bool IsExactlyExistsVillage(Village village)
-        //{
-        //    var mappedVillage = Villages.Where(v => v.VillageId == village.VillageId).FirstOrDefault();
-        //    if (mappedVillage != null && mappedVillage.Equals(village))
-        //        return true;
-
-        //    return false;
-        //}
 
         public void SetBotUnavailableTimeUtil(DateTime dateTime)
         {
