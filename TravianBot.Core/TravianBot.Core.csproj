@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="Common\Util.cs" />
     <Compile Include="Enums\Buildings.cs" />
     <Compile Include="Enums\Speeds.cs" />
     <Compile Include="Enums\Tribes.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Extensions\HtmlDocumentExtension.cs" />
     <Compile Include="Extensions\HtmlNodeExtension.cs" />
     <Compile Include="Extensions\ManualResetEventExtension.cs" />
+    <Compile Include="Extensions\ObservableCollectionExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\UriExtension.cs" />
     <Compile Include="Information\BuildingInfo.cs" />

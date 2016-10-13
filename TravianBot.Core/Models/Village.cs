@@ -6,10 +6,12 @@
 //------------------------------------------------------------------------------
 namespace TravianBot.Core.Models
 {
+    using Common;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Text;
     using TravianBot.Core;
 
@@ -23,6 +25,7 @@ namespace TravianBot.Core.Models
         private bool isCapital;
         private ObservableCollection<Building> buildings;
 
+        private new int DB_Id { get; set; }
         public new int VillageId
 		{
             get
@@ -34,7 +37,6 @@ namespace TravianBot.Core.Models
                 Set(() => VillageId, ref villageId, value);
             }
 		}
-
 		public new string VillageName
 		{
             get
@@ -46,7 +48,6 @@ namespace TravianBot.Core.Models
                 Set(() => VillageName, ref villageName, value);
             }
         }
-
 		public new int X
 		{
             get
@@ -58,7 +59,6 @@ namespace TravianBot.Core.Models
                 Set(() => X, ref x, value);
             }
         }
-
 		public new int Y
 		{
             get
@@ -70,7 +70,6 @@ namespace TravianBot.Core.Models
                 Set(() => Y, ref y, value);
             }
         }
-
 		public bool IsActive
 		{
             get
@@ -82,7 +81,6 @@ namespace TravianBot.Core.Models
                 Set(() => IsActive, ref isActive, value);
             }
         }
-
 		public new bool IsCapital
 		{
             get
@@ -94,7 +92,6 @@ namespace TravianBot.Core.Models
                 Set(() => IsCapital, ref isCapital, value);
             }
         }
-
 		public ObservableCollection<Building> Buildings
 		{
             get
@@ -107,8 +104,12 @@ namespace TravianBot.Core.Models
             }
         }
 
-        public bool Equals(Village other)
+        public override bool Equals(object otherObject)
         {
+            var other = otherObject as Village;
+            if (other == null)
+                return false;
+
             bool result = true;
             result = result && VillageId == other.VillageId;
             result = result && VillageName == other.VillageName;
@@ -116,6 +117,26 @@ namespace TravianBot.Core.Models
             result = result && Y == other.Y;
             result = result && IsCapital == IsCapital;
 
+            return result;
+        }
+
+        public bool UpdatePropertyIfNotEquals<TProperty>(
+            Expression<Func<Village, TProperty>> PropertyExpression, TProperty newValue)
+        {
+            var info = Util.GetPropertyInfo(this, PropertyExpression);
+
+            if (!info.CanRead)
+                throw new Exception("Property can not be read.");
+            if (!info.CanWrite)
+                throw new Exception("Property can not be write.");
+            if (info.GetValue(this) != null && !(info.GetValue(this) is TProperty))
+                throw new Exception("Type of property and newValuew are different.");
+
+            var oldValue = (TProperty)info.GetValue(this);
+            if (oldValue != null && oldValue.Equals(newValue))
+                return false;
+
+            info.SetValue(this, newValue);
             return true;
         }
 

@@ -200,10 +200,10 @@
             <Grid>
                 <DataGrid ItemsSource="{Binding Client.Villages}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Id" Binding="{Binding Id, Mode=OneWay}" Width="50"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}" Width="100"/>
-                        <DataGridTextColumn Header="X" Binding="{Binding X, Mode=OneWay}" Width="30"/>
-                        <DataGridTextColumn Header="Y" Binding="{Binding Y, Mode=OneWay}" Width="30"/>
+                        <DataGridTextColumn Header="Id" Binding="{Binding VillageId}" Width="50"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding VillageName}" Width="100"/>
+                        <DataGridTextColumn Header="X" Binding="{Binding X}" Width="30"/>
+                        <DataGridTextColumn Header="Y" Binding="{Binding Y}" Width="30"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

@@ -11,7 +11,7 @@ using TravianBot.Core.Models;
 
 namespace TravianBot.Core.Tasks
 {
-    class UtilityTask : TaskBase
+    public class UtilityTask : TaskBase
     {
         public static bool IsLogon()
         {
@@ -22,9 +22,47 @@ namespace TravianBot.Core.Tasks
         }
         public static void LoadVillages()
         {
-            var villages = GetVillages().OrderBy(v => v.VillageName);
-            client.Villages = new ObservableCollection<Village>(villages);
+            var villages = client.Villages;
+            var newVillages = GetVillages();
+
+            LoadVillages(villages, newVillages);
+            //foreach (var newVillage in newVillages)
+            //{
+            //    //Add villages which are not exist in bot
+            //    if (!villages.Any(v => v.VillageId == newVillage.VillageId))
+            //    {
+            //        villages.Add(newVillage);
+            //    }
+            //    //Update villages which are not equal completely
+            //    else if (!villages.Any(v => v.Equals(newVillage)))
+            //    {
+            //        villages.UpdateVillageById(newVillage);
+            //    }
+            //}
         }
+
+        public static void LoadVillages(ObservableCollection<Village> villages, IEnumerable<Village> newVillages)
+        {
+            //Remove villages which are not exist now
+            var newVillageIds = newVillages.Select(v => v.VillageId);
+            var villagesToBeRemoved = villages.Where(v => !newVillageIds.Contains(v.VillageId)).ToList();
+            foreach (var village in villagesToBeRemoved)
+                villages.Remove(village);
+
+            //Add villages which are not exist in bot
+            var villageIds = villages.Select(v => v.VillageId);
+            var villagesToBeAdded = newVillages.Where(v => !villageIds.Contains(v.VillageId));
+            foreach (var village in villagesToBeAdded)
+                villages.Add(village);
+
+            //Update villages which are not equal completely
+            var villagesWhereIdExists = newVillages.Where(v => villageIds.Contains(v.VillageId));
+            var villagesToBeUpdated = villagesWhereIdExists
+                .Where(newV => !villages.Any(oldV => oldV.Equals(newV)));
+            foreach (var village in villagesToBeUpdated)
+                villages.UpdateVillageById(village);
+        }
+
         public static IEnumerable<Village> GetVillages()
         {
             var doc = client.Document;

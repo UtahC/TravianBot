@@ -105,6 +105,7 @@
     <Compile Include="Converter\EnumToIntConverter.cs" />
     <Compile Include="Converter\IntToStringConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
+    <Compile Include="Extensions\WebViewExtension.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataService.cs" />

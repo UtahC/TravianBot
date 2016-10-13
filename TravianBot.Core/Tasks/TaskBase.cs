@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TravianBot.Core.Tasks
 {
-    abstract class TaskBase
+    public abstract class TaskBase
     {
         protected static Client client = Client.Default;
         

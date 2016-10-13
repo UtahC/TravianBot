@@ -29,6 +29,7 @@ namespace TravianBot.Core
         private string url , html, javascript;
         private bool isBotWorking = false;
         private DateTime BotAvailableTime = new DateTime(1970, 1, 1);
+        private ObservableCollection<Village> villages = new ObservableCollection<Village>();
 
         public ManualResetEvent WorkAvailableSignal = new ManualResetEvent(true);
 
@@ -72,13 +73,21 @@ namespace TravianBot.Core
             }
         }
         public ISetting Setting { get { return Core.Setting.Default; } }
-        public string Url { get { return url; } set { Set(() => Url, ref url, value); } }
+        public string Url
+        {
+            get { return url; }
+            set
+            {
+                if (value != url)
+                    Set(() => Url, ref url, value);
+            }
+        }
         public string BotMessage { get; private set; }
         public string Javascript { get { return javascript; } private set { javascript = value; } }
         public IEventLogger EventLogger { get; set; }
         public ILogger Logger { get; set; }
         public StateMachine StateMachine { get; }
-        public ObservableCollection<Village> Villages { get; set; }
+        public ObservableCollection<Village> Villages { get { return villages; } }
         public string BasePath { get; private set; }
 
         private Client()
@@ -107,6 +116,20 @@ namespace TravianBot.Core
         {
             SetBotUnavailableTimeUtil(DateTime.Now.AddMilliseconds(milliseconds));
         }
+
+        //public bool IsExistsVillageId(int villageId)
+        //{
+        //    return Villages.Where(v => v.VillageId == villageId).Count() > 0;
+        //}
+
+        //public bool IsExactlyExistsVillage(Village village)
+        //{
+        //    var mappedVillage = Villages.Where(v => v.VillageId == village.VillageId).FirstOrDefault();
+        //    if (mappedVillage != null && mappedVillage.Equals(village))
+        //        return true;
+
+        //    return false;
+        //}
 
         public void SetBotUnavailableTimeUtil(DateTime dateTime)
         {

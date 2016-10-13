@@ -73,6 +73,10 @@ namespace TravianBot.View
             webControl.WebView.CanGoForwardChanged += (s, e) =>
                 btnGoForward.IsEnabled = webControl.WebView.CanGoForward;
 
+            //
+            webControl.WebView.LoadCompleted += (s, e) => MessageBox.Show("LoadCompleted");
+            //
+
             mainViewModel.Client.PropertyChanged += (s, e) =>
             {
                 switch (e.PropertyName)
