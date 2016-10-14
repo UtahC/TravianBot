@@ -85,9 +85,16 @@ namespace TravianBot.View
                     if (webControl.WebView.Url.Contains(UriGenerator.UrlSuburbs) ||
                         webControl.WebView.Url.Contains(UriGenerator.UrlCity))
                     {
-                        UtilityTask.LoadBuildingsInCurrentPage();
+                        UITask.LoadCurrentBuildings(webControl.WebView.GetHtml());
+                        //
+                        var village = mainViewModel.Client.Villages.Where(v => v.IsActive == true).FirstOrDefault();
+                        if (village != null)
+                        {
+                            foreach (var building in village.Buildings)
+                                mainViewModel.Client.Logger.Write($"{building.VillageId} {building.BuildingId:00} {building.BuildingType} {building.Level}");
+                        }
+                        //
                     }
-                    
                 }
             };
             //

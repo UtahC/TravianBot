@@ -17,16 +17,16 @@ namespace TravianBot.Core.Models
     using TravianBot.Core.Enums;
     using TravianBot.Core.Information;
 
-    public class Building : DB_Building
+    public class Building : ObservableObject
     {
         private int buildingId;
         private int villageId;
         private int level;
         private Buildings buildingType;
-        private string typeString;
+        //private string typeString;
         private BuildingInfo info;
         
-		public override int BuildingId
+		public  int BuildingId
 		{
             get
             {
@@ -37,7 +37,7 @@ namespace TravianBot.Core.Models
                 Set(() => BuildingId, ref buildingId, value);
             }
         }
-		public override int VillageId
+		public  int VillageId
 		{
             get
             {
@@ -48,7 +48,7 @@ namespace TravianBot.Core.Models
                 Set(() => VillageId, ref villageId, value);
             }
         }
-		public override int Level
+		public  int Level
 		{
             get
             {
@@ -57,18 +57,6 @@ namespace TravianBot.Core.Models
             set
             {
                 Set(() => Level, ref level, value);
-            }
-        }
-        public override string TypeString
-        {
-            get
-            {
-                return base.TypeString;
-            }
-
-            set
-            {
-                base.TypeString = value;
             }
         }
         public Buildings BuildingType
@@ -96,37 +84,44 @@ namespace TravianBot.Core.Models
 
         public Building()
         {
-            PropertyChanged += (s, e) =>
-            {
-                Task.Run(() =>
-                {
-                    if (e.PropertyName == "BuildingType")
-                        TypeString = buildingType.ToString();
-                    using (var db = new TravianBotDB())
-                    {
-                        //db.DB_Buildings.Where(dB => dB.VillageId == VillageId && dB.BuildingId == BuildingId)
-                        //.Set(dB => dB.Level, Level)
-                        //.Set(dB => dB.BuildingId, BuildingId)
-                    }
-                });
-            };
+            //PropertyChanged += (s, e) =>
+            //{
+            //    Task.Run(() =>
+            //    {
+            //        if (e.PropertyName == "BuildingType")
+            //            TypeString = buildingType.ToString();
+            //        using (var db = new TravianBotDB())
+            //        {
+            //            //db.DB_Buildings.Where(dB => dB.VillageId == VillageId && dB.BuildingId == BuildingId)
+            //            //.Set(dB => dB.Level, Level)
+            //            //.Set(dB => dB.BuildingId, BuildingId)
+            //        }
+            //    });
+            //};
         }
 
-	}
+        //public override bool Equals(object obj)
+        //{
+        //    var that = obj as Building;
+        //    if (that == null)
+        //        return false;
 
-    [Table("DB_Buildings")]
-    public partial class DB_Building : ObservableObject
-    {
-        [PrimaryKey, Identity]
-        public virtual int DB_Id { get; set; } // Long
-        [Column, Nullable]
-        public virtual int BuildingId { get; set; } // Long
-        [Column, Nullable]
-        public virtual int VillageId { get; set; } // Long
-        [Column, Nullable]
-        public virtual int Level { get; set; } // Long
-        [Column, Nullable]
-        public virtual string TypeString { get; set; } // text(255)
+        //}
     }
+
+    //[Table("DB_Buildings")]
+    //public partial class DB_Building : ObservableObject
+    //{
+    //    [PrimaryKey, Identity]
+    //    public virtual int DB_Id { get; set; } // Long
+    //    [Column, Nullable]
+    //    public virtual int BuildingId { get; set; } // Long
+    //    [Column, Nullable]
+    //    public virtual int VillageId { get; set; } // Long
+    //    [Column, Nullable]
+    //    public virtual int Level { get; set; } // Long
+    //    [Column, Nullable]
+    //    public virtual string TypeString { get; set; } // text(255)
+    //}
 }
 

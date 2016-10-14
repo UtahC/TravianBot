@@ -29,7 +29,7 @@ namespace TravianBot.Core.Models
         private int y;
         private bool isActive;
         private bool isCapital;
-        private ObservableCollection<Building> buildings = new ObservableCollection<Building>();
+        private IEnumerable<Building> buildings = new ObservableCollection<Building>();
 
         public override int DB_Id { get; set; }
         public override int VillageId
@@ -98,7 +98,7 @@ namespace TravianBot.Core.Models
                 Set(() => IsCapital, ref isCapital, value);
             }
         }
-        public ObservableCollection<Building> Buildings { get { return buildings; } }
+        public IEnumerable<Building> Buildings { get { return buildings; } set { buildings = value; } }
         public IEnumerable<ConstructTaskModel> ConstructionTasks { get; set; } = new List<ConstructTaskModel>();
 
   //      public ObservableCollection<Building> Buildings
@@ -135,35 +135,35 @@ namespace TravianBot.Core.Models
                 });
             };
 
-            Buildings.CollectionChanged += Buildings_CollectionChanged;
+            //Buildings.CollectionChanged += Buildings_CollectionChanged;
         }
 
-        private void Buildings_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            Task.Run(() =>
-            {
-                using (var db = new TravianBotDB())
-                {
-                    switch (e.Action)
-                    {
-                        case NotifyCollectionChangedAction.Add:
-                            foreach (var item in e.NewItems)
-                            {
-                                var building = item as DB_Village;
-                                db.Insert(building);
-                            }
-                            break;
-                        case NotifyCollectionChangedAction.Remove:
-                            foreach (var item in e.OldItems)
-                            {
-                                var building = item as DB_Building;
-                                db.DB_Buildings.Where(dV => dV.BuildingId == building.BuildingId).Delete();
-                            }
-                            break;
-                    }
-                }
-            });
-        }
+        //private void Buildings_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        //{
+        //    Task.Run(() =>
+        //    {
+        //        using (var db = new TravianBotDB())
+        //        {
+        //            switch (e.Action)
+        //            {
+        //                case NotifyCollectionChangedAction.Add:
+        //                    foreach (var item in e.NewItems)
+        //                    {
+        //                        var building = item as DB_Village;
+        //                        db.Insert(building);
+        //                    }
+        //                    break;
+        //                case NotifyCollectionChangedAction.Remove:
+        //                    foreach (var item in e.OldItems)
+        //                    {
+        //                        var building = item as DB_Building;
+        //                        db.DB_Buildings.Where(dV => dV.BuildingId == building.BuildingId).Delete();
+        //                    }
+        //                    break;
+        //            }
+        //        }
+        //    });
+        //}
 
         public override bool Equals(object otherObject)
         {

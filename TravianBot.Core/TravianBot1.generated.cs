@@ -19,7 +19,7 @@ namespace TravianBot.Core.Models
 	/// </summary>
 	public partial class TravianBotDB : LinqToDB.Data.DataConnection
 	{
-		public ITable<DB_Building> DB_Buildings { get { return this.GetTable<DB_Building>(); } }
+		//public ITable<DB_Building> DB_Buildings { get { return this.GetTable<DB_Building>(); } }
 		public ITable<DB_User>     DB_Users     { get { return this.GetTable<DB_User>(); } }
 		public ITable<DB_Village>  DB_Villages  { get { return this.GetTable<DB_Village>(); } }
 
@@ -78,11 +78,11 @@ namespace TravianBot.Core.Models
 
 	public static partial class TableExtensions
 	{
-		public static DB_Building Find(this ITable<DB_Building> table, int DB_Id)
-		{
-			return table.FirstOrDefault(t =>
-				t.DB_Id == DB_Id);
-		}
+		//public static DB_Building Find(this ITable<DB_Building> table, int DB_Id)
+		//{
+		//	return table.FirstOrDefault(t =>
+		//		t.DB_Id == DB_Id);
+		//}
 
 		public static DB_User Find(this ITable<DB_User> table, int DB_Id)
 		{
