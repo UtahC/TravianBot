@@ -153,7 +153,7 @@ namespace TravianBot.Core.Models
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return base.GetHashCode();
         }
 
         public bool UpdatePropertyIfNotEquals<TProperty>(

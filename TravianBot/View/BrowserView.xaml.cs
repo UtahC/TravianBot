@@ -21,6 +21,7 @@ using TravianBot.Core.Models;
 using TravianBot.Core;
 using TravianBot.Core.Extensions;
 using System.Globalization;
+using TravianBot.Core.Tasks;
 
 namespace TravianBot.View
 {
@@ -30,6 +31,7 @@ namespace TravianBot.View
     public partial class BrowserView : UserControl
     {
         MainViewModel mainViewModel;
+        bool isBrowserLoaded = false;
 
         public BrowserView()
         {
@@ -62,9 +64,8 @@ namespace TravianBot.View
             if (Setting.Default.UserAgent != Core.Enums.UserAgents.Default)
                 webControl.WebView.CustomUserAgent = Setting.Default.UserAgentString;
             
-            webControl.WebView.LoadCompleted += (s, e) => 
-                mainViewModel.Client.Html = webControl.WebView.GetHtml();
-            webControl.WebView.UrlChanged += (s, e) => 
+            webControl.WebView.LoadCompleted += BrowserLoaded;
+            webControl.WebView.UrlChanged += (s, e) =>
                 mainViewModel.Client.Url = webControl.WebView.Url;
             webControl.WebView.MouseUp += (s, e) => 
                 mainViewModel.Client.SetBotUnavailableSpan(5000);
@@ -72,21 +73,52 @@ namespace TravianBot.View
                 btnGoBack.IsEnabled = webControl.WebView.CanGoBack;
             webControl.WebView.CanGoForwardChanged += (s, e) =>
                 btnGoForward.IsEnabled = webControl.WebView.CanGoForward;
-
+            webControl.WebView.IsLoadingChanged += (s, e) => 
+            {
+                if (!webControl.WebView.IsLoading)
+                {
+                    mainViewModel.Client.HtmlAvailableSignal.Set();
+                    mainViewModel.Client.Html = webControl.WebView.GetHtml();
+                    UITask.LoadVillages();
+                }
+            };
             //
-            webControl.WebView.LoadCompleted += (s, e) => MessageBox.Show("LoadCompleted");
+            //webControl.WebView.LoadCompleted += (s, e) => MessageBox.Show("LoadCompleted");
             //
 
             mainViewModel.Client.PropertyChanged += (s, e) =>
             {
+                if (!isBrowserLoaded)
+                    return;
+
+                mainViewModel.Client.HtmlAvailableSignal.Reset();
                 switch (e.PropertyName)
                 {
                     case "Url":
-                        webControl.WebView.LoadUrlAndWait(mainViewModel.Client.Url); break;
+                        if (mainViewModel.Client.Url == webControl.WebView.Url)
+                            webControl.WebView.Reload(false);
+                        else
+                            webControl.WebView.LoadUrl(mainViewModel.Client.Url);
+                        //need to block client.html
+                        break;
                     case "Javascript":
-                        webControl.WebView.EvalScript(mainViewModel.Client.Javascript, true); break;
+                        webControl.WebView.QueueScriptCall(
+                            new ScriptCall(mainViewModel.Client.Javascript, () => 
+                            {
+                                //mainViewModel.Client.HtmlAvailableSignal.Set();
+                                //MessageBox.Show("scriptcall callback");
+                            }));
+                        
+                        //webControl.WebView.EvalScript(mainViewModel.Client.Javascript, true);
+                        break;
                 }
             };
+        }
+
+        private void BrowserLoaded(object sender, LoadCompletedEventArgs e)
+        {
+            isBrowserLoaded = true;
+            webControl.WebView.LoadCompleted -= BrowserLoaded;
         }
 
         private void txtUrl_PreviewKeyDown(object sender, KeyEventArgs e)

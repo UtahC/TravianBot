@@ -20,7 +20,7 @@ namespace TravianBot.Core.State
             if (retryCount >= retryCountLimit)
                 throw new Exception("Cannot login");
 
-            client.Url = client.Setting.Server.ToUri().GetSuburbsUri().AbsoluteUri;
+            client.LoadUrl(client.Setting.Server.ToUri().GetSuburbsUri().AbsoluteUri);
             if (client.Url == client.Setting.Server || !UtilityTask.IsLogon())
             {
                 client.Logger.Write("Now logging in to server.");

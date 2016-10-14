@@ -34,7 +34,7 @@ namespace TravianBot.Core.Tasks.Tests
         [TestMethod()]
         public void LoadVillagesNoneTest()
         {
-            UtilityTask.LoadVillages(villages, newVillages);
+            UITask.LoadVillages(villages, newVillages);
             
             Assert.AreEqual(AreTwoVillagesEqual(), true);
         }
@@ -43,7 +43,7 @@ namespace TravianBot.Core.Tasks.Tests
         public void LoadVillagesRemoveTest()
         {
             newVillages.RemoveAt(0);
-            UtilityTask.LoadVillages(villages, newVillages);
+            UITask.LoadVillages(villages, newVillages);
 
             Assert.AreEqual(AreTwoVillagesEqual(), true);
         }
@@ -52,7 +52,7 @@ namespace TravianBot.Core.Tasks.Tests
         public void LoadVillagesAddTest()
         {
             newVillages.Add(new Village(33, "name3", 30, 31, true, true));
-            UtilityTask.LoadVillages(villages, newVillages);
+            UITask.LoadVillages(villages, newVillages);
 
             Assert.AreEqual(AreTwoVillagesEqual(), true);
         }
@@ -61,7 +61,7 @@ namespace TravianBot.Core.Tasks.Tests
         public void LoadVillagesUpdateTest()
         {
             newVillages[1] = new Village(2, "name22", 20, 21, true, true);
-            UtilityTask.LoadVillages(villages, newVillages);
+            UITask.LoadVillages(villages, newVillages);
 
             Assert.AreEqual(AreTwoVillagesEqual(), true);
         }
@@ -72,7 +72,7 @@ namespace TravianBot.Core.Tasks.Tests
             newVillages.RemoveAt(1);
             newVillages.Add(new Village(33, "name3", 30, 31, true, true));
             newVillages[0] = new Village(11, "name11", 11, 12, true, false);
-            UtilityTask.LoadVillages(villages, newVillages);
+            UITask.LoadVillages(villages, newVillages);
 
             Assert.AreEqual(AreTwoVillagesEqual(), true);
         }

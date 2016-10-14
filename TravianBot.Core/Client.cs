@@ -33,7 +33,8 @@ namespace TravianBot.Core
         private DateTime BotAvailableTime = new DateTime(1970, 1, 1);
         private ObservableCollection<Village> villages = new ObservableCollection<Village>();
 
-        public ManualResetEvent WorkAvailableSignal = new ManualResetEvent(true);
+        public ManualResetEvent BottingWorkAvailableSignal = new ManualResetEvent(true);
+        public ManualResetEvent HtmlAvailableSignal = new ManualResetEvent(false);
 
         public static Client Default
         {
@@ -48,6 +49,7 @@ namespace TravianBot.Core
         {
             get
             {
+                HtmlAvailableSignal.WaitOne();
                 return html;
             }
             set
@@ -70,7 +72,7 @@ namespace TravianBot.Core
             private set
             {
                 if (value)
-                    WorkAvailableSignal.WaitOne();
+                    BottingWorkAvailableSignal.WaitOne();
                 Set(() => IsBotWorking, ref isBotWorking, value);
             }
         }
@@ -78,11 +80,7 @@ namespace TravianBot.Core
         public string Url
         {
             get { return url; }
-            set
-            {
-                if (value != url)
-                    Set(() => Url, ref url, value);
-            }
+            set { url = value; }
         }
         public string BotMessage { get; private set; }
         public string Javascript { get { return javascript; } private set { javascript = value; } }
@@ -142,6 +140,11 @@ namespace TravianBot.Core
             BotMessage = message;
         }
 
+        public void LoadUrl(string url)
+        {
+            Set(() => Url, ref this.url, url);
+        }
+
         public void ExecuteJavascript(string script)
         {
             Set(() => Javascript, ref javascript, script);
@@ -156,12 +159,12 @@ namespace TravianBot.Core
         {
             if (dateTime > BotAvailableTime)
                 BotAvailableTime = dateTime;
-            WorkAvailableSignal.Reset();
+            BottingWorkAvailableSignal.Reset();
             Task.Run(async () =>
             {
                 while (BotAvailableTime > DateTime.Now)
                     await Task.Delay(1000);
-                WorkAvailableSignal.Set();
+                BottingWorkAvailableSignal.Set();
             });
         }
 

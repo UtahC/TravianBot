@@ -15,8 +15,7 @@ namespace TravianBot.Core.State
 
             if (retryCount >= retryCountLimit) ;
             //todo
-
-            UtilityTask.LoadVillages();
+            
             client.Setting.Tribe = UtilityTask.GetTribe();
 
             return null;

@@ -21,84 +21,6 @@ namespace TravianBot.Core.Tasks
                 return false;
             return true;
         }
-        public static void LoadVillages()
-        {
-            var villages = client.Villages;
-            var newVillages = GetVillages();
-
-            LoadVillages(villages, newVillages);
-            //foreach (var newVillage in newVillages)
-            //{
-            //    //Add villages which are not exist in bot
-            //    if (!villages.Any(v => v.VillageId == newVillage.VillageId))
-            //    {
-            //        villages.Add(newVillage);
-            //    }
-            //    //Update villages which are not equal completely
-            //    else if (!villages.Any(v => v.Equals(newVillage)))
-            //    {
-            //        villages.UpdateVillageById(newVillage);
-            //    }
-            //}
-        }
-
-        public static void LoadVillages(ObservableCollection<Village> villages, IEnumerable<Village> newVillages)
-        {
-            //Remove villages which are not exist now
-            var newVillageIds = newVillages.Select(v => v.VillageId);
-            var villagesToBeRemoved = villages.Where(v => !newVillageIds.Contains(v.VillageId)).ToList();
-            foreach (var village in villagesToBeRemoved)
-                villages.Remove(village);
-
-            //Add villages which are not exist in bot
-            var villageIds = villages.Select(v => v.VillageId);
-            var villagesToBeAdded = newVillages.Where(v => !villageIds.Contains(v.VillageId)).ToList();
-            foreach (var village in villagesToBeAdded)
-                 villages.Add(village);
-
-            //Update villages which are not equal completely
-            var villagesWhereIdExists = newVillages.Where(v => villageIds.Contains(v.VillageId));
-            var villagesToBeUpdated = villagesWhereIdExists
-                .Where(newV => !villages.Any(oldV => oldV.Equals(newV)));
-            foreach (var village in villagesToBeUpdated)
-                villages.UpdateVillageById(village);
-        }
-
-        public static IEnumerable<Village> GetVillages()
-        {
-            var doc = client.Document;
-            var villages = new List<Village>();
-            var villageNodes = doc?.GetElementbyId("sidebarBoxVillagelist")?.Descendants()?
-                .Where(n => n.HasAttributeAndContainsValue("class", "innerBox content"))
-                .FirstOrDefault()?.Descendants("li");
-
-            foreach (var node in villageNodes)
-            {
-                var id = int.Parse(node.Descendants("a")?.FirstOrDefault()?.Attributes["href"]?.Value?.Substring("newdid=", "&"));
-                var name = node.Descendants("div")?
-                    .Where(n => n.HasAttributeAndContainsValue("class", "name"))
-                    .FirstOrDefault()?.InnerHtml;
-                var xStr = node.Descendants("span")?
-                    .Where(n => n.HasAttributeAndContainsValue("class", "coordinateX"))
-                    .FirstOrDefault()?.InnerHtml;
-                var x = int.Parse(string.Concat(xStr.Where(c => c >= 48 && c <= 57)));
-                var yStr = node.Descendants("span")?
-                    .Where(n => n.HasAttributeAndContainsValue("class", "coordinateY"))
-                    .FirstOrDefault()?.InnerHtml;
-                var y = int.Parse(string.Concat(yStr.Where(c => c >= 48 && c <= 57)));
-
-                var village = new Village(id, name, x, y);
-
-                if (node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains("active"))
-                    village.IsActive = true;
-                else
-                    village.IsActive = false;
-
-                villages.Add(village);
-            }
-
-            return villages;
-        }
         public static void LoadAllBuildings(int villageID)
         {
             var buildings = GetAllBuildings(villageID);
@@ -124,7 +46,7 @@ namespace TravianBot.Core.Tasks
         }
         public static IEnumerable<Building> GetSuburbsBuildings(int villageId)
         {
-            client.Url = client.Setting.Server.ToUri().GetSuburbsUri(villageId).AbsoluteUri;
+            client.LoadUrl(client.Setting.Server.ToUri().GetSuburbsUri(villageId).AbsoluteUri);
 
             var doc = client.Document;
             var buildings = new List<Building>();
@@ -164,7 +86,7 @@ namespace TravianBot.Core.Tasks
         }
         public static IEnumerable<Building> GetCityBuildings(int villageId)
         {
-            client.Url = client.Setting.Server.ToUri().GetCityUri(villageId).AbsoluteUri;
+            client.LoadUrl(client.Setting.Server.ToUri().GetCityUri(villageId).AbsoluteUri);
 
             var doc = client.Document;
 
@@ -255,7 +177,6 @@ namespace TravianBot.Core.Tasks
 
             return tribe;
         }
-        
         public static string GetBuildCode()
         {
             var doc = new HtmlDocument();
@@ -276,6 +197,79 @@ namespace TravianBot.Core.Tasks
             var onclickText = buttonNode.Attributes["onclick"]?.Value;
 
             return onclickText.Substring("&amp;c=", "';");
+        }
+    }
+
+    public class UITask : TaskBase
+    {
+        public static void LoadVillages()
+        {
+            var villages = client.Villages;
+            var newVillages = GetVillages();
+
+            LoadVillages(villages, newVillages);
+        }
+        public static void LoadVillages(ObservableCollection<Village> villages, IEnumerable<Village> newVillages)
+        {
+            if (newVillages == null)
+                return;
+
+            //Remove villages which are not exist now
+            var newVillageIds = newVillages.Select(v => v.VillageId);
+            var villagesToBeRemoved = villages.Where(v => !newVillageIds.Contains(v.VillageId)).ToList();
+            foreach (var village in villagesToBeRemoved)
+                villages.Remove(village);
+
+            //Add villages which are not exist in bot
+            var villageIds = villages.Select(v => v.VillageId);
+            var villagesToBeAdded = newVillages.Where(v => !villageIds.Contains(v.VillageId)).ToList();
+            foreach (var village in villagesToBeAdded)
+                villages.Add(village);
+
+            //Update villages which are not equal completely
+            var villagesWhereIdExists = newVillages.Where(v => villageIds.Contains(v.VillageId));
+            var villagesToBeUpdated = villagesWhereIdExists
+                .Where(newV => !villages.Any(oldV => oldV.Equals(newV)));
+            foreach (var village in villagesToBeUpdated)
+                villages.UpdateVillageById(village);
+        }
+        public static IEnumerable<Village> GetVillages()
+        {
+            var doc = client.Document;
+            var villages = new List<Village>();
+            var villageNodes = doc?.GetElementbyId("sidebarBoxVillagelist")?.Descendants()?
+                .Where(n => n.HasAttributeAndContainsValue("class", "innerBox content"))
+                .FirstOrDefault()?.Descendants("li");
+
+            if (villageNodes == null)
+                return null;
+
+            foreach (var node in villageNodes)
+            {
+                var id = int.Parse(node.Descendants("a")?.FirstOrDefault()?.Attributes["href"]?.Value?.Substring("newdid=", "&"));
+                var name = node.Descendants("div")?
+                    .Where(n => n.HasAttributeAndContainsValue("class", "name"))
+                    .FirstOrDefault()?.InnerHtml;
+                var xStr = node.Descendants("span")?
+                    .Where(n => n.HasAttributeAndContainsValue("class", "coordinateX"))
+                    .FirstOrDefault()?.InnerHtml;
+                var x = int.Parse(string.Concat(xStr.Where(c => c >= 48 && c <= 57)));
+                var yStr = node.Descendants("span")?
+                    .Where(n => n.HasAttributeAndContainsValue("class", "coordinateY"))
+                    .FirstOrDefault()?.InnerHtml;
+                var y = int.Parse(string.Concat(yStr.Where(c => c >= 48 && c <= 57)));
+
+                var village = new Village(id, name, x, y);
+
+                if (node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains("active"))
+                    village.IsActive = true;
+                else
+                    village.IsActive = false;
+
+                villages.Add(village);
+            }
+
+            return villages;
         }
     }
 }
