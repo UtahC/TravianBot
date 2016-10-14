@@ -8,52 +8,52 @@ using TravianBot.Core.Extensions;
 
 namespace TravianBot.Core
 {
-    class UrlGenerator
+    public class UriGenerator
     {
-        private const string UrlSuburbs = "dorf1.php";
-        private const string UrlCity = "dorf2.php";
-        private const string UrlBuilding = "build.php";
-        private const string UrlReport = "berichte.php";
-        private const string UrlMessage = "nachrichten.php";
+        public static readonly string UrlSuburbs = "dorf1.php";
+        public static readonly string UrlCity = "dorf2.php";
+        public static readonly string UrlBuilding = "build.php";
+        public static readonly string UrlReport = "berichte.php";
+        public static readonly string UrlMessage = "nachrichten.php";
 
         public static string ServerUrl { private get; set; }
 
-        public static string GetCityUri()
+        public static Uri GetCityUri()
         {
-            return new Uri(ServerUrl).Combine(UrlCity).AbsoluteUri;
+            return new Uri(ServerUrl).Combine(UrlCity);
         }
 
-        public static string GetCityUri(int villageId)
-        {
-            var keyValue = new KeyValuePair<string, string>("newdid", villageId.ToString());
-            return new Uri(ServerUrl).Combine(UrlCity).Combine(keyValue).AbsoluteUri;
-        }
-
-        public static string GetSuburbsUri()
-        {
-            return new Uri(ServerUrl).Combine(UrlSuburbs).AbsoluteUri;
-        }
-
-        public static string GetSuburbsUri(int villageId)
+        public static Uri GetCityUri(int villageId)
         {
             var keyValue = new KeyValuePair<string, string>("newdid", villageId.ToString());
-            return new Uri(ServerUrl).Combine(UrlSuburbs).Combine(keyValue).AbsoluteUri;
+            return new Uri(ServerUrl).Combine(UrlCity).Combine(keyValue);
         }
 
-        public static string GetBuildingUri(int buildingId)
+        public static Uri GetSuburbsUri()
+        {
+            return new Uri(ServerUrl).Combine(UrlSuburbs);
+        }
+
+        public static Uri GetSuburbsUri(int villageId)
+        {
+            var keyValue = new KeyValuePair<string, string>("newdid", villageId.ToString());
+            return new Uri(ServerUrl).Combine(UrlSuburbs).Combine(keyValue);
+        }
+
+        public static Uri GetBuildingUri(int buildingId)
         {
             var keyValue = new KeyValuePair<string, string>("id", buildingId.ToString());
-            return new Uri(ServerUrl).Combine(UrlBuilding).Combine(keyValue).AbsoluteUri;
+            return new Uri(ServerUrl).Combine(UrlBuilding).Combine(keyValue);
         }
 
-        public static string GetBuildingUri(int villageId, int buildingId)
+        public static Uri GetBuildingUri(int villageId, int buildingId)
         {
             var keyValueVillageId = new KeyValuePair<string, string>("newdid", villageId.ToString());
             var keyValueBuildingId = new KeyValuePair<string, string>("id", buildingId.ToString());
-            return new Uri(ServerUrl).Combine(UrlBuilding).Combine(keyValueVillageId, keyValueBuildingId).AbsoluteUri;
+            return new Uri(ServerUrl).Combine(UrlBuilding).Combine(keyValueVillageId, keyValueBuildingId);
         }
 
-        public static string GetExecuteBuildUri(bool isZeroLevel, Buildings type, int buildingId, string buildCode)
+        public static Uri GetExecuteBuildUri(bool isZeroLevel, Buildings type, int buildingId, string buildCode)
         {
             var keyValueBuildCode = new KeyValuePair<string, string>("c", buildCode);
 
@@ -63,7 +63,7 @@ namespace TravianBot.Core
                 var keyValueBuildingId = new KeyValuePair<string, string>("id", buildingId.ToString());
 
                 return new Uri(ServerUrl).Combine(UrlCity)
-                    .Combine(keyValueBuildingType, keyValueBuildingId, keyValueBuildCode).AbsoluteUri;
+                    .Combine(keyValueBuildingType, keyValueBuildingId, keyValueBuildCode);
             }
             else
             {
@@ -71,10 +71,10 @@ namespace TravianBot.Core
 
                 if ((int)type <= 4 || buildingId <= 18)
                     return new Uri(ServerUrl).Combine(UrlSuburbs)
-                        .Combine(keyValueBuildingType, keyValueBuildCode).AbsoluteUri;
+                        .Combine(keyValueBuildingType, keyValueBuildCode);
                 else
                     return new Uri(ServerUrl).Combine(UrlCity)
-                        .Combine(keyValueBuildingType, keyValueBuildCode).AbsoluteUri;
+                        .Combine(keyValueBuildingType, keyValueBuildCode);
             }
         }
     }

@@ -45,6 +45,7 @@ namespace TravianBot.Core
         Tribes Tribe { get; set; }
 
         LogicSetting LogicSetting { get; set; }
+        int DelayAfterLoadUrl { get; set; }
 
         void Save();
 
@@ -116,6 +117,8 @@ namespace TravianBot.Core
 
         [JsonIgnore]
         public LogicSetting LogicSetting { get; set; }
+
+        public int DelayAfterLoadUrl { get; set; } = 1000;
 
         private Setting()
         {
@@ -212,7 +215,7 @@ namespace TravianBot.Core
     
     public class LogicSetting
     {
-        public IEnumerable<BuildingTaskModel> BuildingTasks { get; set; }
+        public IEnumerable<ConstructTaskModel> BuildingTasks { get; set; }
     }
 }
 

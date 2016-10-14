@@ -28,25 +28,25 @@ namespace TravianBot.Core.Tasks
             //client.Villages.Where(v => v.VillageId == villageID)
             //    .FirstOrDefault().Buildings = new ObservableCollection<Building>(buildings);
         }
-        public static IEnumerable<Building> GetAllBuildings(int villageId)
+        public static async Task<IEnumerable<Building>> GetAllBuildings(int villageId)
         {
-            var suburbs = GetSuburbsBuildings(villageId);
-            var city = GetCityBuildings(villageId);
+            var suburbs = await GetSuburbsBuildings(villageId);
+            var city = await GetCityBuildings(villageId);
 
             return suburbs.Concat(city);
         }
-        public static void LoadSuburbsBuildings(int villageID)
+        public static async Task LoadSuburbsBuildings(int villageID)
         {
-            var newSuburbsBuildings = GetSuburbsBuildings(villageID);
+            var newSuburbsBuildings = await GetSuburbsBuildings(villageID);
             var village = client.Villages.Where(v => v.VillageId == villageID).FirstOrDefault();
             var oldCityBuildings = village.Buildings.Where(v => v.BuildingId > 18);
             throw new NotImplementedException();
             //var buildings = newSuburbsBuildings.Concat(oldCityBuildings);
             //village.Buildings = new ObservableCollection<Building>(buildings);
         }
-        public static IEnumerable<Building> GetSuburbsBuildings(int villageId)
+        public static async Task<IEnumerable<Building>> GetSuburbsBuildings(int villageId)
         {
-            client.LoadUrl(client.Setting.Server.ToUri().GetSuburbsUri(villageId).AbsoluteUri);
+            await client.LoadUrl(client.Setting.Server.ToUri().GetSuburbsUri(villageId).AbsoluteUri);
 
             var doc = client.Document;
             var buildings = new List<Building>();
@@ -75,18 +75,18 @@ namespace TravianBot.Core.Tasks
 
             return buildings;
         }
-        public static void LoadCityBuildings(int villageID)
+        public static async Task LoadCityBuildings(int villageID)
         {
-            var newCityBuildings = GetSuburbsBuildings(villageID);
+            var newCityBuildings = await GetSuburbsBuildings(villageID);
             var village = client.Villages.Where(v => v.VillageId == villageID).FirstOrDefault();
             var oldSuburbsBuildings = village.Buildings.Where(v => v.BuildingId <= 18);
             var buildings = oldSuburbsBuildings.Concat(newCityBuildings);
             throw new NotImplementedException();
             //village.Buildings = new ObservableCollection<Building>(buildings);
         }
-        public static IEnumerable<Building> GetCityBuildings(int villageId)
+        public static async Task<IEnumerable<Building>> GetCityBuildings(int villageId)
         {
-            client.LoadUrl(client.Setting.Server.ToUri().GetCityUri(villageId).AbsoluteUri);
+            await client.LoadUrl(client.Setting.Server.ToUri().GetCityUri(villageId).AbsoluteUri);
 
             var doc = client.Document;
 
@@ -297,7 +297,14 @@ namespace TravianBot.Core.Tasks
         }
         public static void LoadCurrentBuildings()
         {
+            var activeVillage = client.Villages?.Where(v => v.IsActive == true).FirstOrDefault();
+            if (activeVillage == null)
+                throw new Exception("ERROR: No village is actived.");
 
+            if (client.Url.Contains(UriGenerator.UrlSuburbs))
+                LoadSuburbsBuildings();
+            else if (client.Url.Contains(UriGenerator.UrlCity))
+                LoadCityBuildings();
         }
     }
 }

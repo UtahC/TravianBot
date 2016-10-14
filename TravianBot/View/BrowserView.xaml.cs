@@ -65,8 +65,8 @@ namespace TravianBot.View
                 webControl.WebView.CustomUserAgent = Setting.Default.UserAgentString;
             
             webControl.WebView.LoadCompleted += BrowserLoaded;
-            webControl.WebView.UrlChanged += (s, e) =>
-                mainViewModel.Client.Url = webControl.WebView.Url;
+            //webControl.WebView.UrlChanged += (s, e) =>
+            //    mainViewModel.Client.Url = webControl.WebView.Url;
             webControl.WebView.MouseUp += (s, e) => 
                 mainViewModel.Client.SetBotUnavailableSpan(5000);
             webControl.WebView.CanGoBackChanged += (s, e) => 
@@ -77,10 +77,17 @@ namespace TravianBot.View
             {
                 if (!webControl.WebView.IsLoading)
                 {
+                    mainViewModel.Client.Url = webControl.WebView.Url;
                     mainViewModel.Client.HtmlAvailableSignal.Set();
                     mainViewModel.Client.Html = webControl.WebView.GetHtml();
                     UITask.LoadVillages(webControl.WebView.GetHtml());
                     UITask.GetUpdatedActivedVillage(webControl.WebView.GetHtml());
+                    if (webControl.WebView.Url.Contains(UriGenerator.UrlSuburbs) ||
+                        webControl.WebView.Url.Contains(UriGenerator.UrlCity))
+                    {
+                        UtilityTask.LoadBuildingsInCurrentPage();
+                    }
+                    
                 }
             };
             //

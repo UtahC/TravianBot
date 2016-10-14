@@ -99,6 +99,7 @@ namespace TravianBot.Core.Models
             }
         }
         public ObservableCollection<Building> Buildings { get { return buildings; } }
+        public IEnumerable<ConstructTaskModel> ConstructionTasks { get; set; } = new List<ConstructTaskModel>();
 
   //      public ObservableCollection<Building> Buildings
 		//{

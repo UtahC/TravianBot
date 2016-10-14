@@ -15,10 +15,10 @@ namespace TravianBot.Core.State
 
             if (retryCount >= retryCountLimit) ;
             //todo
-            
-            client.Setting.Tribe = UtilityTask.GetTribe();
 
-            return null;
+            UriGenerator.ServerUrl = client.Setting.Server;
+
+            return new ConstructState();
         }
     }
 }

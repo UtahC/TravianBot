@@ -16,9 +16,7 @@ namespace TravianBot.Core.Tasks
 
             client.ExecuteJavascript(ScriptGenerator.GetLoginScript
                 (client.Setting.Account, client.Setting.Password, client.Setting.IsLowResolution));
-
-            await Task.Delay(10000);
-
+            
             if (!UtilityTask.IsLogon())
                 return false;
 

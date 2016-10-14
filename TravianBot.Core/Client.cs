@@ -139,9 +139,20 @@ namespace TravianBot.Core
             BotMessage = message;
         }
 
-        public void LoadUrl(string url)
+        public void AsyncLoadUrl(string url)
+        {
+            
+        }
+
+        public async Task LoadUrl(Uri uri)
+        {
+            await LoadUrl(uri.AbsoluteUri);
+        }
+
+        public async Task LoadUrl(string url)
         {
             Set(() => Url, ref this.url, url);
+            await Task.Delay(Setting.DelayAfterLoadUrl);
         }
 
         public void ExecuteJavascript(string script)

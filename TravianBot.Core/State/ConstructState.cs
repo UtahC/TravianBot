@@ -1,43 +1,49 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TravianBot.Core.Enums;
 using TravianBot.Core.Extensions;
+using TravianBot.Core.Models;
+using TravianBot.Core.Tasks;
 
 namespace TravianBot.Core.State
 {
     class ConstructState : StateBase
     {
-        public void Build(bool isZeroLevel, int villageId, int buildingId, Buildings type)
+        public override async Task<StateBase> Start(CancellationToken cancellationToken)
         {
-            client.LoadUrl(UrlGenerator.GetBuildingUri(villageId, buildingId));
-            var buildCode = GetBuildCode();
-            
-            if (buildCode != null)
-                client.LoadUrl(UrlGenerator.GetExecuteBuildUri(isZeroLevel, type, buildingId, buildCode));
-        }
+            await base.Start(cancellationToken);
 
-        public string GetBuildCode()
-        {
-            var doc = client.Document;
-            var buttonNode = doc?.GetElementbyId("build")?.Descendants("div")?
-                .Where(n => n.HasClass("contractLink")).FirstOrDefault()?
-                .Descendants("button")?.Where(n => n.HasClassExcept("gold"))?.FirstOrDefault();
+            if (retryCount >= retryCountLimit)
+                client.Logger.Write("Cannot construct or upgrade buildings.");
 
-            if (buttonNode == null)
+            #region test data
+            var village = client.Villages.Where(v => v.VillageId == 76307).FirstOrDefault();
+            village.ConstructionTasks = new List<ConstructTaskModel>()
             {
-                buttonNode = doc?.GetElementbyId("build")?.Descendants("button")?
-                    .Where(n => n.HasClassExcept("gold")).FirstOrDefault();
+                //new ConstructTaskModel()
+                //{
+                //    BuildingId = 5,
+                //    IsConstrution = false,
+                //    BuildingType = Buildings.ClayPit,
+                //    LevelAfterWork = 1
+                //},
+                //new ConstructTaskModel()
+                //{
+                //    BuildingId = 38,
+                //    IsConstrution = true,
+                //    BuildingType = Buildings.Granary,
+                //    LevelAfterWork = 0
+                //}
+            };
+            #endregion
+            await ConstructTask.Build(village, cancellationToken);
 
-                if (buttonNode == null || buttonNode.HasClass("disabled"))
-                    return null;
-            }
-
-            var onclickText = buttonNode.Attributes["onclick"]?.Value;
-
-            return onclickText.Substring("&amp;c=", "';");
+            return null;
         }
     }
 }
