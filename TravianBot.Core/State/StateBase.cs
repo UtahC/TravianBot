@@ -22,7 +22,7 @@ namespace TravianBot.Core.State
 
             if (retryCount > 0 && retryCount < retryCountLimit)
                 client.Logger.Write($"{retryLogMessage}, try again. ({retryCount}/{retryCountLimit})");
-            else
+            else if (retryCount > 0 && retryCount >= retryCountLimit)
                 client.Logger.Write($"{retryLogMessage} ({retryCount}/{retryCountLimit})");
 
 

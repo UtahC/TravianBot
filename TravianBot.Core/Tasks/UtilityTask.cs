@@ -177,35 +177,60 @@ namespace TravianBot.Core.Tasks
 
             return tribe;
         }
-        public static string GetBuildCode()
+        public static int GetUpdatedActivedVillage()
         {
-            var doc = new HtmlDocument();
-            doc.LoadHtml(client.Html);
-            var buttonNode = doc?.GetElementbyId("build")?.Descendants("div")?
-                .Where(n => n.HasClass("contractLink")).FirstOrDefault()?
-                .Descendants("button")?.Where(n => n.HasClassExcept("gold"))?.FirstOrDefault();
+            var doc = client.Document;
+            return GetUpdatedActivedVillage(doc);
+        }
+        public static int GetUpdatedActivedVillage(HtmlDocument doc)
+        {
+            var id = -1;
+            var villageNodes = doc?.GetElementbyId("sidebarBoxVillagelist")?.Descendants()?
+                .Where(n => n.HasAttributeAndContainsValue("class", "innerBox content"))
+                .FirstOrDefault()?.Descendants("li");
 
-            if (buttonNode == null)
+            if (villageNodes == null)
+                return 0;
+
+            var activedVillages = client.Villages.Where(v => v.IsActive);
+            if (activedVillages != null)
             {
-                buttonNode = doc?.GetElementbyId("build")?.Descendants("button")?
-                    .Where(n => n.HasClassExcept("gold")).FirstOrDefault();
-
-                if (buttonNode == null || buttonNode.HasClass("disabled"))
-                    return null;
+                foreach (var village in activedVillages)
+                    village.IsActive = false;
             }
             
-            var onclickText = buttonNode.Attributes["onclick"]?.Value;
 
-            return onclickText.Substring("&amp;c=", "';");
+            foreach (var node in villageNodes)
+            {
+                //if (node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains("active"))
+                if (node.HasClass("active"))
+                {
+                    id = int.Parse(node.Descendants("a")?.FirstOrDefault()?
+                    .Attributes["href"]?.Value?.Substring("newdid=", "&"));
+
+                    client.Villages.Where(v => v.VillageId == id).FirstOrDefault().IsActive = true;
+                    break;
+                }
+            }
+
+            return id;
         }
     }
 
     public class UITask : TaskBase
     {
-        public static void LoadVillages()
+        public static int GetUpdatedActivedVillage(string html)
         {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            return UtilityTask.GetUpdatedActivedVillage(doc);
+        }
+        public static void LoadVillages(string html)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
             var villages = client.Villages;
-            var newVillages = GetVillages();
+            var newVillages = GetVillages(doc);
 
             LoadVillages(villages, newVillages);
         }
@@ -233,9 +258,8 @@ namespace TravianBot.Core.Tasks
             foreach (var village in villagesToBeUpdated)
                 villages.UpdateVillageById(village);
         }
-        public static IEnumerable<Village> GetVillages()
+        public static IEnumerable<Village> GetVillages(HtmlDocument doc)
         {
-            var doc = client.Document;
             var villages = new List<Village>();
             var villageNodes = doc?.GetElementbyId("sidebarBoxVillagelist")?.Descendants()?
                 .Where(n => n.HasAttributeAndContainsValue("class", "innerBox content"))
@@ -270,6 +294,10 @@ namespace TravianBot.Core.Tasks
             }
 
             return villages;
+        }
+        public static void LoadCurrentBuildings()
+        {
+
         }
     }
 }

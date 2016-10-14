@@ -107,6 +107,7 @@
     <Compile Include="Log\IEventLogger.cs" />
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Models\Building.cs" />
+    <Compile Include="State\ConstructState.cs" />
     <Compile Include="TravianBot1.generated.cs">
       <DependentUpon>TravianBot.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -124,6 +125,7 @@
     <Compile Include="Tasks\LoginTask.cs" />
     <Compile Include="Tasks\TaskBase.cs" />
     <Compile Include="Models\BuildingTaskModel.cs" />
+    <Compile Include="UrlGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

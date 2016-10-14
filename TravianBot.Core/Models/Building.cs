@@ -6,22 +6,27 @@
 //------------------------------------------------------------------------------
 namespace TravianBot.Core.Models
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using TravianBot.Core.Enums;
-	using TravianBot.Core.Information;
+    using GalaSoft.MvvmLight;
+    using LinqToDB;
+    using LinqToDB.Mapping;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using TravianBot.Core.Enums;
+    using TravianBot.Core.Information;
 
-	public class Building : DB_Building
+    public class Building : DB_Building
     {
         private int buildingId;
         private int villageId;
         private int level;
         private Buildings buildingType;
+        private string typeString;
         private BuildingInfo info;
-
-		public new int BuildingId
+        
+		public override int BuildingId
 		{
             get
             {
@@ -32,8 +37,7 @@ namespace TravianBot.Core.Models
                 Set(() => BuildingId, ref buildingId, value);
             }
         }
-
-		public new int VillageId
+		public override int VillageId
 		{
             get
             {
@@ -44,8 +48,7 @@ namespace TravianBot.Core.Models
                 Set(() => VillageId, ref villageId, value);
             }
         }
-
-		public new int Level
+		public override int Level
 		{
             get
             {
@@ -56,8 +59,19 @@ namespace TravianBot.Core.Models
                 Set(() => Level, ref level, value);
             }
         }
+        public override string TypeString
+        {
+            get
+            {
+                return base.TypeString;
+            }
 
-		public new Buildings BuildingType
+            set
+            {
+                base.TypeString = value;
+            }
+        }
+        public Buildings BuildingType
 		{
             get
             {
@@ -68,7 +82,6 @@ namespace TravianBot.Core.Models
                 Set(() => BuildingType, ref buildingType, value);
             }
         }
-
 		public BuildingInfo Info
 		{
             get
@@ -81,11 +94,39 @@ namespace TravianBot.Core.Models
             }
         }
 
+        public Building()
+        {
+            PropertyChanged += (s, e) =>
+            {
+                Task.Run(() =>
+                {
+                    if (e.PropertyName == "BuildingType")
+                        TypeString = buildingType.ToString();
+                    using (var db = new TravianBotDB())
+                    {
+                        //db.DB_Buildings.Where(dB => dB.VillageId == VillageId && dB.BuildingId == BuildingId)
+                        //.Set(dB => dB.Level, Level)
+                        //.Set(dB => dB.BuildingId, BuildingId)
+                    }
+                });
+            };
+        }
+
 	}
 
-    public partial class DB_Building : GalaSoft.MvvmLight.ObservableObject
+    [Table("DB_Buildings")]
+    public partial class DB_Building : ObservableObject
     {
-
+        [PrimaryKey, Identity]
+        public virtual int DB_Id { get; set; } // Long
+        [Column, Nullable]
+        public virtual int BuildingId { get; set; } // Long
+        [Column, Nullable]
+        public virtual int VillageId { get; set; } // Long
+        [Column, Nullable]
+        public virtual int Level { get; set; } // Long
+        [Column, Nullable]
+        public virtual string TypeString { get; set; } // text(255)
     }
 }
 

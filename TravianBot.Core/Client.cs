@@ -90,7 +90,6 @@ namespace TravianBot.Core
         public ObservableCollection<Village> Villages
         {
             get { return villages; }
-            set { Set(() => Villages, ref villages, value); }
         }
         public string BasePath { get; private set; }
 

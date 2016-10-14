@@ -37,15 +37,15 @@ namespace TravianBot.Core.Models
 		partial void InitDataContext();
 	}
 
-	[Table("DB_Buildings")]
-	public partial class DB_Building
-	{
-		[PrimaryKey, Identity] public int    DB_Id        { get; set; } // Long
-		[Column,     Nullable] public int?   BuildingId   { get; set; } // Long
-		[Column,     Nullable] public int?   VillageId    { get; set; } // Long
-		[Column,     Nullable] public int?   Level        { get; set; } // Long
-		[Column,     Nullable] public string BuildingType { get; set; } // text(255)
-	}
+	//[Table("DB_Buildings")]
+	//public partial class DB_Building
+	//{
+	//	[PrimaryKey, Identity] public int    DB_Id        { get; set; } // Long
+	//	[Column,     Nullable] public int?   BuildingId   { get; set; } // Long
+	//	[Column,     Nullable] public int?   VillageId    { get; set; } // Long
+	//	[Column,     Nullable] public int?   Level        { get; set; } // Long
+	//	[Column,     Nullable] public string BuildingType { get; set; } // text(255)
+	//}
 
 	[Table("DB_Users")]
 	public partial class DB_User

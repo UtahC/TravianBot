@@ -79,7 +79,8 @@ namespace TravianBot.View
                 {
                     mainViewModel.Client.HtmlAvailableSignal.Set();
                     mainViewModel.Client.Html = webControl.WebView.GetHtml();
-                    UITask.LoadVillages();
+                    UITask.LoadVillages(webControl.WebView.GetHtml());
+                    UITask.GetUpdatedActivedVillage(webControl.WebView.GetHtml());
                 }
             };
             //

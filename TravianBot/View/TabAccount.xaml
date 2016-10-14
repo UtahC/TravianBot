@@ -200,8 +200,9 @@
             <Grid>
                 <DataGrid ItemsSource="{Binding Client.Villages}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Id" Binding="{Binding VillageId}" Width="50"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding VillageName}" Width="100"/>
+                        <DataGridTextColumn Header="Actived" Binding="{Binding IsActive}" Width="70"/>
+                        <DataGridTextColumn Header="Id" Binding="{Binding VillageId}" Width="70"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding VillageName}" Width="120"/>
                         <DataGridTextColumn Header="X" Binding="{Binding X}" Width="30"/>
                         <DataGridTextColumn Header="Y" Binding="{Binding Y}" Width="30"/>
                     </DataGrid.Columns>
