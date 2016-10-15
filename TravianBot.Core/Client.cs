@@ -155,9 +155,10 @@ namespace TravianBot.Core
             await Task.Delay(Setting.DelayAfterLoadUrl);
         }
 
-        public void ExecuteJavascript(string script)
+        public async Task ExecuteJavascript(string script)
         {
             Set(() => Javascript, ref javascript, script);
+            await Task.Delay(Setting.DelayAfterLoadUrl);
         }
 
         public void SetBotUnavailableSpan(int milliseconds)

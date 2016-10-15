@@ -15,11 +15,13 @@ namespace TravianBot.Core.Tasks
     {
         public static void ClearUselessTasks(Village village, CancellationToken cancellationToken)
         {
-            var tasksToRemove = new List<ConstructTaskModel>();
             foreach (var building in village.Buildings)
             {
-                tasksToRemove.AddRange(village.ConstructionTasks
-                    .Where(t => t.BuildingId == building.BuildingId && t.LevelAfterWork <= building.Level));
+                var tasksToRemove = village.ConstructionTasks.Where(t => t.BuildingId == building.BuildingId && t.LevelAfterWork <= building.Level).ToList();
+                foreach (var task in tasksToRemove)
+                {
+                    village.ConstructionTasks.Remove(task);
+                }
             }
         }
         public static async Task Build(Village village, CancellationToken cancellationToken)
@@ -37,7 +39,11 @@ namespace TravianBot.Core.Tasks
             var buildCode = await GetBuildCode(isConstruction, villageId, buildingId, cancellationToken);
 
             if (buildCode != null)
+            {
+                var url = buildingId <= 18 ? UriGenerator.GetSuburbsUri(villageId) : UriGenerator.GetCityUri(villageId);
+                await client.LoadUrl(UriGenerator.GetSuburbsUri(villageId));
                 await client.LoadUrl(UriGenerator.GetExecuteBuildUri(isConstruction, type, buildingId, buildCode));
+            }
         }
 
         public static async Task<string> GetBuildCode(bool isConstruction, int villageId, int buildingId, CancellationToken cancellationToken)
@@ -55,19 +61,27 @@ namespace TravianBot.Core.Tasks
             }
             else
             {
-                for (int i = 1; i <= 3; i++)
-                {
-                    var keyValue = new KeyValuePair<string, string>("category", i.ToString());
-                    await client.LoadUrl(UriGenerator.GetBuildingUri(villageId, buildingId).Combine(keyValue));
-                    var doc = client.Document;
-                    buttonNode = doc?.GetElementbyId("build")?.Descendants("div")?
+                await client.LoadUrl(UriGenerator.GetBuildingUri(villageId, buildingId));
+                var doc = client.Document;
+                buttonNode = doc?.GetElementbyId("build")?.Descendants("div")?
                         .Where(n => n.HasClass("contractLink")).FirstOrDefault()?
                         .Descendants("button")?.Where(n => n.HasClassExcept("gold"))?.FirstOrDefault();
 
-                    if (buttonNode != null)
-                        break;
-                }
+                if (buttonNode == null)
+                {
+                    for (int i = 1; i <= 3; i++)
+                    {
+                        var keyValue = new KeyValuePair<string, string>("category", i.ToString());
+                        await client.LoadUrl(UriGenerator.GetBuildingUri(villageId, buildingId).Combine(keyValue));
+                        doc = client.Document;
+                        buttonNode = doc?.GetElementbyId("build")?.Descendants("div")?
+                            .Where(n => n.HasClass("contractLink")).FirstOrDefault()?
+                            .Descendants("button")?.Where(n => n.HasClassExcept("gold"))?.FirstOrDefault();
 
+                        if (buttonNode != null)
+                            break;
+                    }
+                }
             }
 
             var onclickText = buttonNode?.Attributes["onclick"]?.Value;

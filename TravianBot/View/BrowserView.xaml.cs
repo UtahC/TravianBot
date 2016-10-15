@@ -31,6 +31,7 @@ namespace TravianBot.View
     public partial class BrowserView : UserControl
     {
         MainViewModel mainViewModel;
+        DevToolsWindow devToolsWindow;
         bool isBrowserLoaded = false;
 
         public BrowserView()
@@ -67,39 +68,10 @@ namespace TravianBot.View
             webControl.WebView.LoadCompleted += BrowserLoaded;
             //webControl.WebView.UrlChanged += (s, e) =>
             //    mainViewModel.Client.Url = webControl.WebView.Url;
-            webControl.WebView.MouseUp += (s, e) => 
-                mainViewModel.Client.SetBotUnavailableSpan(5000);
-            webControl.WebView.CanGoBackChanged += (s, e) => 
-                btnGoBack.IsEnabled = webControl.WebView.CanGoBack;
-            webControl.WebView.CanGoForwardChanged += (s, e) =>
-                btnGoForward.IsEnabled = webControl.WebView.CanGoForward;
-            webControl.WebView.IsLoadingChanged += (s, e) => 
-            {
-                if (!webControl.WebView.IsLoading)
-                {
-                    mainViewModel.Client.Url = webControl.WebView.Url;
-                    mainViewModel.Client.HtmlAvailableSignal.Set();
-                    mainViewModel.Client.Html = webControl.WebView.GetHtml();
-                    UITask.LoadVillages(webControl.WebView.GetHtml());
-                    UITask.GetUpdatedActivedVillage(webControl.WebView.GetHtml());
-                    if (webControl.WebView.Url.Contains(UriGenerator.UrlSuburbs) ||
-                        webControl.WebView.Url.Contains(UriGenerator.UrlCity))
-                    {
-                        UITask.LoadCurrentBuildings(webControl.WebView.GetHtml());
-                        //
-                        var village = mainViewModel.Client.Villages.Where(v => v.IsActive == true).FirstOrDefault();
-                        if (village != null)
-                        {
-                            foreach (var building in village.Buildings)
-                                mainViewModel.Client.Logger.Write($"{building.VillageId} {building.BuildingId:00} {building.BuildingType} {building.Level}");
-                        }
-                        //
-                    }
-                }
-            };
-            //
-            //webControl.WebView.LoadCompleted += (s, e) => MessageBox.Show("LoadCompleted");
-            //
+            webControl.WebView.MouseUp += (s, e) => mainViewModel.Client.SetBotUnavailableSpan(5000);
+            webControl.WebView.CanGoBackChanged += (s, e) => btnGoBack.IsEnabled = webControl.WebView.CanGoBack;
+            webControl.WebView.CanGoForwardChanged += (s, e) => btnGoForward.IsEnabled = webControl.WebView.CanGoForward;
+            webControl.WebView.IsLoadingChanged += WebView_IsLoadingChanged;
 
             mainViewModel.Client.PropertyChanged += (s, e) =>
             {
@@ -130,10 +102,43 @@ namespace TravianBot.View
             };
         }
 
+        private void WebView_IsLoadingChanged(object sender, EventArgs e)
+        {
+            if (!webControl.WebView.IsLoading)
+            {
+                mainViewModel.Client.Url = webControl.WebView.Url;
+                mainViewModel.Client.HtmlAvailableSignal.Set();
+                mainViewModel.Client.Html = webControl.WebView.GetHtml();
+                UITask.LoadVillages(webControl.WebView.GetHtml());
+                UITask.GetUpdatedActivedVillage(webControl.WebView.GetHtml());
+                if (webControl.WebView.Url.Contains(UriGenerator.UrlSuburbs) || webControl.WebView.Url.Contains(UriGenerator.UrlCity))
+                {
+                    UITask.LoadCurrentBuildings(webControl.WebView.GetHtml());
+                    //
+                    var village = mainViewModel.Client.Villages.Where(v => v.IsActive == true).FirstOrDefault();
+                    if (village != null)
+                    {
+                        foreach (var building in village.Buildings)
+                            mainViewModel.Client.Logger.Write($"{building.VillageId} {building.BuildingId:00} {building.BuildingType} {building.Level}");
+                    }
+                    //
+                }
+                MessageBox.Show("loaded");
+            }
+        }
+
         private void BrowserLoaded(object sender, LoadCompletedEventArgs e)
         {
-            isBrowserLoaded = true;
             webControl.WebView.LoadCompleted -= BrowserLoaded;
+            isBrowserLoaded = true;
+
+            if (devToolsWindow == null)
+            {
+                devToolsWindow = new DevToolsWindow();
+                devToolsWindow.Attach(webControl.WebView);
+                devToolsWindow.Closed += (s, arg) => devToolsWindow = null;
+            }
+            devToolsWindow.Show();
         }
 
         private void txtUrl_PreviewKeyDown(object sender, KeyEventArgs e)

@@ -105,6 +105,9 @@
     <Compile Include="Converter\EnumToIntConverter.cs" />
     <Compile Include="Converter\IntToStringConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
+    <Compile Include="DevToolsWindow.xaml.cs">
+      <DependentUpon>DevToolsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\WebViewExtension.cs" />
     <Compile Include="Log\Logger.cs" />
     <Compile Include="Model\DataItem.cs" />
@@ -121,6 +124,10 @@
     <Compile Include="View\TabLog.xaml.cs">
       <DependentUpon>TabLog.xaml</DependentUpon>
     </Compile>
+    <Page Include="DevToolsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -186,7 +193,9 @@
       <Name>TravianBot.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="jquery-1.12.4.min.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

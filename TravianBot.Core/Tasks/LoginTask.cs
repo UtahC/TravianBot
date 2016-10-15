@@ -14,7 +14,7 @@ namespace TravianBot.Core.Tasks
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            client.ExecuteJavascript(ScriptGenerator.GetLoginScript
+            await client.ExecuteJavascript(ScriptGenerator.GetLoginScript
                 (client.Setting.Account, client.Setting.Password, client.Setting.IsLowResolution));
             
             if (!UtilityTask.IsLogon())

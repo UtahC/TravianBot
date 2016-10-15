@@ -43,8 +43,8 @@ namespace Crawler
                 int[] nums = {1, 34, 30, 31, 32, 33, 40 ,26};
                 for (int i = 1; i <= 42; i++)
                 {
-                    if (!nums.Contains(i))
-                        continue;
+                    //if (!nums.Contains(i))
+                    //    continue;
 
                     string url = $"https://travian.kirilloid.ru/build.php#b={i}&mb=1&s=1.44";
                     driver.Navigate().GoToUrl(url);

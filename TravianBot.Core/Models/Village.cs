@@ -29,7 +29,8 @@ namespace TravianBot.Core.Models
         private int y;
         private bool isActive;
         private bool isCapital;
-        private IEnumerable<Building> buildings = new ObservableCollection<Building>();
+        private IEnumerable<Building> buildings = new List<Building>();
+        private ObservableCollection<ConstructTaskModel> constructionTasks = new ObservableCollection<ConstructTaskModel>();
 
         public override int DB_Id { get; set; }
         public override int VillageId
@@ -99,7 +100,12 @@ namespace TravianBot.Core.Models
             }
         }
         public IEnumerable<Building> Buildings { get { return buildings; } set { buildings = value; } }
-        public IEnumerable<ConstructTaskModel> ConstructionTasks { get; set; } = new List<ConstructTaskModel>();
+        public ObservableCollection<ConstructTaskModel> ConstructionTasks
+        {
+            get { return constructionTasks; }
+            set { Set(() => ConstructionTasks, ref constructionTasks, value); }
+        }
+
 
   //      public ObservableCollection<Building> Buildings
 		//{

@@ -13,6 +13,7 @@ namespace TravianBot.Core.Information
 
 	public class BuildingInfo
 	{
+
 	}
 }
 
