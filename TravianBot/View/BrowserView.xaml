@@ -150,7 +150,7 @@
         </DockPanel>
         <eo:WebControl x:Name="webControl" VerticalAlignment="Center">
             <eo:WebControl.WebView>
-                <eo:WebView Url="http://www.whoishostingthis.com/tools/user-agent/"/>
+                <eo:WebView x:Name="webView" Url="http://www.whoishostingthis.com/tools/user-agent/"/>
             </eo:WebControl.WebView>
         </eo:WebControl>
     </DockPanel>

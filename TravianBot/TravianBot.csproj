@@ -194,7 +194,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="jquery-1.12.4.min.js" />
+    <Content Include="jquery-1.12.4.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

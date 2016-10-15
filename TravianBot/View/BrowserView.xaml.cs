@@ -31,6 +31,7 @@ namespace TravianBot.View
     public partial class BrowserView : UserControl
     {
         MainViewModel mainViewModel;
+        Client client;
         DevToolsWindow devToolsWindow;
         bool isBrowserLoaded = false;
 
@@ -42,7 +43,8 @@ namespace TravianBot.View
             InitializeBrowserRuntime();
             InitializeComponent();
             mainViewModel = DataContext as MainViewModel;
-            InitializeWebControl();
+            client = mainViewModel.Client;
+            InitializeWebView();
         }
 
         private void InitializeBrowserRuntime()
@@ -60,43 +62,41 @@ namespace TravianBot.View
             //EO.WebBrowser.Runtime.UILanguage = CultureInfo.CurrentCulture.IetfLanguageTag;
         }
 
-        private void InitializeWebControl()
+        private void InitializeWebView()
         {
             if (Setting.Default.UserAgent != Core.Enums.UserAgents.Default)
-                webControl.WebView.CustomUserAgent = Setting.Default.UserAgentString;
+                webView.CustomUserAgent = Setting.Default.UserAgentString;
             
-            webControl.WebView.LoadCompleted += BrowserLoaded;
-            //webControl.WebView.UrlChanged += (s, e) =>
-            //    mainViewModel.Client.Url = webControl.WebView.Url;
-            webControl.WebView.MouseUp += (s, e) => mainViewModel.Client.SetBotUnavailableSpan(5000);
-            webControl.WebView.CanGoBackChanged += (s, e) => btnGoBack.IsEnabled = webControl.WebView.CanGoBack;
-            webControl.WebView.CanGoForwardChanged += (s, e) => btnGoForward.IsEnabled = webControl.WebView.CanGoForward;
-            webControl.WebView.IsLoadingChanged += WebView_IsLoadingChanged;
-
-            mainViewModel.Client.PropertyChanged += (s, e) =>
+            webView.LoadCompleted += BrowserLoaded;
+            webView.IsLoadingChanged += WebView_IsLoadingChanged;
+            webView.MouseUp += (s, e) => client.SetBotUnavailableSpan(5000);
+            webView.CanGoBackChanged += (s, e) => btnGoBack.IsEnabled = webView.CanGoBack;
+            webView.CanGoForwardChanged += (s, e) => btnGoForward.IsEnabled = webView.CanGoForward;
+            
+            client.PropertyChanged += (s, e) =>
             {
                 if (!isBrowserLoaded)
                     return;
 
-                mainViewModel.Client.HtmlAvailableSignal.Reset();
+                client.HtmlAvailableSignal.Reset();
                 switch (e.PropertyName)
                 {
                     case "Url":
-                        if (mainViewModel.Client.Url == webControl.WebView.Url)
-                            webControl.WebView.Reload(false);
+                        if (client.Url == webView.Url)
+                            webView.Reload(false);
                         else
-                            webControl.WebView.LoadUrl(mainViewModel.Client.Url);
+                            webView.LoadUrl(client.Url);
                         //need to block client.html
                         break;
                     case "Javascript":
-                        webControl.WebView.QueueScriptCall(
-                            new ScriptCall(mainViewModel.Client.Javascript, () => 
+                        webView.QueueScriptCall(
+                            new ScriptCall(client.Javascript, () => 
                             {
-                                //mainViewModel.Client.HtmlAvailableSignal.Set();
+                                //client.HtmlAvailableSignal.Set();
                                 //MessageBox.Show("scriptcall callback");
                             }));
                         
-                        //webControl.WebView.EvalScript(mainViewModel.Client.Javascript, true);
+                        //webView.EvalScript(client.Javascript, true);
                         break;
                 }
             };
@@ -104,22 +104,23 @@ namespace TravianBot.View
 
         private void WebView_IsLoadingChanged(object sender, EventArgs e)
         {
-            if (!webControl.WebView.IsLoading)
+            if (!webView.IsLoading)
             {
-                mainViewModel.Client.Url = webControl.WebView.Url;
-                mainViewModel.Client.HtmlAvailableSignal.Set();
-                mainViewModel.Client.Html = webControl.WebView.GetHtml();
-                UITask.LoadVillages(webControl.WebView.GetHtml());
-                UITask.GetUpdatedActivedVillage(webControl.WebView.GetHtml());
-                if (webControl.WebView.Url.Contains(UriGenerator.UrlSuburbs) || webControl.WebView.Url.Contains(UriGenerator.UrlCity))
+                webView.EvalScript(File.ReadAllText(Path.Combine(client.BasePath, "jquery-1.12.4.min.js")));
+                client.Url = webView.Url;
+                client.Html = webView.GetHtml();
+                client.HtmlAvailableSignal.Set();
+                UITask.LoadVillages(webView.GetHtml());
+                UITask.GetUpdatedActivedVillage(webView.GetHtml());
+                if (webView.Url.Contains(UriGenerator.UrlSuburbs) || webView.Url.Contains(UriGenerator.UrlCity))
                 {
-                    UITask.LoadCurrentBuildings(webControl.WebView.GetHtml());
+                    UITask.LoadCurrentBuildings(webView.GetHtml());
                     //
-                    var village = mainViewModel.Client.Villages.Where(v => v.IsActive == true).FirstOrDefault();
+                    var village = client.Villages.Where(v => v.IsActive == true).FirstOrDefault();
                     if (village != null)
                     {
                         foreach (var building in village.Buildings)
-                            mainViewModel.Client.Logger.Write($"{building.VillageId} {building.BuildingId:00} {building.BuildingType} {building.Level}");
+                            client.Logger.Write($"{building.VillageId} {building.BuildingId:00} {building.BuildingType} {building.Level}");
                     }
                     //
                 }
@@ -129,13 +130,14 @@ namespace TravianBot.View
 
         private void BrowserLoaded(object sender, LoadCompletedEventArgs e)
         {
-            webControl.WebView.LoadCompleted -= BrowserLoaded;
+            webView.LoadCompleted -= BrowserLoaded;
             isBrowserLoaded = true;
 
+            
             if (devToolsWindow == null)
             {
                 devToolsWindow = new DevToolsWindow();
-                devToolsWindow.Attach(webControl.WebView);
+                devToolsWindow.Attach(webView);
                 devToolsWindow.Closed += (s, arg) => devToolsWindow = null;
             }
             devToolsWindow.Show();
@@ -145,7 +147,7 @@ namespace TravianBot.View
         {
             if (e.Key == Key.Enter)
             {
-                webControl.WebView.Url = txtUrl.Text.Trim();
+                webView.Url = txtUrl.Text.Trim();
                 txtUrl.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
             }
         }
@@ -167,20 +169,20 @@ namespace TravianBot.View
 
         private void btnGoBack_Click(object sender, RoutedEventArgs e)
         {
-            webControl.WebView.GoBack();
+            webView.GoBack();
         }
 
         private void btnGoForward_Click(object sender, RoutedEventArgs e)
         {
-            webControl.WebView.GoForward();
+            webView.GoForward();
         }
 
         private void btnReload_Click(object sender, RoutedEventArgs e)
         {
             if ((webControl != null) &&
-                !string.IsNullOrEmpty(webControl.WebView.Url))
+                !string.IsNullOrEmpty(webView.Url))
             {
-                webControl.WebView.Reload(true);
+                webView.Reload(true);
             }
         }
 

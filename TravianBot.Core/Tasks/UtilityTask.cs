@@ -47,6 +47,8 @@ namespace TravianBot.Core.Tasks
                 return;
             
             var newSuburbsBuildings = GetSuburbsBuildings(villageId, doc);
+            if (newSuburbsBuildings == null)
+                return;
             var oldCityBuildings = village.Buildings.Where(v => v.BuildingId > 18);
             var buildings = newSuburbsBuildings.Concat(oldCityBuildings);
             village.Buildings = new List<Building>(buildings);
@@ -57,6 +59,8 @@ namespace TravianBot.Core.Tasks
             var buildingNodes = doc?.GetElementbyId("village_map")?.Descendants("div")?
                 .Where(e => e.HasAttributeAndContainsValue("class", "gid") &&
                 e.HasAttributeAndContainsValue("class", "level"));
+            if (buildingNodes == null)
+                return null;
             foreach (var buildingNode in buildingNodes)
             {
                 //<div class="level colorLayer good gid1 level0" style="left: 179px; top:78px;">
@@ -323,6 +327,8 @@ namespace TravianBot.Core.Tasks
                 return;
 
             var newSuburbsBuildings = UtilityTask.GetSuburbsBuildings(village.VillageId, doc);
+            if (newSuburbsBuildings == null)
+                return;
             var oldCityBuildings = village.Buildings.Where(v => v.BuildingId > 18);
             var buildings = newSuburbsBuildings.Concat(oldCityBuildings);
             village.Buildings = new List<Building>(buildings);
